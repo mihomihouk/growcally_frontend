@@ -1,25 +1,35 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { fetchMedia } from "./api/media.service";
+import { Divider } from "./components/divider";
+import { DashboardNav } from "./dashboard-nav";
+import { Feed } from "./feed";
+import "./index.css";
 
 function App() {
+  const [data, setData] = React.useState();
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+  const getMedia = async () => {
+    setLoading(true);
+    const media = await fetchMedia();
+    setData(media);
+    setLoading(false);
+  };
+  React.useEffect(() => {
+    getMedia();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div className="h-full mx-auto flex flex-row divide-x">
+        <DashboardNav />
+        <Feed />
+      </div>
+    </>
   );
 }
 
