@@ -1,0 +1,6 @@
+.main {
+  @apply py-2 pl-3 rounded-3xl;
+}
+.main:hover {
+  @apply bg-slate-300 ease-in duration-300;
+}

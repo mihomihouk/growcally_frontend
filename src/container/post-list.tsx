@@ -4,8 +4,13 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import React from "react";
+import { fetchAllMedia } from "../api/media.service";
 import { Button } from "../components/button";
-import { Post } from "../interface/post";
+import { TextArea } from "../components/textarea";
+import { Post } from "../interfaces/post";
+import { pluralize } from "../util/string";
+import { incremented, amountAdded } from "../slices/post-slice";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 const mockData: Post[] = [
   {
@@ -32,6 +37,25 @@ const mockData: Post[] = [
 ];
 
 export const PostList: React.FC = () => {
+  const [loading, setLoading] = React.useState(false);
+  const count = useAppSelector((state) => state.counter.value);
+  const dispatch = useAppDispatch();
+
+  const handleClick = () => {
+    //increment by 1
+    dispatch(incremented());
+    //increment by 3
+    dispatch(amountAdded(3));
+  };
+  React.useEffect(() => {
+    setLoading(true);
+    const posts = fetchAllMedia();
+    setLoading(false);
+  }, []);
+
+  if (loading) {
+    return <p>Loading....</p>;
+  }
   const renderPostItems = mockData.map((i) => {
     return (
       <PostItem
@@ -41,11 +65,17 @@ export const PostList: React.FC = () => {
         description={i.description}
         createdAt={i.createdAt}
         likes={i.likes}
+        comments={i.comments}
       />
     );
   });
 
-  return <div>{renderPostItems}</div>;
+  return (
+    <>
+      <button onClick={handleClick}>count is {count}</button>
+      <div>{renderPostItems}</div>;
+    </>
+  );
 };
 
 const PostItem: React.FC<Post> = ({
@@ -54,13 +84,16 @@ const PostItem: React.FC<Post> = ({
   description,
   createdAt,
   likes,
+  comments,
 }) => {
+  const [textAreaInput, setTextAreaInput] = React.useState("");
   return (
     <article className="mb-3 pb-5 border-b border-solid border-[#262626]">
       {/* header */}
-      <div>
+      <div className="flex">
         {/* Avatar */}
         <p>{author}</p>
+        {"・"}
         <p>{createdAt}</p>
       </div>
 
@@ -68,7 +101,7 @@ const PostItem: React.FC<Post> = ({
       {/* <img /> */}
 
       {/* content */}
-      <div>
+      <div className="flex flex-col gap-2">
         {/* actions */}
         <div className="flex gap-2 ">
           <Button>
@@ -85,6 +118,18 @@ const PostItem: React.FC<Post> = ({
         {/* likes */}
         <p>{likes} likes</p>
         <p>{description}</p>
+        {comments?.length && (
+          <Button>
+            View all {comments.length} {pluralize(comments.length, "comment")}
+          </Button>
+        )}
+        <TextArea
+          name="comment"
+          placeholder="Add a comment"
+          className="max-h-10 p-1 text-sm"
+          value={textAreaInput}
+          onChange={(e) => setTextAreaInput(e.target.value)}
+        />
       </div>
     </article>
   );

@@ -1,5 +1,5 @@
 import React from "react";
-import { PostList } from "./container/post-list";
+import { PostList } from "./post-list";
 
 export const Feed = () => {
   return (
