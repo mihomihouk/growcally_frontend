@@ -9,12 +9,14 @@ interface ButtonProps {
   to?: LinkProps["to"];
   children?: React.ReactNode;
   isMain?: boolean;
+  isPrimary?: boolean;
 }
 export const Button: React.FC<ButtonProps> = ({
   className,
   onClick,
   to,
   isMain,
+  isPrimary,
   children,
 }) => {
   const hrefTo = to ?? "#";
@@ -23,6 +25,9 @@ export const Button: React.FC<ButtonProps> = ({
       className={classNames(
         {
           [styles.main]: isMain,
+        },
+        {
+          [styles.primary]: isPrimary,
         },
         className
       )}

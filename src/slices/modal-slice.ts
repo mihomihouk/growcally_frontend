@@ -1,33 +1,22 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { ModalType } from "../interfaces/modal-type";
 
-interface Modal {
-  type: ModalType;
-  component: JSX.Element;
-}
 interface ModalState {
-  visibleModals: Modal[];
+  modalType: ModalType;
 }
-const initialState: ModalState = {
-  visibleModals: [],
-};
+const initialState: ModalState[] = [];
 
 const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    showModal(state, action: PayloadAction<Modal>) {
-      const isModalVisible = state.visibleModals.some(
-        (m) => m.type === action.payload.type
-      );
-      if (isModalVisible) {
-        return;
-      }
-
-      state.visibleModals.push(action.payload);
+    showModal(state, action: PayloadAction<ModalState>) {
+      const { modalType } = action.payload;
+      state.push({ modalType });
     },
-    hideModal(state, action: PayloadAction<Modal>) {
-      state.visibleModals.filter((m) => m.type !== action.payload.type);
+    hideModal(state, action: PayloadAction<ModalState>) {
+      const { modalType } = action.payload;
+      return state.filter((m) => m.modalType !== modalType);
     },
   },
 });

@@ -10,7 +10,6 @@ import {
 import { Button } from "../components/button";
 import { ModalType } from "../interfaces/modal-type";
 import { showModal } from "../slices/modal-slice";
-import { CreatePostModal } from "../container/create-post-modal";
 import { useAppDispatch } from "../hooks/hooks";
 
 export const DashboardNav: React.FC = () => {
@@ -39,12 +38,7 @@ export const DashboardNav: React.FC = () => {
               className="flex gap-4"
               isMain
               onClick={() =>
-                dispatch(
-                  showModal({
-                    type: ModalType.CreatePost,
-                    component: <CreatePostModal />,
-                  })
-                )
+                dispatch(showModal({ modalType: ModalType.CreatePost }))
               }
             >
               <PlusCircleIcon className="h-6 w-6" />

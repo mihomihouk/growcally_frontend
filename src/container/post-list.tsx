@@ -38,15 +38,7 @@ const mockData: Post[] = [
 
 export const PostList: React.FC = () => {
   const [loading, setLoading] = React.useState(false);
-  const count = useAppSelector((state) => state.counter.value);
-  const dispatch = useAppDispatch();
 
-  const handleClick = () => {
-    //increment by 1
-    dispatch(incremented());
-    //increment by 3
-    dispatch(amountAdded(3));
-  };
   React.useEffect(() => {
     setLoading(true);
     const posts = fetchAllMedia();
@@ -72,7 +64,6 @@ export const PostList: React.FC = () => {
 
   return (
     <>
-      <button onClick={handleClick}>count is {count}</button>
       <div>{renderPostItems}</div>;
     </>
   );
