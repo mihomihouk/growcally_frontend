@@ -42,7 +42,7 @@ export const Modal: React.FC<ModalProps> = ({ children, title, onDismiss }) => {
               <p className="text-base font-semibold text-white">{title}</p>
             )}
           </div>
-          <div className="flex justify-center items-center h-full">
+          <div className="flex justify-center items-center h-full w-full">
             {children}
           </div>
         </div>

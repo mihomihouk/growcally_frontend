@@ -48,5 +48,7 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "react-dropzone": "^14.2.3"
+  }
 }
