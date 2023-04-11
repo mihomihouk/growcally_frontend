@@ -9,13 +9,11 @@ interface TextAreaProps extends IntrinsicTextAreaProps {
 export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   ({ className, ...props }, ref) => {
     return (
-      <form>
-        <textarea
-          className={classNames("w-full", className)}
-          ref={ref}
-          {...props}
-        />
-      </form>
+      <textarea
+        className={classNames("w-full", className)}
+        ref={ref}
+        {...props}
+      />
     );
   }
 );

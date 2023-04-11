@@ -22,13 +22,13 @@ export const DashboardNav: React.FC = () => {
         </div>
         <ul className="flex flex-col gap-8 mx-auto grow">
           <li>
-            <Button className="flex gap-4" isMain>
+            <Button className="flex gap-4" inNav>
               <HomeIcon className="h-6 w-6" />
               <p>Home</p>
             </Button>
           </li>
           <li>
-            <Button className="flex gap-4" isMain>
+            <Button className="flex gap-4" inNav>
               <MagnifyingGlassIcon className="h-6 w-6" />
               <p>Search</p>
             </Button>
@@ -36,7 +36,7 @@ export const DashboardNav: React.FC = () => {
           <li>
             <Button
               className="flex gap-4"
-              isMain
+              inNav
               onClick={() =>
                 dispatch(showModal({ modalType: ModalType.CreatePost }))
               }
@@ -46,7 +46,7 @@ export const DashboardNav: React.FC = () => {
             </Button>
           </li>
           <li>
-            <Button className="flex gap-4" isMain>
+            <Button className="flex gap-4" inNav>
               <UserIcon className="h-6 w-6" />
               <p>Profile</p>
             </Button>
@@ -55,7 +55,7 @@ export const DashboardNav: React.FC = () => {
       </div>
 
       <div>
-        <Button className="flex gap-4" isMain>
+        <Button className="flex gap-4" inNav>
           <Bars3Icon className="h-6 w-6" />
           <p>More</p>
         </Button>

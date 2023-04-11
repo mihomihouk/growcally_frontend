@@ -4,13 +4,10 @@ import {
   PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import React from "react";
-import { fetchAllMedia } from "../api/media.service";
 import { Button } from "../components/button";
 import { TextArea } from "../components/textarea";
 import { Post } from "../interfaces/post";
 import { pluralize } from "../util/string";
-import { incremented, amountAdded } from "../slices/post-slice";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 
 const mockData: Post[] = [
   {
@@ -41,7 +38,6 @@ export const PostList: React.FC = () => {
 
   React.useEffect(() => {
     setLoading(true);
-    const posts = fetchAllMedia();
     setLoading(false);
   }, []);
 

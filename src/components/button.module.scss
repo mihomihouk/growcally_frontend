@@ -1,9 +1,0 @@
-.main {
-  @apply py-2 pl-3 rounded-3xl;
-}
-.primary {
-  @apply text-white font-semibold text-sm py-[7px] px-4 rounded-lg bg-primary-500 hover:bg-primary-400;
-}
-.main:hover {
-  @apply bg-gray-300 ease-in duration-300;
-}
