@@ -10,32 +10,8 @@ import { Post } from "../interfaces/post";
 import { pluralize } from "../util/string";
 import { useAppDispatch, useAppSelector } from "../hooks/hooks";
 import { fetchPosts } from "../slices/posts-slice";
-import { useSelector } from "react-redux";
+import formatDistanceToNow from "date-fns/formatDistanceToNow";
 import PropagateLoader from "react-spinners/PropagateLoader";
-
-const mockData: Post[] = [
-  {
-    id: "asb",
-    author: "mihomihouk",
-    createdAt: "2d",
-    likes: 200,
-    caption: "Got my job at XYZ company!!!",
-  },
-  {
-    id: "vvv",
-    author: "mihomihouk",
-    createdAt: "2d",
-    likes: 200,
-    caption: "Got my job at XYZ company!!!",
-  },
-  {
-    id: "akfa",
-    author: "mihomihouk",
-    createdAt: "2d",
-    likes: 200,
-    caption: "Got my job at XYZ company!!!",
-  },
-];
 
 const override: CSSProperties = {
   display: "block",
@@ -107,21 +83,23 @@ const PostItem: React.FC<Post> = ({
   const primaryFile = files ? files[0] : null;
 
   const mediaUrl = primaryFile?.fileUrl?.split("?")[0];
+
+  const formattedDate = formatDistanceToNow(new Date(createdAt));
   return (
-    <article className="mb-3 pb-5 border-b border-solid border-[#262626]">
+    <article className="mb-3 pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
       {/* header */}
       <div className="flex">
         {/* Avatar */}
         <p>{author}</p>
         {"・"}
-        <p>{createdAt}</p>
+        <p>{formattedDate}</p>
       </div>
 
       {/* image */}
       {mediaUrl && (
         <img
           className="rounded w-[430px] h-[768px]"
-          // alt={primaryFile.alt || ""}
+          alt={primaryFile.alt || ""}
           src={mediaUrl}
         ></img>
       )}

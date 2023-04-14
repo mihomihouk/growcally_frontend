@@ -7,7 +7,7 @@ import { ModalsContainer } from "./container/modals-container";
 function App() {
   return (
     <>
-      <div className="h-full mx-auto flex flex-row divide-x">
+      <div className="h-full mx-auto flex flex-row">
         <DashboardNav />
         <Feed />
         <ModalsContainer />

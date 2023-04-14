@@ -3,7 +3,7 @@ import { PostList } from "./post-list";
 
 export const Feed = () => {
   return (
-    <div className="sm:w-2/3 md:w-5/6 pt-10 px-[146px]">
+    <div className="sm:ml-[200px] md:ml-[200px] pt-10 px-[146px] w-full">
       <PostList />
     </div>
   );
