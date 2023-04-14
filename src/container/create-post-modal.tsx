@@ -224,6 +224,7 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
       </div>
       <TextArea
         placeholder="Write a caption..."
+        name="caption"
         cols={10}
         className="bg-transparent p-2 max-h-[200px] text-gray-400"
         value={caption}
