@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { Button } from "../components/button";
 import { ModalType } from "../interfaces/modal-type";
-import { showModal } from "../slices/modal-slice";
+import { showModal } from "../slices/modals-slice";
 import { useAppDispatch } from "../hooks/hooks";
 
 export const DashboardNav: React.FC = () => {

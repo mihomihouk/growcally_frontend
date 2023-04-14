@@ -4,6 +4,7 @@ export interface UploadPost {
 }
 
 export interface UploadFile {
+  id: string;
   file: File;
   altText?: string;
 }
@@ -13,8 +14,19 @@ export interface Post {
   author: string;
   createdAt: string;
   likes?: number;
-  description: string;
+  caption: string;
+  files?: MediaFile[];
   comments?: Comment[];
+}
+
+export interface MediaFile {
+  id: string;
+  fileName: string;
+  size: string;
+  mimetype: string;
+  alt: string;
+  fileKey: string;
+  fileUrl?: string;
 }
 
 export interface Comment {

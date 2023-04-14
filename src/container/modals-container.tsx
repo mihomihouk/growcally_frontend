@@ -11,7 +11,7 @@ export const Modals = [
 ];
 
 export const ModalsContainer: React.FC = () => {
-  const visibleModals = useAppSelector((state) => state.modal);
+  const visibleModals = useAppSelector((state) => state.modals);
 
   const renderModals = visibleModals.map((vm) => {
     const modalComponent = Modals.find(

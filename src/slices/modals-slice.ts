@@ -6,7 +6,7 @@ interface ModalState {
 }
 const initialState: ModalState[] = [];
 
-const modalSlice = createSlice({
+const modalsSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
@@ -21,5 +21,5 @@ const modalSlice = createSlice({
   },
 });
 
-export const { showModal, hideModal } = modalSlice.actions;
-export default modalSlice.reducer;
+export const { showModal, hideModal } = modalsSlice.actions;
+export default modalsSlice.reducer;

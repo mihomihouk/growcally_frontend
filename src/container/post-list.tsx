@@ -3,11 +3,15 @@ import {
   HeartIcon,
   PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
-import React from "react";
+import React, { CSSProperties } from "react";
 import { Button } from "../components/button";
 import { TextArea } from "../components/textarea";
 import { Post } from "../interfaces/post";
 import { pluralize } from "../util/string";
+import { useAppDispatch, useAppSelector } from "../hooks/hooks";
+import { fetchPosts } from "../slices/posts-slice";
+import { useSelector } from "react-redux";
+import PropagateLoader from "react-spinners/PropagateLoader";
 
 const mockData: Post[] = [
   {
@@ -15,42 +19,63 @@ const mockData: Post[] = [
     author: "mihomihouk",
     createdAt: "2d",
     likes: 200,
-    description: "Got my job at XYZ company!!!",
+    caption: "Got my job at XYZ company!!!",
   },
   {
     id: "vvv",
     author: "mihomihouk",
     createdAt: "2d",
     likes: 200,
-    description: "Got my job at XYZ company!!!",
+    caption: "Got my job at XYZ company!!!",
   },
   {
     id: "akfa",
     author: "mihomihouk",
     createdAt: "2d",
     likes: 200,
-    description: "Got my job at XYZ company!!!",
+    caption: "Got my job at XYZ company!!!",
   },
 ];
 
+const override: CSSProperties = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
+
 export const PostList: React.FC = () => {
-  const [loading, setLoading] = React.useState(false);
+  const dispatch = useAppDispatch();
+  const postsState = useAppSelector((state) => state.posts);
+  const postStatus = postsState.status;
+
+  const isLoading = postStatus === "loading";
 
   React.useEffect(() => {
-    setLoading(true);
-    setLoading(false);
-  }, []);
+    if (postStatus === "idle") {
+      dispatch(fetchPosts());
+    }
+  }, [postStatus, dispatch]);
 
-  if (loading) {
-    return <p>Loading....</p>;
+  if (isLoading) {
+    return (
+      <div className="w-full h-full flex items-center">
+        <PropagateLoader
+          size={30}
+          color={"#42cc8c"}
+          cssOverride={override}
+          aria-label="Loading Spinner"
+        />
+      </div>
+    );
   }
-  const renderPostItems = mockData.map((i) => {
+  const renderPostItems = postsState.posts?.map((i) => {
     return (
       <PostItem
         key={i.id}
         id={i.id}
+        files={i.files}
         author={i.author}
-        description={i.description}
+        caption={i.caption}
         createdAt={i.createdAt}
         likes={i.likes}
         comments={i.comments}
@@ -60,7 +85,11 @@ export const PostList: React.FC = () => {
 
   return (
     <>
-      <div>{renderPostItems}</div>;
+      {postsState.posts.length ? (
+        <div>{renderPostItems}</div>
+      ) : (
+        <div>Create a new post</div>
+      )}
     </>
   );
 };
@@ -68,12 +97,16 @@ export const PostList: React.FC = () => {
 const PostItem: React.FC<Post> = ({
   id,
   author,
-  description,
+  caption,
   createdAt,
+  files,
   likes,
   comments,
 }) => {
   const [textAreaInput, setTextAreaInput] = React.useState("");
+  const primaryFile = files ? files[0] : null;
+
+  const mediaUrl = primaryFile?.fileUrl?.split("?")[0];
   return (
     <article className="mb-3 pb-5 border-b border-solid border-[#262626]">
       {/* header */}
@@ -85,8 +118,13 @@ const PostItem: React.FC<Post> = ({
       </div>
 
       {/* image */}
-      {/* <img /> */}
-
+      {mediaUrl && (
+        <img
+          className="rounded w-[430px] h-[768px]"
+          // alt={primaryFile.alt || ""}
+          src={mediaUrl}
+        ></img>
+      )}
       {/* content */}
       <div className="flex flex-col gap-2">
         {/* actions */}
@@ -104,7 +142,7 @@ const PostItem: React.FC<Post> = ({
 
         {/* likes */}
         <p>{likes} likes</p>
-        <p>{description}</p>
+        <p>{caption}</p>
         {comments?.length && (
           <Button>
             View all {comments.length} {pluralize(comments.length, "comment")}

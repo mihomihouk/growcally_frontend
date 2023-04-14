@@ -7,7 +7,7 @@ import {
   TrashIcon,
 } from "@heroicons/react/24/outline";
 import { useAppDispatch } from "../hooks/hooks";
-import { hideModal } from "../slices/modal-slice";
+import { hideModal } from "../slices/modals-slice";
 import { ModalType } from "../interfaces/modal-type";
 import { useDropzone } from "react-dropzone";
 import classNames from "classnames";
@@ -18,7 +18,7 @@ import { uploadPost } from "../api/media.service";
 import { UploadFile } from "../interfaces/post";
 
 export const CreatePostModal: React.FC = () => {
-  const [files, setFiles] = React.useState<File[]>([]);
+  const [files, setFiles] = React.useState<UploadFile[]>([]);
   const dispatch = useAppDispatch();
 
   const hasFiles = (files ?? []).length > 0;
@@ -43,12 +43,20 @@ export const CreatePostModal: React.FC = () => {
   );
 };
 interface DragAndDropProps {
-  files: File[];
-  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  files: UploadFile[];
+  setFiles: React.Dispatch<React.SetStateAction<UploadFile[]>>;
 }
-const DragAndDrop: React.FC<DragAndDropProps> = ({ files, setFiles }) => {
+const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
   const onDrop = React.useCallback((acceptedFiles: File[]) => {
-    setFiles((prevFiles) => [...prevFiles, ...acceptedFiles]);
+    const uploadFiles: UploadFile[] = [];
+    for (let index = 0; index < acceptedFiles.length; index++) {
+      const newId = acceptedFiles.length + index + 1;
+      uploadFiles.push({
+        id: newId.toString(),
+        file: acceptedFiles[index],
+      });
+    }
+    setFiles(uploadFiles);
   }, []);
 
   const { getRootProps, getInputProps, isDragAccept, isDragReject } =
@@ -85,14 +93,9 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ files, setFiles }) => {
 };
 
 interface UploadFormProps {
-  files: File[];
-  setFiles: React.Dispatch<React.SetStateAction<File[]>>;
+  files: UploadFile[];
+  setFiles: React.Dispatch<React.SetStateAction<UploadFile[]>>;
   onDismiss: () => void;
-}
-
-interface AltTextState {
-  altText: string;
-  fileName: string;
 }
 
 const UploadForm: React.FC<UploadFormProps> = ({
@@ -101,47 +104,37 @@ const UploadForm: React.FC<UploadFormProps> = ({
   onDismiss,
 }) => {
   const [caption, setCaption] = React.useState<string>("");
-  const [altTexts, setAltTexts] = React.useState<AltTextState[]>([]);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const getAltText = (fileName: string) => {
-      return altTexts.find((altText) => altText.fileName === fileName)?.altText;
-    };
-    const newFiles: UploadFile[] = [];
-    files.forEach((file) => {
-      const fileObject = {
-        file: file,
-        altText: getAltText(file.name) ?? "",
-      };
-      newFiles.push(fileObject);
-    });
 
     const post = {
       caption,
-      files: newFiles,
+      files: files,
     };
     uploadPost(post);
     onDismiss();
   };
   const handleDeleteFile = (fileName: string) => {
-    setFiles((prevFiles) => prevFiles.filter((file) => file.name !== fileName));
+    setFiles((prevFiles) =>
+      prevFiles.filter((file) => file.file.name !== fileName)
+    );
   };
   const thumbs = files.map((file) => (
     <div
       className="relative border-white border-2 h-[200px] w-[200px] p-2"
-      key={file.name}
+      key={file.file.name}
     >
       <div className="overflow-hidden min-w-0 flex items-center justify-center h-full">
         <img
-          src={URL.createObjectURL(file)}
+          src={URL.createObjectURL(file.file)}
           alt="accepted file"
           className="block"
         />
       </div>
       <Button
         className="absolute top-1 right-1"
-        onClick={() => handleDeleteFile(file.name)}
+        onClick={() => handleDeleteFile(file.file.name)}
       >
         <TrashIcon className="h-5 w-5 text-white" />
       </Button>
@@ -178,8 +171,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
           files={files}
           caption={caption}
           setCaption={setCaption}
-          altTexts={altTexts}
-          setAltTexts={setAltTexts}
+          setFiles={setFiles}
         />
       </div>
     </form>
@@ -187,32 +179,39 @@ const UploadForm: React.FC<UploadFormProps> = ({
 };
 
 interface CaptionEditorProps {
-  files: File[];
+  files: UploadFile[];
   caption: string;
   setCaption: React.Dispatch<React.SetStateAction<string>>;
-  altTexts: AltTextState[];
-  setAltTexts: React.Dispatch<React.SetStateAction<AltTextState[]>>;
+  setFiles: React.Dispatch<React.SetStateAction<UploadFile[]>>;
 }
 
 const CaptionEditor: React.FC<CaptionEditorProps> = ({
   files,
   caption,
   setCaption,
-  altTexts,
-  setAltTexts,
+  setFiles,
 }) => {
   if (!files) {
     return null;
   }
+  const updateFileAltText = (id: string, text: string) => {
+    const newListFiles = files.map((f) => {
+      if (f.id === id) {
+        return { ...f, altText: text };
+      }
+      return f;
+    });
+    setFiles(newListFiles);
+  };
 
   const renderFileList = (
     <ul>
       {files.map((f) => (
         <FileItem
           file={f}
-          key={f.name}
-          altTexts={altTexts}
-          setAltTexts={setAltTexts}
+          key={f.id}
+          altText={f.altText || ""}
+          onChangeAltText={updateFileAltText}
         />
       ))}
     </ul>
@@ -246,32 +245,23 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
 };
 
 interface fileItemProps {
-  file: File;
-  altTexts: AltTextState[];
-  setAltTexts: React.Dispatch<React.SetStateAction<AltTextState[]>>;
+  file: UploadFile;
+  altText: string;
+  onChangeAltText: (id: string, language: string) => void;
 }
-const FileItem: React.FC<fileItemProps> = ({ file, altTexts, setAltTexts }) => {
-  const handleAltTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setAltTexts((prevAltTexts) =>
-      prevAltTexts.map((altText) =>
-        altText.fileName === file.name
-          ? { ...altText, altText: event.target.value }
-          : altText
-      )
-    );
-  };
-  const alt = altTexts.find(
-    (altText) => altText.fileName === file.name
-  )?.altText;
-
+const FileItem: React.FC<fileItemProps> = ({
+  file,
+  altText,
+  onChangeAltText,
+}) => {
   return (
     <li className="flex gap-2 align-items max-h-[300px] py-2">
-      <img src={URL.createObjectURL(file)} alt="" className="w-[50px]" />
+      <img src={URL.createObjectURL(file.file)} alt="" className="w-[50px]" />
       <input
         placeholder="Write alt text..."
         className="bg-transparent max-w-[120px] p-1 text-gray-400"
-        value={alt}
-        onChange={handleAltTextChange}
+        value={altText}
+        onChange={(e) => onChangeAltText(file.id, e.target.value)}
       />
     </li>
   );
