@@ -1,5 +1,8 @@
 import axios from "axios";
 import { Post, UploadPost } from "../interfaces/post";
+import config from "../config";
+
+const baseURL = `${config.apiUrl}`;
 
 export interface UploadPostRequestPayload {
   caption: string;
@@ -14,7 +17,9 @@ export interface UploadFile {
 
 export const getAllPosts = async (): Promise<Post[] | void> => {
   try {
-    const { data: posts } = await axios.get("/api/v1/post/get-posts");
+    const { data: posts } = await axios.get("/post/get-posts", {
+      baseURL,
+    });
 
     return posts;
   } catch (error) {
@@ -33,7 +38,8 @@ export const uploadPost = async (post: UploadPost): Promise<void> => {
     });
     formData.append("caption", post.caption);
 
-    await axios.post("/api/v1/post/upload", formData, {
+    await axios.post("/post/upload", formData, {
+      baseURL,
       headers: { "Content-Type": "multipart/form-data" },
     });
   } catch (error) {
