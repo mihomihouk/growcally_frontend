@@ -1,21 +1,22 @@
-import React from "react";
-import { Modal } from "../components/modal";
-import { Button } from "../components/button";
+import React from 'react';
+import { Modal } from '../components/modal';
+import { Button } from '../components/button';
 import {
   ArrowLeftIcon,
   PhotoIcon,
-  TrashIcon,
-} from "@heroicons/react/24/outline";
-import { useAppDispatch } from "../hooks/hooks";
-import { hideModal } from "../slices/modals-slice";
-import { ModalType } from "../interfaces/modal-type";
-import { useDropzone } from "react-dropzone";
-import classNames from "classnames";
-import { TextArea } from "../components/textarea";
-import { WordCounter } from "../components/word-counter";
-import { Accordion } from "../components/accordion";
-import { uploadPost } from "../api/media.service";
-import { UploadFile } from "../interfaces/post";
+  TrashIcon
+} from '@heroicons/react/24/outline';
+import { useAppDispatch } from '../hooks/hooks';
+import { hideModal } from '../slices/modals-slice';
+import { ModalType } from '../interfaces/modal-type';
+import { useDropzone } from 'react-dropzone';
+import classNames from 'classnames';
+import { TextArea } from '../components/textarea';
+import { WordCounter } from '../components/word-counter';
+import { Accordion } from '../components/accordion';
+import { uploadPost } from '../api/media.service';
+import { UploadFile } from '../interfaces/post';
+import { fetchPosts } from '../slices/posts-slice';
 
 export const CreatePostModal: React.FC = () => {
   const [files, setFiles] = React.useState<UploadFile[]>([]);
@@ -53,14 +54,14 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
       const newId = acceptedFiles.length + index + 1;
       uploadFiles.push({
         id: newId.toString(),
-        file: acceptedFiles[index],
+        file: acceptedFiles[index]
       });
     }
     setFiles(uploadFiles);
   }, []);
 
   const { getRootProps, getInputProps, isDragAccept, isDragReject } =
-    useDropzone({ onDrop, accept: { "image/*": [] } });
+    useDropzone({ onDrop, accept: { 'image/*': [] } });
 
   return (
     <div className="flex h-full w-full flex-col rounded-2xl divide-y divide-gray-500">
@@ -72,10 +73,10 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
       <div className="flex justify-center items-center h-full w-full">
         <div
           className={classNames(
-            "flex flex-col p-5 ease-in-out duration-75 border-dashed border-primary-500 border-2 text-center cursor-default rounded-2xl",
+            'flex flex-col p-5 ease-in-out duration-75 border-dashed border-primary-500 border-2 text-center cursor-default rounded-2xl',
             {
-              "!border-success-500": isDragAccept,
-              "!border-error-500": isDragReject,
+              '!border-success-500': isDragAccept,
+              '!border-error-500': isDragReject
             }
           )}
           {...getRootProps()}
@@ -101,18 +102,20 @@ interface UploadFormProps {
 const UploadForm: React.FC<UploadFormProps> = ({
   files,
   setFiles,
-  onDismiss,
+  onDismiss
 }) => {
-  const [caption, setCaption] = React.useState<string>("");
+  const [caption, setCaption] = React.useState<string>('');
+  const dispatch = useAppDispatch();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const post = {
       caption,
-      files: files,
+      files: files
     };
-    uploadPost(post);
+    await uploadPost(post);
+    dispatch(fetchPosts());
     onDismiss();
   };
   const handleDeleteFile = (fileName: string) => {
@@ -189,7 +192,7 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
   files,
   caption,
   setCaption,
-  setFiles,
+  setFiles
 }) => {
   if (!files) {
     return null;
@@ -210,7 +213,7 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
         <FileItem
           file={f}
           key={f.id}
-          altText={f.altText || ""}
+          altText={f.altText || ''}
           onChangeAltText={updateFileAltText}
         />
       ))}
@@ -253,7 +256,7 @@ interface fileItemProps {
 const FileItem: React.FC<fileItemProps> = ({
   file,
   altText,
-  onChangeAltText,
+  onChangeAltText
 }) => {
   return (
     <li className="flex gap-2 align-items max-h-[300px] py-2">
