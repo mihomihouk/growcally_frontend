@@ -1,22 +1,22 @@
 import {
   ChatBubbleOvalLeftIcon,
   HeartIcon,
-  PaperAirplaneIcon,
-} from "@heroicons/react/24/outline";
-import React, { CSSProperties } from "react";
-import { Button } from "../components/button";
-import { TextArea } from "../components/textarea";
-import { Post } from "../interfaces/post";
-import { pluralize } from "../util/string";
-import { useAppDispatch, useAppSelector } from "../hooks/hooks";
-import { fetchPosts } from "../slices/posts-slice";
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
-import PropagateLoader from "react-spinners/PropagateLoader";
+  PaperAirplaneIcon
+} from '@heroicons/react/24/outline';
+import React, { CSSProperties } from 'react';
+import { Button } from '../components/button';
+import { TextArea } from '../components/textarea';
+import { Post } from '../interfaces/post';
+import { pluralize } from '../util/string';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { fetchPosts } from '../slices/posts-slice';
+import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import PropagateLoader from 'react-spinners/PropagateLoader';
 
 const override: CSSProperties = {
-  display: "block",
-  margin: "0 auto",
-  borderColor: "red",
+  display: 'block',
+  margin: '0 auto',
+  borderColor: 'red'
 };
 
 export const PostList: React.FC = () => {
@@ -24,10 +24,10 @@ export const PostList: React.FC = () => {
   const postsState = useAppSelector((state) => state.posts);
   const postStatus = postsState.status;
 
-  const isLoading = postStatus === "loading";
+  const isLoading = postStatus === 'loading';
 
   React.useEffect(() => {
-    if (postStatus === "idle") {
+    if (postStatus === 'idle') {
       dispatch(fetchPosts());
     }
   }, [postStatus, dispatch]);
@@ -37,12 +37,15 @@ export const PostList: React.FC = () => {
       <div className="w-full h-full flex items-center">
         <PropagateLoader
           size={30}
-          color={"#42cc8c"}
+          color={'#42cc8c'}
           cssOverride={override}
           aria-label="Loading Spinner"
         />
       </div>
     );
+  }
+  if (!postsState.posts) {
+    return <div>Create a new post</div>;
   }
   const renderPostItems = postsState.posts?.map((i) => {
     return (
@@ -61,11 +64,7 @@ export const PostList: React.FC = () => {
 
   return (
     <>
-      {postsState.posts.length ? (
-        <div>{renderPostItems}</div>
-      ) : (
-        <div>Create a new post</div>
-      )}
+      <div>{renderPostItems}</div>
     </>
   );
 };
@@ -77,12 +76,12 @@ const PostItem: React.FC<Post> = ({
   createdAt,
   files,
   likes,
-  comments,
+  comments
 }) => {
-  const [textAreaInput, setTextAreaInput] = React.useState("");
+  const [textAreaInput, setTextAreaInput] = React.useState('');
   const primaryFile = files ? files[0] : null;
 
-  const mediaUrl = primaryFile?.fileUrl?.split("?")[0];
+  const mediaUrl = primaryFile?.fileUrl?.split('?')[0];
 
   const formattedDate = formatDistanceToNow(new Date(createdAt));
   return (
@@ -91,7 +90,7 @@ const PostItem: React.FC<Post> = ({
       <div className="flex">
         {/* Avatar */}
         <p>{author}</p>
-        {"・"}
+        {'・'}
         <p>{formattedDate}</p>
       </div>
 
@@ -99,7 +98,7 @@ const PostItem: React.FC<Post> = ({
       {mediaUrl && (
         <img
           className="rounded w-[430px] h-[768px]"
-          alt={primaryFile.alt || ""}
+          alt={primaryFile.alt || ''}
           src={mediaUrl}
         ></img>
       )}
@@ -123,7 +122,7 @@ const PostItem: React.FC<Post> = ({
         <p>{caption}</p>
         {comments?.length && (
           <Button>
-            View all {comments.length} {pluralize(comments.length, "comment")}
+            View all {comments.length} {pluralize(comments.length, 'comment')}
           </Button>
         )}
         <TextArea

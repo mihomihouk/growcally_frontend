@@ -9,6 +9,7 @@
 
 # testing
 /coverage
+mockServiceWorker.js
 
 # production
 /build

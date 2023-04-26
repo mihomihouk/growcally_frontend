@@ -80,6 +80,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
             }
           )}
           {...getRootProps()}
+          data-testid="drop-zone"
         >
           <input {...getInputProps()} />
           <PhotoIcon className="h-20 w-20 text-white mx-auto" />
