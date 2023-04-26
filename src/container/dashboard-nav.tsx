@@ -1,17 +1,16 @@
-import React from "react";
-import { InstagramLogo } from "../icons/instagram-logo";
+import React from 'react';
 import {
   Bars3Icon,
   HomeIcon,
   MagnifyingGlassIcon,
   PlusCircleIcon,
-  UserIcon,
-} from "@heroicons/react/24/outline";
-import { Button } from "../components/button";
-import { ModalType } from "../interfaces/modal-type";
-import { showModal } from "../slices/modals-slice";
-import { useAppDispatch } from "../hooks/hooks";
-import { VerticalDivider } from "../components/vertical-divider";
+  UserIcon
+} from '@heroicons/react/24/outline';
+import { Button } from '../components/button';
+import { ModalType } from '../interfaces/modal-type';
+import { showModal } from '../slices/modals-slice';
+import { useAppDispatch } from '../hooks/hooks';
+import { VerticalDivider } from '../components/vertical-divider';
 
 export const DashboardNav: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -20,7 +19,7 @@ export const DashboardNav: React.FC = () => {
       <nav className="flex py-10 px-3 flex-col justify-between w-full">
         <div>
           <div className="h-[92px] text-center">
-            <InstagramLogo className="mx-auto" />
+            <img alt="growcally logo" src="img/text-no-bg.png" />
           </div>
           <ul className="flex flex-col gap-8 mx-auto grow">
             <li>
