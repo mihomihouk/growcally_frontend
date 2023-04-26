@@ -1,13 +1,13 @@
-import React from "react";
-import { useAppSelector } from "../hooks/hooks";
-import { ModalType } from "../interfaces/modal-type";
-import { CreatePostModal } from "./create-post-modal";
+import React from 'react';
+import { useAppSelector } from '../hooks/hooks';
+import { ModalType } from '../interfaces/modal-type';
+import { CreatePostModal } from './create-post-modal';
 
 export const Modals = [
   {
     type: ModalType.CreatePost,
-    component: <CreatePostModal />,
-  },
+    component: <CreatePostModal />
+  }
 ];
 
 export const ModalsContainer: React.FC = () => {

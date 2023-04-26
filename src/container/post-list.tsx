@@ -64,7 +64,7 @@ export const PostList: React.FC = () => {
 
   return (
     <>
-      <div>{renderPostItems}</div>
+      <div data-testid="posts-list">{renderPostItems}</div>
     </>
   );
 };
