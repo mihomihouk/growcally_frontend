@@ -19,7 +19,7 @@ export const DashboardNav: React.FC = () => {
       <nav className="flex py-10 px-3 flex-col justify-between w-full">
         <div>
           <div className="h-[92px] text-center">
-            <img alt="growcally logo" src="img/text-no-bg.png" />
+            <img alt="growcally logo" src="img/text-logo-black.png" />
           </div>
           <ul className="flex flex-col gap-8 mx-auto grow">
             <li>

@@ -11,11 +11,7 @@ export const LogInPage = () => {
           <div className="flex flex-col lg:flex-row ">
             <div className="w-full lg:w-1/2 ">
               <div className="flex items-center gap-4 pl-4 pt-4">
-                <img
-                  alt="growcally logo"
-                  src="img/text-no-bg.png"
-                  className="w-[100px] h-[25px]"
-                />
+                <img alt="growcally logo" src="img/text-logo-black.png" />
               </div>
               <div className="py-16 px-12">
                 <h2 className="text-3xl mb-4">Welcome back</h2>
@@ -39,14 +35,14 @@ export const LogInPage = () => {
                   </div>
 
                   <div className="mt-5">
-                    <Button className="w-full bg-black text-white inline-block p-2 rounded-lg hover:bg-opacity-75">
+                    <Button className="w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75">
                       Log In
                     </Button>
                   </div>
                   <p className="text-sm text-gray-400 mt-5 text-center">
                     Don't have an account?
                     <Link
-                      className="ml-2 text-black font-semibold cursor-pointer"
+                      className="ml-2 text-primary-500 font-semibold cursor-pointer"
                       to={SIGN_UP_PATH}
                     >
                       Sign up
