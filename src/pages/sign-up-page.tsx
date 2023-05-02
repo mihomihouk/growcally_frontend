@@ -1,7 +1,79 @@
+import classNames from 'classnames';
 import React from 'react';
-import { Button } from '../components/button';
 
 export const SignUpPage = () => {
+  const [firstName, setFirstName] = React.useState<string>('');
+  const [familyName, setFamilyName] = React.useState<string>('');
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const [confirmPassword, setConfirmPassword] = React.useState<string>('');
+  const [emailError, setEmailError] = React.useState<boolean>(false);
+  const [passwordErrors, setPasswordErrors] = React.useState<string[]>([]);
+  const [confirmPasswordError, setConfirmPasswordError] =
+    React.useState<boolean>(false);
+
+  const handleSubmit = () => {};
+
+  const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailInput = e.target.value.trim();
+    setEmail(emailInput);
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  };
+
+  const handlePasswordInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const passwordInput = e.target.value.trim();
+    setPassword(passwordInput);
+    let errors = [];
+    const hasNumber = /\d/;
+    const hasCapitalCase = /[A-Z]/;
+    const hasSmallCase = /[a-z]/;
+    const hasSpecialChar = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+
+    if (passwordInput.length < 8) {
+      errors.push('Must be at least 8 characters');
+    }
+    if (!hasNumber.test(passwordInput)) {
+      errors.push('Must contain at least 1 number');
+    }
+    if (!hasCapitalCase.test(passwordInput)) {
+      errors.push('Must contain at least 1 capital case');
+    }
+    if (!hasSmallCase.test(passwordInput)) {
+      errors.push('Must contain at least 1 small case');
+    }
+    if (!hasSpecialChar.test(passwordInput)) {
+      errors.push('Must contain at least 1 special character');
+    }
+    setPasswordErrors(errors.length ? errors : []);
+  };
+
+  const handleConfirmPasswordInput = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const confirmInput = e.target.value.trim();
+    setConfirmPassword(confirmInput);
+    if (confirmInput !== password) {
+      setConfirmPasswordError(true);
+    } else {
+      setConfirmPasswordError(false);
+    }
+  };
+
+  const isDisabled =
+    !firstName ||
+    !firstName ||
+    !email ||
+    !password ||
+    !confirmPassword ||
+    emailError ||
+    Boolean(passwordErrors.length) ||
+    confirmPasswordError;
+
   return (
     <div className="min-h-screen py-40 bg-gray-300">
       <div className="container mx-auto">
@@ -16,17 +88,21 @@ export const SignUpPage = () => {
                 <p className="mb-4 text-gray-400">
                   Create your account. It’s free and only take a minute.
                 </p>
-                <form>
+                <form onSubmit={handleSubmit}>
                   <div className="grid grid-cols-2 gap-5">
                     <input
                       type="text"
-                      placeholder="Firstname"
+                      placeholder="First name"
                       className="border border-gray-400 px-2 rounded-lg p-2"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value.trim())}
                     />
                     <input
                       type="text"
                       placeholder="Surname"
                       className="border border-gray-400 px-2 rounded-lg p-2"
+                      value={familyName}
+                      onChange={(e) => setFamilyName(e.target.value.trim())}
                     />
                   </div>
                   <div className="mt-5">
@@ -34,26 +110,59 @@ export const SignUpPage = () => {
                       type="text"
                       placeholder="Email"
                       className="border border-gray-400 px-2 rounded-lg w-full p-2"
+                      value={email}
+                      onChange={(e) => handleEmailInput(e)}
                     />
                   </div>
+                  {emailError && (
+                    <p className="text-error-500 text-sm">
+                      Enter valid email address
+                    </p>
+                  )}
+
                   <div className="mt-5">
                     <input
                       type="password"
                       placeholder="Password"
                       className="border border-gray-400 px-2 w-full rounded-lg p-2"
+                      value={password}
+                      onChange={(e) => handlePasswordInput(e)}
                     />
                   </div>
+                  {passwordErrors &&
+                    passwordErrors.map((error, index) => (
+                      <p className="text-error-500 text-sm" key={index}>
+                        {error}
+                      </p>
+                    ))}
+
                   <div className="mt-5">
                     <input
                       type="password"
                       placeholder="Confirm Password"
                       className="border border-gray-400 px-2 w-full rounded-lg p-2"
+                      value={confirmPassword}
+                      onChange={(e) => handleConfirmPasswordInput(e)}
                     />
                   </div>
+                  {confirmPasswordError && (
+                    <p className="text-error-500 text-sm">
+                      Password does not match
+                    </p>
+                  )}
                   <div className="mt-5">
-                    <Button className="w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75">
+                    <button
+                      className={classNames(
+                        'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75',
+                        {
+                          'cursor-not-allowed': isDisabled
+                        }
+                      )}
+                      type="submit"
+                      disabled={isDisabled}
+                    >
                       Register Now
-                    </Button>
+                    </button>
                   </div>
                 </form>
               </div>

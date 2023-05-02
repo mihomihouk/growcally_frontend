@@ -2,7 +2,7 @@ import { url } from 'inspector';
 import React from 'react';
 import { Button } from '../components/button';
 import { Link } from 'react-router-dom';
-import { LOG_IN_PATH } from '../routes';
+import { LOG_IN_PATH, SIGN_UP_PATH } from '../routes';
 
 export const LandingPage = () => {
   return (
@@ -24,7 +24,10 @@ export const LandingPage = () => {
             <br />
             share the joy
           </h1>
-          <Button className="w-full md:!w-48 h-10 bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75">
+          <Button
+            className="w-full md:!w-48 h-10 bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75"
+            to={SIGN_UP_PATH}
+          >
             Start growing
           </Button>
           <p className="text-sm text-white font-semibold text-center">
