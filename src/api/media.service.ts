@@ -17,9 +17,7 @@ export interface UploadFile {
 
 export const getAllPosts = async (): Promise<Post[] | void> => {
   try {
-    const { data: posts } = await axios.get('/post/get-posts', {
-      baseURL
-    });
+    const { data: posts } = await axios.get(`${baseURL}/post/get-posts`);
 
     return posts;
   } catch (error) {
@@ -30,7 +28,7 @@ export const getAllPosts = async (): Promise<Post[] | void> => {
 export const uploadPost = async (post: UploadPost): Promise<void> => {
   try {
     const formData = new FormData();
-    post.files.forEach((file, index) => {
+    post.files.forEach((file) => {
       formData.append('images', file.file);
       if (file.altText) {
         formData.append(`fileAltText-${file.file.name}`, file.altText);
@@ -38,8 +36,7 @@ export const uploadPost = async (post: UploadPost): Promise<void> => {
     });
     formData.append('caption', post.caption);
 
-    await axios.post('/post/upload', formData, {
-      baseURL,
+    await axios.post(`${baseURL}/post/upload`, formData, {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
   } catch (error) {

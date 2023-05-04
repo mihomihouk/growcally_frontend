@@ -1,9 +1,16 @@
 import classNames from 'classnames';
-import React from 'react';
+import React, { CSSProperties } from 'react';
+import { FadeLoader } from 'react-spinners';
+import { registerUser } from '../api/auth.service';
+import { useNavigate } from 'react-router-dom';
+
+const spinnerOverride: CSSProperties = {
+  margin: '0 auto'
+};
 
 export const SignUpPage = () => {
   const [firstName, setFirstName] = React.useState<string>('');
-  const [familyName, setFamilyName] = React.useState<string>('');
+  const [surname, setSurname] = React.useState<string>('');
   const [email, setEmail] = React.useState<string>('');
   const [password, setPassword] = React.useState<string>('');
   const [confirmPassword, setConfirmPassword] = React.useState<string>('');
@@ -11,8 +18,34 @@ export const SignUpPage = () => {
   const [passwordErrors, setPasswordErrors] = React.useState<string[]>([]);
   const [confirmPasswordError, setConfirmPasswordError] =
     React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
-  const handleSubmit = () => {};
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsLoading(true);
+    try {
+      const signUpParams = {
+        firstName,
+        surname,
+        email,
+        password,
+        confirmPassword
+      };
+      const { data, status } = await registerUser(signUpParams);
+      //TODO: If response is success, show success message
+      console.log(status);
+      navigate('/verify');
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+
+      //TODO: Show error message to the user
+      setIsLoading(false);
+    }
+  };
 
   const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailInput = e.target.value.trim();
@@ -72,8 +105,8 @@ export const SignUpPage = () => {
     !confirmPassword ||
     emailError ||
     Boolean(passwordErrors.length) ||
-    confirmPasswordError;
-
+    confirmPasswordError ||
+    isLoading;
   return (
     <div className="min-h-screen py-40 bg-gray-300">
       <div className="container mx-auto">
@@ -101,8 +134,8 @@ export const SignUpPage = () => {
                       type="text"
                       placeholder="Surname"
                       className="border border-gray-400 px-2 rounded-lg p-2"
-                      value={familyName}
-                      onChange={(e) => setFamilyName(e.target.value.trim())}
+                      value={surname}
+                      onChange={(e) => setSurname(e.target.value.trim())}
                     />
                   </div>
                   <div className="mt-5">
@@ -151,18 +184,28 @@ export const SignUpPage = () => {
                     </p>
                   )}
                   <div className="mt-5">
-                    <button
-                      className={classNames(
-                        'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75',
-                        {
-                          'cursor-not-allowed': isDisabled
-                        }
-                      )}
-                      type="submit"
-                      disabled={isDisabled}
-                    >
-                      Register Now
-                    </button>
+                    {!isLoading ? (
+                      <button
+                        className={classNames(
+                          'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75',
+                          {
+                            'cursor-not-allowed': isDisabled
+                          }
+                        )}
+                        type="submit"
+                        disabled={isDisabled}
+                      >
+                        Register Now
+                      </button>
+                    ) : (
+                      <FadeLoader
+                        loading={isLoading}
+                        height={10}
+                        width={10}
+                        cssOverride={spinnerOverride}
+                        aria-label="Loading Spinner"
+                      />
+                    )}
                   </div>
                 </form>
               </div>
