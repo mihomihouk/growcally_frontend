@@ -87,7 +87,9 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
           <p className="text-white text-xl font-normal my-4">
             Drag photos and videos here
           </p>
-          <Button isPrimary>Select From Computer</Button>
+          <Button type="button" isPrimary>
+            Select From Computer
+          </Button>
         </div>
       </div>
     </div>
@@ -138,6 +140,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
       </div>
       <Button
         className="absolute top-1 right-1"
+        type="button"
         onClick={() => handleDeleteFile(file.file.name)}
       >
         <TrashIcon className="h-5 w-5 text-white" />
@@ -153,6 +156,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
       <div className="flex h-[50px] items-center !justify-between px-4">
         <Button
           className="cursor-pointer flex items-center"
+          type="button"
           onClick={() => setFiles([])}
         >
           <ArrowLeftIcon className="h-5 w-5 text-white hover:text-gray-300" />

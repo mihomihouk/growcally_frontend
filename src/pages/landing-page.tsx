@@ -1,4 +1,3 @@
-import { url } from 'inspector';
 import React from 'react';
 import { Button } from '../components/button';
 import { Link } from 'react-router-dom';
@@ -27,6 +26,7 @@ export const LandingPage = () => {
           <Button
             className="w-full md:!w-48 h-10 bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75"
             to={SIGN_UP_PATH}
+            type="button"
           >
             Start growing
           </Button>

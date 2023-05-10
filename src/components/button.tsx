@@ -1,6 +1,12 @@
 import { Link, LinkProps } from 'react-router-dom';
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import classNames from 'classnames';
+import { FadeLoader } from 'react-spinners';
+
+const spinnerOverride: CSSProperties = {
+  margin: '0 auto',
+  top: '30px'
+};
 
 interface ButtonProps {
   className?: string;
@@ -9,6 +15,9 @@ interface ButtonProps {
   children?: React.ReactNode;
   inNav?: boolean;
   isPrimary?: boolean;
+  disabled?: boolean;
+  isLoading?: boolean;
+  type: 'button' | 'reset' | 'submit' | undefined;
 }
 export const Button: React.FC<ButtonProps> = ({
   className,
@@ -16,27 +25,76 @@ export const Button: React.FC<ButtonProps> = ({
   to,
   inNav,
   isPrimary,
+  type,
+  disabled,
+  isLoading,
   children
 }) => {
   const hrefTo = to ?? '#';
+  if (isLoading) {
+    return (
+      <FadeLoader
+        loading={isLoading}
+        height={10}
+        width={10}
+        cssOverride={spinnerOverride}
+        aria-label="Loading Spinner"
+      />
+    );
+  }
+
+  if (to) {
+    return (
+      <Link
+        className={classNames(
+          {
+            'py-2 pl-3 rounded-3xl hover:bg-gray-300 ease-in duration-300':
+              inNav
+          },
+          {
+            'text-white font-semibold text-sm py-[7px] px-4 rounded-lg bg-primary-500 hover:bg-primary-400':
+              isPrimary
+          },
+          {
+            'cursor-not-allowed': disabled
+          },
+          className
+        )}
+        to={hrefTo}
+      >
+        <button
+          className={classNames(
+            'w-full',
+            { 'flex gap-4': inNav },
+            {
+              'cursor-not-allowed': disabled
+            }
+          )}
+          onClick={onClick}
+          disabled={disabled}
+          type={type}
+        >
+          {children}
+        </button>
+      </Link>
+    );
+  }
+
   return (
-    <Link
+    <button
       className={classNames(
+        'w-full',
+        { 'flex gap-4': inNav },
         {
-          'py-2 pl-3 rounded-3xl hover:bg-gray-300 ease-in duration-300': inNav
-        },
-        {
-          'text-white font-semibold text-sm py-[7px] px-4 rounded-lg bg-primary-500 hover:bg-primary-400':
-            isPrimary
+          'cursor-not-allowed': disabled
         },
         className
       )}
       onClick={onClick}
-      to={hrefTo}
+      disabled={disabled}
+      type={type}
     >
-      <button className={classNames('w-full', { 'flex gap-4': inNav })}>
-        {children}
-      </button>
-    </Link>
+      {children}
+    </button>
   );
 };

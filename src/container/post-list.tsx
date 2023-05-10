@@ -106,13 +106,13 @@ const PostItem: React.FC<Post> = ({
       <div className="flex flex-col gap-2">
         {/* actions */}
         <div className="flex gap-2 ">
-          <Button>
+          <Button type="button">
             <HeartIcon className="h-6 w-6" />
           </Button>
-          <Button>
+          <Button type="button">
             <ChatBubbleOvalLeftIcon className="h-6 w-6" />
           </Button>
-          <Button>
+          <Button type="button">
             <PaperAirplaneIcon className="h-6 w-6" />
           </Button>
         </div>
@@ -121,7 +121,7 @@ const PostItem: React.FC<Post> = ({
         <p>{likes} likes</p>
         <p>{caption}</p>
         {comments?.length && (
-          <Button>
+          <Button type="button">
             View all {comments.length} {pluralize(comments.length, 'comment')}
           </Button>
         )}
