@@ -1,13 +1,10 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LOG_IN_PATH } from '../routes';
 import { FadeLoader } from 'react-spinners';
 import classNames from 'classnames';
 import { resendVerificationCode, verifyEmail } from '../api/auth.service';
-
-const spinnerOverride: CSSProperties = {
-  margin: '0 auto'
-};
+import { Button } from '../components/button';
 
 export const EmailVerificationPage: React.FC = () => {
   const [verificationCode, setVerificationCode] = React.useState<string>('');
@@ -18,20 +15,21 @@ export const EmailVerificationPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    try {
-      setIsLoading(true);
-      const verifyUserParams = {
-        email,
-        verificationCode
-      };
-      await verifyEmail(verifyUserParams);
+    setIsLoading(true);
+    const verifyUserParams = {
+      email,
+      verificationCode
+    };
+    const { data, isSuccess, alertMessage } = await verifyEmail(
+      verifyUserParams
+    );
+    if (!isSuccess) {
       setIsLoading(false);
-      navigate(LOG_IN_PATH);
-    } catch (error) {
-      console.log(error);
-      //TODO: show error message to the user
-      setIsLoading(false);
+      alert(alertMessage);
+      return;
     }
+    navigate(LOG_IN_PATH);
+    setIsLoading(false);
   };
 
   const handleResendCode = async () => {
@@ -82,28 +80,19 @@ export const EmailVerificationPage: React.FC = () => {
             value={verificationCode}
             onChange={(e) => setVerificationCode(e.target.value)}
           />
-          {!isLoading ? (
-            <button
-              className={classNames(
-                'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75',
-                {
-                  'cursor-not-allowed': isDisabled
-                }
-              )}
-              type="submit"
-              disabled={isDisabled}
-            >
-              Verify email
-            </button>
-          ) : (
-            <FadeLoader
-              loading={isLoading}
-              height={10}
-              width={10}
-              cssOverride={spinnerOverride}
-              aria-label="Loading Spinner"
-            />
-          )}
+          <Button
+            className={classNames(
+              'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75',
+              {
+                'cursor-not-allowed': isDisabled
+              }
+            )}
+            type="submit"
+            disabled={isDisabled}
+            isLoading={isLoading}
+          >
+            Verify email
+          </Button>
           {!resendIsLoading ? (
             <p className="text-center">
               Didn't receive a code?{' '}

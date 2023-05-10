@@ -1,9 +1,44 @@
 import React from 'react';
 import { Button } from '../components/button';
-import { Link } from 'react-router-dom';
-import { SIGN_UP_PATH } from '../routes';
+import { Link, useNavigate } from 'react-router-dom';
+import { DASHBOARD_PATH, SIGN_UP_PATH } from '../routes';
+import { loginUser } from '../api/auth.service';
 
 export const LogInPage = () => {
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const [emailError, setEmailError] = React.useState<boolean>(false);
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const emailInput = e.target.value.trim();
+    setEmail(emailInput);
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailPattern.test(emailInput)) {
+      setEmailError(true);
+    } else {
+      setEmailError(false);
+    }
+  };
+
+  const handleLogin = async () => {
+    setIsLoading(true);
+    const params = {
+      email,
+      password
+    };
+    const { isSuccess, alertMessage, data } = await loginUser(params);
+
+    if (!isSuccess) {
+      setIsLoading(false);
+      alert(alertMessage);
+      return;
+    }
+
+    navigate(DASHBOARD_PATH);
+    setIsLoading(false);
+  };
   return (
     <div className="min-h-screen py-40 bg-gray-300">
       <div className="container mx-auto">
@@ -24,18 +59,33 @@ export const LogInPage = () => {
                       type="text"
                       placeholder="Email"
                       className="border border-gray-400 px-2 rounded-lg w-full p-2"
+                      value={email}
+                      onChange={(e) => handleEmailInput(e)}
                     />
                   </div>
+                  {emailError && (
+                    <p className="text-error-500 text-sm">
+                      Enter valid email address
+                    </p>
+                  )}
                   <div className="mt-5">
                     <input
                       type="password"
                       placeholder="Password"
                       className="border border-gray-400 px-2 w-full rounded-lg p-2"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </div>
 
                   <div className="mt-5">
-                    <Button className="w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75">
+                    <Button
+                      className="w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75"
+                      disabled={!email || !password}
+                      onClick={handleLogin}
+                      type="submit"
+                      isLoading={isLoading}
+                    >
                       Log In
                     </Button>
                   </div>
