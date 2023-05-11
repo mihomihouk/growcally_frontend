@@ -84,12 +84,15 @@ const PostItem: React.FC<Post> = ({
   const mediaUrl = primaryFile?.fileUrl?.split('?')[0];
 
   const formattedDate = formatDistanceToNow(new Date(createdAt));
+
+  const authorName = `${author.givenName} ${author.familyName}`;
+
   return (
     <article className="mb-3 pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
       {/* header */}
       <div className="flex">
         {/* Avatar */}
-        <p>{author}</p>
+        <p>{authorName}</p>
         {'・'}
         <p>{formattedDate}</p>
       </div>

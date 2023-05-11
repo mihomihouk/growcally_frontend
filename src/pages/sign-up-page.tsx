@@ -1,8 +1,8 @@
-import classNames from 'classnames';
 import React from 'react';
 import { registerUser } from '../api/auth.service';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/button';
+import { LOG_IN_PATH } from '../routes';
 
 export const SignUpPage = () => {
   const [firstName, setFirstName] = React.useState<string>('');
@@ -178,12 +178,7 @@ export const SignUpPage = () => {
                   )}
                   <div className="mt-5">
                     <Button
-                      className={classNames(
-                        'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75',
-                        {
-                          'cursor-not-allowed': isDisabled
-                        }
-                      )}
+                      isPrimary
                       type="submit"
                       disabled={isDisabled}
                       isLoading={isLoading}
@@ -191,6 +186,15 @@ export const SignUpPage = () => {
                       Register Now
                     </Button>
                   </div>
+                  <p className="text-sm text-gray-400 mt-5 text-center">
+                    Already have an account?
+                    <Link
+                      className="ml-2 text-primary-500 font-semibold cursor-pointer"
+                      to={LOG_IN_PATH}
+                    >
+                      Log in
+                    </Link>
+                  </p>
                 </form>
               </div>
             </div>

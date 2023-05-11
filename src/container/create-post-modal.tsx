@@ -6,7 +6,7 @@ import {
   PhotoIcon,
   TrashIcon
 } from '@heroicons/react/24/outline';
-import { useAppDispatch } from '../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { hideModal } from '../slices/modals-slice';
 import { ModalType } from '../interfaces/modal-type';
 import { useDropzone } from 'react-dropzone';
@@ -108,16 +108,25 @@ const UploadForm: React.FC<UploadFormProps> = ({
   onDismiss
 }) => {
   const [caption, setCaption] = React.useState<string>('');
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const dispatch = useAppDispatch();
+  const currentUser = useAppSelector((state) => state.auth.user)!;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    setIsLoading(true);
     const post = {
+      authorId: currentUser.id,
       caption,
       files: files
     };
-    await uploadPost(post);
+    const { isSuccess, alertMessage } = await uploadPost(post);
+    if (!isSuccess) {
+      alert(alertMessage);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(false);
     dispatch(fetchPosts());
     onDismiss();
   };
@@ -139,7 +148,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
         />
       </div>
       <Button
-        className="absolute top-1 right-1"
+        className="absolute top-1"
         type="button"
         onClick={() => handleDeleteFile(file.file.name)}
       >
@@ -162,13 +171,13 @@ const UploadForm: React.FC<UploadFormProps> = ({
           <ArrowLeftIcon className="h-5 w-5 text-white hover:text-gray-300" />
         </Button>
 
-        <p className="text-base font-semibold text-white">Crop</p>
-        <button
+        <Button
           className="text-primary-500 hover:text-primary-300 cursor-pointer"
           type="submit"
+          isLoading={isLoading}
         >
           Share
-        </button>
+        </Button>
       </div>
       {/* content */}
       <div className="flex flex-row h-full w-full">

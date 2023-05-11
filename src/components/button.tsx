@@ -52,7 +52,7 @@ export const Button: React.FC<ButtonProps> = ({
               inNav
           },
           {
-            'text-white font-semibold text-sm py-[7px] px-4 rounded-lg bg-primary-500 hover:bg-primary-400':
+            'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
               isPrimary
           },
           {
@@ -83,8 +83,14 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={classNames(
-        'w-full',
-        { 'flex gap-4': inNav },
+        {
+          'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+            isPrimary
+        },
+        {
+          'py-2 pl-3 rounded-3xl hover:bg-gray-300 ease-in duration-300 flex gap-4 w-full':
+            inNav
+        },
         {
           'cursor-not-allowed': disabled
         },

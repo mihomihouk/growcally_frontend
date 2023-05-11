@@ -1,4 +1,7 @@
+import { User } from './user';
+
 export interface UploadPost {
+  authorId: string;
   caption: string;
   files: UploadFile[];
 }
@@ -11,7 +14,7 @@ export interface UploadFile {
 
 export interface Post {
   id: string;
-  author: string;
+  author: User;
   createdAt: string;
   likes?: number;
   caption: string;

@@ -80,7 +80,7 @@ export const LogInPage = () => {
 
                   <div className="mt-5">
                     <Button
-                      className="w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75"
+                      isPrimary
                       disabled={!email || !password}
                       onClick={handleLogin}
                       type="submit"
