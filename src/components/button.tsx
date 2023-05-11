@@ -88,7 +88,7 @@ export const Button: React.FC<ButtonProps> = ({
             isPrimary
         },
         {
-          'py-2 pl-3 rounded-3xl hover:bg-gray-300 ease-in duration-300 flex gap-4 w-full':
+          'py-2 lg:pl-3 rounded-3xl hover:bg-gray-300 ease-in duration-300 flex gap-4 w-full ':
             inNav
         },
         {

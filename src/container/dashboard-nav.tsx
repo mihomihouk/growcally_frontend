@@ -10,28 +10,31 @@ import { Button } from '../components/button';
 import { ModalType } from '../interfaces/modal-type';
 import { showModal } from '../slices/modals-slice';
 import { useAppDispatch } from '../hooks/hooks';
-import { VerticalDivider } from '../components/vertical-divider';
 
 export const DashboardNav: React.FC = () => {
   const dispatch = useAppDispatch();
   return (
-    <div className="fixed top-0 left-0 sm:w-[200px] md:w-[200px] h-full justify-between flex flex-row">
-      <nav className="flex py-10 px-3 flex-col justify-between w-full">
+    <aside className="fixed bottom-0 left-0 right-0 md:top-0 md:w-16 lg:w-64 bg-gray-800 text-white z-10">
+      <nav className="flex py-3 lg:py-10 px-3 flex-row md:flex-col justify-between w-full h-full">
         <div>
-          <div className="h-[92px] text-center">
-            <img alt="growcally logo" src="img/text-logo-black.png" />
+          <div className="h-[92px] text-center hidden md:block">
+            <img
+              className="hidden lg:inline-block"
+              alt="growcally logo"
+              src="img/text-logo-white.png"
+            />
           </div>
-          <ul className="flex flex-col gap-8 mx-auto grow">
+          <ul className="flex flex-row md:flex-col gap-8 mx-auto grow">
             <li>
               <Button type="button" className="flex gap-4" inNav>
-                <HomeIcon className="h-6 w-6" />
-                <p>Home</p>
+                <HomeIcon className="h-6 w-6 mx-auto lg:!mx-0" />
+                <p className="hidden lg:block">Home</p>
               </Button>
             </li>
             <li>
               <Button type="button" className="flex gap-4" inNav>
-                <MagnifyingGlassIcon className="h-6 w-6" />
-                <p>Search</p>
+                <MagnifyingGlassIcon className="h-6 w-6 mx-auto lg:!mx-0" />
+                <p className="hidden lg:block">Search</p>
               </Button>
             </li>
             <li>
@@ -43,14 +46,14 @@ export const DashboardNav: React.FC = () => {
                   dispatch(showModal({ modalType: ModalType.CreatePost }))
                 }
               >
-                <PlusCircleIcon className="h-6 w-6" />
-                <p>Create</p>
+                <PlusCircleIcon className="h-6 w-6 mx-auto lg:!mx-0" />
+                <p className="hidden lg:block">Create</p>
               </Button>
             </li>
             <li>
               <Button type="button" className="flex gap-4" inNav>
-                <UserIcon className="h-6 w-6" />
-                <p>Profile</p>
+                <UserIcon className="h-6 w-6 mx-auto lg:!mx-0" />
+                <p className="hidden lg:block">Profile</p>
               </Button>
             </li>
           </ul>
@@ -58,12 +61,11 @@ export const DashboardNav: React.FC = () => {
 
         <div>
           <Button type="button" className="flex gap-4" inNav>
-            <Bars3Icon className="h-6 w-6" />
-            <p>More</p>
+            <Bars3Icon className="h-6 w-6 mx-auto lg:!mx-0" />
+            <p className="hidden lg:block">More</p>
           </Button>
         </div>
       </nav>
-      <VerticalDivider borderColor="border-gray" />
-    </div>
+    </aside>
   );
 };
