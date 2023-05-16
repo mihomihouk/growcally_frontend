@@ -1,11 +1,7 @@
 import axios from 'axios';
 import config from '../config';
 import { store } from '../store/store';
-import {
-  setAccessToken,
-  setIsAuthenticated,
-  setUser
-} from '../slices/auth-slice';
+import { setIsAuthenticated, setUser } from '../slices/auth-slice';
 
 const baseURL = config.apiUrl;
 
@@ -93,9 +89,14 @@ export const loginUser = async (
   loginUserParams: LoginUserParams
 ): Promise<QueryResult> => {
   try {
-    const { data } = await axios.post(`${baseURL}/auth/login`, loginUserParams);
+    const { data, headers } = await axios.post(
+      `${baseURL}/auth/login`,
+      loginUserParams,
+      { withCredentials: true }
+    );
+    const cookie = headers['set-cookie'];
+    document.cookie = 'access_token' + cookie;
     // Store data in Redux
-    store.dispatch(setAccessToken(data.accessToken));
     store.dispatch(setUser(data.user));
     store.dispatch(setIsAuthenticated(true));
     const result = handleSuccess(data);

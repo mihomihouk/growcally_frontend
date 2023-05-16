@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../components/button';
 import { Link } from 'react-router-dom';
-import { LOG_IN_PATH, SIGN_UP_PATH } from '../routes';
+import { LOG_IN_PATH, SIGN_UP_PATH } from '../routes/routes';
 
 export const LandingPage = () => {
   return (

@@ -14,9 +14,9 @@ import classNames from 'classnames';
 import { TextArea } from '../components/textarea';
 import { WordCounter } from '../components/word-counter';
 import { Accordion } from '../components/accordion';
-import { uploadPost } from '../api/media.service';
+import { getAllPosts, uploadPost } from '../api/media.service';
 import { UploadFile } from '../interfaces/post';
-import { fetchPosts } from '../slices/posts-slice';
+import { updatePosts } from '../slices/posts-slice';
 
 export const CreatePostModal: React.FC = () => {
   const [files, setFiles] = React.useState<UploadFile[]>([]);
@@ -120,14 +120,25 @@ const UploadForm: React.FC<UploadFormProps> = ({
       caption,
       files: files
     };
-    const { isSuccess, alertMessage } = await uploadPost(post);
-    if (!isSuccess) {
-      alert(alertMessage);
+    const { isSuccess: isUploadSuccess, alertMessage: alertUpload } =
+      await uploadPost(post);
+    if (!isUploadSuccess) {
+      alert(alertUpload);
       setIsLoading(false);
       return;
     }
     setIsLoading(false);
-    dispatch(fetchPosts());
+    const {
+      data,
+      isSuccess: isFetchSuccess,
+      alertMessage: alertFetch
+    } = await getAllPosts(currentUser.id);
+    if (!isFetchSuccess) {
+      alert(alertFetch);
+      setIsLoading(false);
+      return;
+    }
+    dispatch(updatePosts(data));
     onDismiss();
   };
   const handleDeleteFile = (fileName: string) => {

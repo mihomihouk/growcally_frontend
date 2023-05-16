@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Post, UploadPost } from '../interfaces/post';
+import { UploadPost } from '../interfaces/post';
 import config from '../config';
 
 const baseURL = `${config.apiUrl}`;
@@ -36,15 +36,16 @@ const handleError = (error: any) => {
   };
 };
 
-export const getAllPosts = async (): Promise<Post[] | undefined> => {
+export const getAllPosts = async (userId: string): Promise<QueryResult> => {
   try {
-    const { data: posts } = await axios.get(`${baseURL}/post/get-posts`);
-
-    return posts;
+    const { data: posts } = await axios.get(`${baseURL}/post/get-posts`, {
+      params: { userId },
+      withCredentials: true
+    });
+    return handleSuccess(posts);
   } catch (error) {
     console.log(error);
-    //TODO: Error handling with Redux
-    // return handleError(error)
+    return handleError(error);
   }
 };
 
@@ -53,7 +54,6 @@ export const uploadPost = async (post: UploadPost): Promise<QueryResult> => {
     const formData = new FormData();
     post.files.forEach((file) => {
       formData.append('images', file.file);
-      console.log(file);
       if (file.altText) {
         formData.append(`fileAltText-${file.file.name}`, file.altText);
       }

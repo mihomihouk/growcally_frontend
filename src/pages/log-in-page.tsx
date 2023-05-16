@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '../components/button';
 import { Link, useNavigate } from 'react-router-dom';
-import { DASHBOARD_PATH, SIGN_UP_PATH } from '../routes';
+import { DASHBOARD_PATH, SIGN_UP_PATH } from '../routes/routes';
 import { loginUser } from '../api/auth.service';
 
 export const LogInPage = () => {

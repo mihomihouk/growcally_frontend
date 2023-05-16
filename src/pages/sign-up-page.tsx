@@ -2,7 +2,7 @@ import React from 'react';
 import { registerUser } from '../api/auth.service';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/button';
-import { LOG_IN_PATH } from '../routes';
+import { LOG_IN_PATH } from '../routes/routes';
 
 export const SignUpPage = () => {
   const [firstName, setFirstName] = React.useState<string>('');

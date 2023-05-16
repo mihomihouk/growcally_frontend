@@ -9,9 +9,12 @@ import { TextArea } from '../components/textarea';
 import { Post } from '../interfaces/post';
 import { pluralize } from '../util/string';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
-import { fetchPosts } from '../slices/posts-slice';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropagateLoader from 'react-spinners/PropagateLoader';
+import { useNavigate } from 'react-router-dom';
+import { LOG_IN_PATH } from '../routes/routes';
+import { getAllPosts } from '../api/media.service';
+import { updatePosts } from '../slices/posts-slice';
 
 const override: CSSProperties = {
   display: 'block',
@@ -21,16 +24,38 @@ const override: CSSProperties = {
 
 export const PostList: React.FC = () => {
   const dispatch = useAppDispatch();
-  const postsState = useAppSelector((state) => state.posts);
-  const postStatus = postsState.status;
-
-  const isLoading = postStatus === 'loading';
+  const { posts } = useAppSelector((state) => state.posts);
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const { user } = useAppSelector((state) => state.auth);
 
   React.useEffect(() => {
-    if (postStatus === 'idle') {
-      dispatch(fetchPosts());
-    }
-  }, [postStatus, dispatch]);
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        if (user) {
+          const { data, alertMessage, isSuccess } = await getAllPosts(user.id);
+          if (!isSuccess) {
+            if (alertMessage === 'Unauthorised') {
+              navigate(LOG_IN_PATH);
+            }
+            alert(alertMessage);
+            setIsLoading(false);
+            return;
+          }
+          console.log(data);
+          dispatch(updatePosts(data));
+        } else {
+          navigate(LOG_IN_PATH);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        alert('We failed to get information of posts.');
+      }
+    };
+    fetchData();
+  }, []);
 
   if (isLoading) {
     return (
@@ -44,10 +69,10 @@ export const PostList: React.FC = () => {
       </div>
     );
   }
-  if (!postsState.posts) {
+  if (!posts.length) {
     return <div>Create a new post</div>;
   }
-  const renderPostItems = postsState.posts?.map((i) => {
+  const renderPostItems = posts?.map((i) => {
     return (
       <PostItem
         key={i.id}

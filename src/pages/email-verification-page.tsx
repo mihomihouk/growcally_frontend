@@ -1,7 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { LOG_IN_PATH } from '../routes';
-import { FadeLoader } from 'react-spinners';
+import { LOG_IN_PATH } from '../routes/routes';
 import classNames from 'classnames';
 import { resendVerificationCode, verifyEmail } from '../api/auth.service';
 import { Button } from '../components/button';
