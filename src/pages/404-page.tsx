@@ -15,7 +15,7 @@ export const NotFoundPage: React.FC = () => {
           isPrimary
           type="button"
           to={LOG_IN_PATH}
-          className="!w-1/2 mx-auto"
+          className="w-full md:!w-1/2 lg:!w-1/4 mx-auto"
         >
           Go Back
         </Button>
