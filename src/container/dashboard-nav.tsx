@@ -60,7 +60,14 @@ export const DashboardNav: React.FC = () => {
         </div>
 
         <div>
-          <Button type="button" className="flex gap-4" inNav>
+          <Button
+            type="button"
+            className="flex gap-4"
+            inNav
+            onClick={() =>
+              dispatch(showModal({ modalType: ModalType.AccountAction }))
+            }
+          >
             <Bars3Icon className="h-6 w-6 mx-auto lg:!mx-0" />
             <p className="hidden lg:block">More</p>
           </Button>

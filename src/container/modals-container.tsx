@@ -2,11 +2,16 @@ import React from 'react';
 import { useAppSelector } from '../hooks/hooks';
 import { ModalType } from '../interfaces/modal-type';
 import { CreatePostModal } from './create-post-modal';
+import { AccountActionModal } from './account-action-modal';
 
 export const Modals = [
   {
     type: ModalType.CreatePost,
     component: <CreatePostModal />
+  },
+  {
+    type: ModalType.AccountAction,
+    component: <AccountActionModal />
   }
 ];
 

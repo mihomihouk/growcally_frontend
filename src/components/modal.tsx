@@ -1,11 +1,17 @@
+import classNames from 'classnames';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
 interface ModalProps {
   children?: React.ReactNode;
   onDismiss?: () => void;
+  className?: string;
 }
-export const Modal: React.FC<ModalProps> = ({ children, onDismiss }) => {
+export const Modal: React.FC<ModalProps> = ({
+  children,
+  onDismiss,
+  className
+}) => {
   const containerEl = document.getElementById('portal');
 
   React.useEffect(() => {
@@ -35,7 +41,10 @@ export const Modal: React.FC<ModalProps> = ({ children, onDismiss }) => {
       data-testid="modal"
     >
       <div
-        className="absolute h-[616px] w-[537px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-auto rounded-2xl bg-gray-800"
+        className={classNames(
+          className,
+          'absolute h-[616px] w-[537px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-auto rounded-2xl bg-gray-800'
+        )}
         onClick={(e) => e.stopPropagation()}
       >
         {children}
