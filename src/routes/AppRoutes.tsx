@@ -13,6 +13,7 @@ import DashboardPage from '../pages/dashboard-page';
 import { LandingPage } from '../pages/landing-page';
 import { EmailVerificationPage } from '../pages/email-verification-page';
 import SecureRoute from './secure-route';
+import { NotFoundPage } from '../pages/404-page';
 
 export const AppRoutes = () => {
   return (
@@ -29,6 +30,7 @@ export const AppRoutes = () => {
       <Route path={LOG_IN_PATH} element={<LogInPage />} />
       <Route path={SIGN_UP_PATH} element={<SignUpPage />} />
       <Route path={VERIFICATION_PATH} element={<EmailVerificationPage />} />
+      <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );
 };
