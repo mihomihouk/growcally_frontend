@@ -9,17 +9,6 @@ interface QueryResult {
   data?: any;
 }
 
-export interface UploadPostRequestPayload {
-  caption: string;
-  files: UploadFile;
-}
-export interface UploadFile {
-  filename: string;
-  size: number;
-  mimetype: string;
-  alt?: string;
-}
-
 const handleSuccess = (data: any) => {
   return {
     isSuccess: true,
@@ -49,8 +38,16 @@ export const getAllPosts = async (userId: string): Promise<QueryResult> => {
   }
 };
 
-export const uploadPost = async (post: UploadPost): Promise<QueryResult> => {
+interface UploadPostPramas {
+  post: UploadPost;
+  userId: string;
+}
+
+export const uploadPost = async (
+  uploadPostParams: UploadPostPramas
+): Promise<QueryResult> => {
   try {
+    const { post, userId } = uploadPostParams;
     const formData = new FormData();
     post.files.forEach((file) => {
       formData.append('images', file.file);
@@ -62,7 +59,9 @@ export const uploadPost = async (post: UploadPost): Promise<QueryResult> => {
     formData.append('authorId', post.authorId);
 
     const { data } = await axios.post(`${baseURL}/post/upload`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' }
+      headers: { 'Content-Type': 'multipart/form-data' },
+      params: { userId },
+      withCredentials: true
     });
     return handleSuccess(data);
   } catch (error) {

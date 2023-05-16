@@ -121,7 +121,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
       files: files
     };
     const { isSuccess: isUploadSuccess, alertMessage: alertUpload } =
-      await uploadPost(post);
+      await uploadPost({ post, userId: currentUser.id });
     if (!isUploadSuccess) {
       alert(alertUpload);
       setIsLoading(false);
