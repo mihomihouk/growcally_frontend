@@ -3,13 +3,12 @@ import { User } from '../interfaces/user';
 
 export interface AuthState {
   user: User | null;
-  accessToken: string | null;
-  accountId?: string;
+  accountId: string | null;
   isAuthenticated?: boolean;
 }
 const initialState: AuthState = {
   user: null,
-  accessToken: null,
+  accountId: null,
   isAuthenticated: false
 };
 
@@ -22,9 +21,14 @@ const authSlice = createSlice({
     },
     setIsAuthenticated(state, action) {
       state.isAuthenticated = action.payload;
+    },
+    resetAuth(state) {
+      state.accountId = null;
+      state.user = null;
+      state.isAuthenticated = false;
     }
   }
 });
 
-export const { setUser, setIsAuthenticated } = authSlice.actions;
+export const { setUser, setIsAuthenticated, resetAuth } = authSlice.actions;
 export default authSlice.reducer;

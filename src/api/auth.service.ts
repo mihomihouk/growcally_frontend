@@ -1,7 +1,8 @@
 import axios from 'axios';
 import config from '../config';
 import { store } from '../store/store';
-import { setIsAuthenticated, setUser } from '../slices/auth-slice';
+import { resetAuth, setIsAuthenticated, setUser } from '../slices/auth-slice';
+import { resetModal } from '../slices/modals-slice';
 
 const baseURL = config.apiUrl;
 
@@ -11,7 +12,7 @@ interface QueryResult {
   data?: any;
 }
 
-const handleSuccess = (data: any) => {
+const handleSuccess = (data?: any) => {
   return {
     isSuccess: true,
     data
@@ -101,6 +102,24 @@ export const loginUser = async (
     store.dispatch(setIsAuthenticated(true));
     const result = handleSuccess(data);
     return result;
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
+};
+
+export const logoutUser = async (userId: string): Promise<QueryResult> => {
+  try {
+    await axios.post(
+      `${baseURL}/auth/logout`,
+      { userId },
+      {
+        withCredentials: true
+      }
+    );
+    store.dispatch(resetAuth());
+    store.dispatch(resetModal());
+    return handleSuccess();
   } catch (error) {
     console.log(error);
     return handleError(error);

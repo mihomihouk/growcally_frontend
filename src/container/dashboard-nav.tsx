@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   Bars3Icon,
+  HeartIcon,
   HomeIcon,
   MagnifyingGlassIcon,
-  PlusCircleIcon,
-  UserIcon
+  PlusCircleIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '../components/button';
 import { ModalType } from '../interfaces/modal-type';
@@ -52,8 +52,8 @@ export const DashboardNav: React.FC = () => {
             </li>
             <li>
               <Button type="button" className="flex gap-4" inNav>
-                <UserIcon className="h-6 w-6 mx-auto lg:!mx-0" />
-                <p className="hidden lg:block">Profile</p>
+                <HeartIcon className="h-6 w-6 mx-auto lg:!mx-0" />
+                <p className="hidden lg:block">Likes</p>
               </Button>
             </li>
           </ul>

@@ -15,6 +15,8 @@ interface ButtonProps {
   children?: React.ReactNode;
   inNav?: boolean;
   isPrimary?: boolean;
+  isSecondary?: boolean;
+  isWarning?: boolean;
   disabled?: boolean;
   isLoading?: boolean;
   type: 'button' | 'reset' | 'submit' | undefined;
@@ -25,6 +27,8 @@ export const Button: React.FC<ButtonProps> = ({
   to,
   inNav,
   isPrimary,
+  isSecondary,
+  isWarning,
   type,
   disabled,
   isLoading,
@@ -54,6 +58,14 @@ export const Button: React.FC<ButtonProps> = ({
           {
             'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
               isPrimary
+          },
+          {
+            'w-full bg-secondary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+              isSecondary
+          },
+          {
+            'w-full bg-error-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+              isWarning
           },
           {
             'cursor-not-allowed': disabled
@@ -86,6 +98,14 @@ export const Button: React.FC<ButtonProps> = ({
         {
           'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
             isPrimary
+        },
+        {
+          'w-full bg-secondary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+            isSecondary
+        },
+        {
+          'w-full bg-error-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+            isWarning
         },
         {
           'py-2 lg:pl-3 rounded-3xl hover:bg-gray-300 ease-in duration-300 flex gap-4 w-full ':

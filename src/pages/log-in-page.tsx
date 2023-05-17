@@ -28,7 +28,7 @@ export const LogInPage = () => {
       email,
       password
     };
-    const { isSuccess, alertMessage, data } = await loginUser(params);
+    const { isSuccess, alertMessage } = await loginUser(params);
 
     if (!isSuccess) {
       setIsLoading(false);

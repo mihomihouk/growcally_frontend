@@ -1,4 +1,5 @@
 export enum ModalType {
   CreatePost,
-  AccountAction
+  AccountAction,
+  Logout
 }

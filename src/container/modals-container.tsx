@@ -3,6 +3,7 @@ import { useAppSelector } from '../hooks/hooks';
 import { ModalType } from '../interfaces/modal-type';
 import { CreatePostModal } from './create-post-modal';
 import { AccountActionModal } from './account-action-modal';
+import { LogoutModal } from './logout-modal';
 
 export const Modals = [
   {
@@ -12,6 +13,10 @@ export const Modals = [
   {
     type: ModalType.AccountAction,
     component: <AccountActionModal />
+  },
+  {
+    type: ModalType.Logout,
+    component: <LogoutModal />
   }
 ];
 
