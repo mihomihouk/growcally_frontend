@@ -5,7 +5,8 @@ import { hideModal, showModal } from '../slices/modals-slice';
 import { useAppDispatch } from '../hooks/hooks';
 import {
   ArrowRightOnRectangleIcon,
-  FaceSmileIcon
+  FaceSmileIcon,
+  NewspaperIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '../components/button';
 
@@ -34,6 +35,14 @@ const AccountActionModalContainer: React.FC = () => {
         >
           <FaceSmileIcon className="h-6 w-6" />
           <p className="text-white font-normal text-base">Profile</p>
+        </Button>
+
+        <Button
+          type="button"
+          className="flex text-white gap-4 cursor-pointer hover:bg-gray-500 py-2 px-2 rounded-md"
+        >
+          <NewspaperIcon className="h6 w-6" />
+          <p className="text-white font-normal text-base">My posts</p>
         </Button>
 
         <Button

@@ -22,7 +22,7 @@ const postsSlice = createSlice({
     updatePost(state, action) {
       const { postId, data } = action.payload;
       state.posts = state.posts.map((post) => {
-        return post.id === postId ? { ...post, data } : post;
+        return post.id === postId ? { ...post, ...data } : post;
       });
     },
     updatePosts(state, action) {

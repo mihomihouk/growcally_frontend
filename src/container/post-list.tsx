@@ -13,7 +13,7 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { useNavigate } from 'react-router-dom';
 import { LOG_IN_PATH } from '../routes/routes';
-import { getAllPosts, likePost } from '../api/media.service';
+import { getAllPosts, likePost, unlikePost } from '../api/media.service';
 import { updatePosts } from '../slices/posts-slice';
 import classNames from 'classnames';
 
@@ -120,11 +120,26 @@ const PostItem: React.FC<Post> = ({
       return;
     }
     setIsLoading(true);
-    const { isSuccess, alertMessage } = await likePost({ userId, postId: id });
-    if (!isSuccess) {
-      setIsLoading(false);
-      alert(alertMessage);
-      return;
+    if (hasLiked) {
+      const { isSuccess, alertMessage } = await unlikePost({
+        userId,
+        postId: id
+      });
+      if (!isSuccess) {
+        setIsLoading(false);
+        alert(alertMessage);
+        return;
+      }
+    } else {
+      const { isSuccess, alertMessage } = await likePost({
+        userId,
+        postId: id
+      });
+      if (!isSuccess) {
+        setIsLoading(false);
+        alert(alertMessage);
+        return;
+      }
     }
     setIsLoading(false);
   };

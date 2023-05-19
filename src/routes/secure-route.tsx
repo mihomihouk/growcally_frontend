@@ -8,7 +8,6 @@ interface SecureRouteProps {
 export const SecureRoute: React.FC<SecureRouteProps> = ({ children }) => {
   const { pathname } = useLocation();
   const { isAuthenticated } = useAppSelector((state) => state.auth);
-  console.log(pathname, isAuthenticated);
 
   if (!isAuthenticated) {
     const redirect = encodeURIComponent(pathname);

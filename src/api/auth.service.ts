@@ -98,7 +98,7 @@ export const loginUser = async (
     const cookie = headers['set-cookie'];
     document.cookie = 'access_token' + cookie;
     // Store data in Redux
-    store.dispatch(setUser(data.user));
+    store.dispatch(setUser(data.updatedUser));
     store.dispatch(setIsAuthenticated(true));
     const result = handleSuccess(data);
     return result;

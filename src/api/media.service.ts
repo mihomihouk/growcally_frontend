@@ -94,7 +94,7 @@ export const likePost = async (
     const likedPostParams = {
       totalLikes: data.totalLikes
     };
-    store.dispatch(updatePost({ postId, likedPostParams }));
+    store.dispatch(updatePost({ postId, data: likedPostParams }));
     const updatedUserParams = {
       likedPosts: data.likedPostsIds
     };
@@ -106,4 +106,30 @@ export const likePost = async (
   }
 };
 
-//TODO: unlike
+export const unlikePost = async (
+  unlikePostParams: LikePostParams
+): Promise<QueryResult> => {
+  try {
+    const { userId, postId } = unlikePostParams;
+    const { data } = await axios.put(
+      `${baseURL}/post/unlike`,
+      { postId },
+      {
+        params: { userId },
+        withCredentials: true
+      }
+    );
+    const likedPostParams = {
+      totalLikes: data.totalLikes
+    };
+    store.dispatch(updatePost({ postId, data: likedPostParams }));
+    const updatedUserParams = {
+      likedPosts: data.likedPostsIds
+    };
+    store.dispatch(updateUser(updatedUserParams));
+    return handleSuccess(data);
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
+};
