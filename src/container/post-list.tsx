@@ -13,8 +13,9 @@ import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { useNavigate } from 'react-router-dom';
 import { LOG_IN_PATH } from '../routes/routes';
-import { getAllPosts } from '../api/media.service';
+import { getAllPosts, likePost } from '../api/media.service';
 import { updatePosts } from '../slices/posts-slice';
+import classNames from 'classnames';
 
 const override: CSSProperties = {
   display: 'block',
@@ -43,7 +44,6 @@ export const PostList: React.FC = () => {
             setIsLoading(false);
             return;
           }
-          console.log(data);
           dispatch(updatePosts(data));
         } else {
           navigate(LOG_IN_PATH);
@@ -81,7 +81,7 @@ export const PostList: React.FC = () => {
         author={i.author}
         caption={i.caption}
         createdAt={i.createdAt}
-        likes={i.likes}
+        totalLikes={i.totalLikes}
         comments={i.comments}
       />
     );
@@ -100,10 +100,13 @@ const PostItem: React.FC<Post> = ({
   caption,
   createdAt,
   files,
-  likes,
+  totalLikes,
   comments
 }) => {
   const [textAreaInput, setTextAreaInput] = React.useState('');
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const currentUser = useAppSelector((state) => state.auth.user);
+  const userId = currentUser?.id;
   const primaryFile = files ? files[0] : null;
 
   const mediaUrl = primaryFile?.fileUrl?.split('?')[0];
@@ -111,6 +114,21 @@ const PostItem: React.FC<Post> = ({
   const formattedDate = formatDistanceToNow(new Date(createdAt));
 
   const authorName = `${author.givenName} ${author.familyName}`;
+
+  const handleClickLike = async () => {
+    if (!userId) {
+      return;
+    }
+    setIsLoading(true);
+    const { isSuccess, alertMessage } = await likePost({ userId, postId: id });
+    if (!isSuccess) {
+      setIsLoading(false);
+      alert(alertMessage);
+      return;
+    }
+    setIsLoading(false);
+  };
+  const hasLiked = currentUser?.likedPosts?.includes(id);
 
   return (
     <article className="mb-3 pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
@@ -133,9 +151,13 @@ const PostItem: React.FC<Post> = ({
       {/* content */}
       <div className="flex flex-col gap-2">
         {/* actions */}
-        <div className="flex gap-2 ">
-          <Button type="button">
-            <HeartIcon className="h-6 w-6" />
+        <div className="flex gap-2 items-center">
+          <Button type="button" onClick={handleClickLike} isLoading={isLoading}>
+            <HeartIcon
+              className={classNames('h-6 w-6', {
+                'fill-pink-500 text-pink-500': hasLiked
+              })}
+            />
           </Button>
           <Button type="button">
             <ChatBubbleOvalLeftIcon className="h-6 w-6" />
@@ -146,7 +168,7 @@ const PostItem: React.FC<Post> = ({
         </div>
 
         {/* likes */}
-        <p>{likes} likes</p>
+        <p>{totalLikes} likes</p>
         <p>{caption}</p>
         {comments?.length && (
           <Button type="button">

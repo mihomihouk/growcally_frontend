@@ -5,4 +5,5 @@ export interface User {
   familyName: string;
   email: string;
   sub: string;
+  likedPosts?: string[];
 }

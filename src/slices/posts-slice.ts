@@ -20,11 +20,10 @@ const postsSlice = createSlice({
       state.posts.push.apply(action.payload);
     },
     updatePost(state, action) {
-      const { id, caption } = action.payload;
-      const existingPost = state.posts.find((post) => post.id === id);
-      if (existingPost) {
-        existingPost.caption = caption;
-      }
+      const { postId, data } = action.payload;
+      state.posts = state.posts.map((post) => {
+        return post.id === postId ? { ...post, data } : post;
+      });
     },
     updatePosts(state, action) {
       state.posts = action.payload;

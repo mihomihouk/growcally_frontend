@@ -16,7 +16,7 @@ export interface Post {
   id: string;
   author: User;
   createdAt: string;
-  likes?: number;
+  totalLikes?: number;
   caption: string;
   files?: MediaFile[];
   comments?: Comment[];
