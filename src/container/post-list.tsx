@@ -70,7 +70,6 @@ export const PostList: React.FC = () => {
       <div className="w-full h-full flex items-center">
         <PropagateLoader
           size={30}
-          color={'#42cc8c'}
           cssOverride={override}
           aria-label="Loading Spinner"
         />
@@ -201,9 +200,10 @@ const PostItem: React.FC<PostItemProps> = ({
       {/* image */}
       {mediaUrl && (
         <img
-          className="rounded w-[430px] h-[768px]"
+          className="rounded w-[430px] h-[768px] cursor-pointer"
           alt={primaryFile.alt || ''}
           src={mediaUrl}
+          onClick={handleOpenPostDetail}
         />
       )}
       {/* content */}

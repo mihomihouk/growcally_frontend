@@ -5,6 +5,7 @@ import { CreatePostModal } from './create-post-modal';
 import { AccountActionModal } from './account-action-modal';
 import { LogoutModal } from './logout-modal';
 import { PostDetailModal } from './post-detail-modal';
+import { DeletePostModal } from './delete-post-modal';
 
 export const Modals = [
   {
@@ -14,6 +15,10 @@ export const Modals = [
   {
     type: ModalType.PostDetail,
     component: <PostDetailModal />
+  },
+  {
+    type: ModalType.DeletePost,
+    component: <DeletePostModal />
   },
   {
     type: ModalType.AccountAction,

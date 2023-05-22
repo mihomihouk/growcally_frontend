@@ -6,9 +6,11 @@ import { Button } from '../components/button';
 import {
   ChevronDoubleLeftIcon,
   ChevronDoubleRightIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
+  PencilSquareIcon,
+  TrashIcon
 } from '@heroicons/react/24/outline';
-import { hideModal } from '../slices/modals-slice';
+import { hideModal, showModal } from '../slices/modals-slice';
 import { ModalType } from '../interfaces/modal-type';
 import { setCurrentPost } from '../slices/posts-slice';
 import { formatDistanceToNow } from 'date-fns';
@@ -28,21 +30,17 @@ export const PostDetailModal: React.FC = () => {
 
   return (
     <Modal onDismiss={handleDismissModal} className="!w-[900px]">
-      <PostDetailModalContainer
-        post={currentPost}
-        onDismiss={handleDismissModal}
-      />
+      <PostDetailModalContainer post={currentPost} />
     </Modal>
   );
 };
 interface PostDetailModalContainerProps {
   post: Post;
-  onDismiss: () => void;
 }
 
 export const PostDetailModalContainer: React.FC<
   PostDetailModalContainerProps
-> = ({ post, onDismiss }) => {
+> = ({ post }) => {
   const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
   const filesLength = post.files.length;
 
@@ -115,6 +113,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
   const { comments } = post;
   const currentUser = useAppSelector((state) => state.auth.user);
   const [comment, setComment] = React.useState<string>('');
+  const dispatch = useAppDispatch();
 
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -136,17 +135,30 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
     setComment('');
   };
 
+  const handleClickDelete = () => {
+    dispatch(showModal({ modalType: ModalType.DeletePost }));
+  };
+
   const showComments = comments && comments.length > 0;
 
   const postAuthorName = `${post.author.givenName} ${post.author.familyName}`;
   return (
     <>
-      {/* Post details */}
       <div className="p-4">
-        <p className="text-white font-medium">
-          {/* TODO: thumbnail */}
-          {postAuthorName}
-        </p>
+        <div className="flex justify-between items-center">
+          <p className="text-white font-medium">
+            {/* TODO: thumbnail */}
+            {postAuthorName}
+          </p>
+          <div className="text-white flex gap-4">
+            <Button type="button">
+              <PencilSquareIcon className="h-6 w-6 hover:opacity-70" />
+            </Button>
+            <Button type="button" onClick={handleClickDelete}>
+              <TrashIcon className="h-6 w-6 hover:opacity-70" />
+            </Button>
+          </div>
+        </div>
         <p className="text-white">{post.caption}</p>
         <p className="text-sm text-gray-500">{formattedDate} ago</p>
       </div>

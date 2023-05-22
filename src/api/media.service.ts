@@ -2,7 +2,7 @@ import axios from 'axios';
 import { UploadPost } from '../interfaces/post';
 import config from '../config';
 import { store } from '../store/store';
-import { setCurrentPost, updatePost } from '../slices/posts-slice';
+import { setCurrentPost, updatePost, updatePosts } from '../slices/posts-slice';
 import { updateUser } from '../slices/auth-slice';
 
 const baseURL = `${config.apiUrl}`;
@@ -157,6 +157,29 @@ export const createComment = async (
     store.dispatch(updatePost({ postId, data: updatedPost }));
     store.dispatch(setCurrentPost(postId));
     store.dispatch(updateUser({ comments: updatedPost.comments }));
+    return handleSuccess(data);
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
+};
+
+interface DeletePostParams {
+  userId: string;
+  postId: string;
+}
+
+export const DeletePost = async (
+  deletePostParams: DeletePostParams
+): Promise<QueryResult> => {
+  try {
+    const { userId, postId } = deletePostParams;
+    const { data } = await axios.delete(`${baseURL}/post/${postId}`, {
+      params: { userId },
+      withCredentials: true
+    });
+    store.dispatch(updatePosts(data.updatedPosts));
+    store.dispatch(updateUser(data.updatedUser));
     return handleSuccess(data);
   } catch (error) {
     console.log(error);
