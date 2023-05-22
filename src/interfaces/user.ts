@@ -1,3 +1,6 @@
+import { Account } from './account';
+import { Comment } from './post';
+
 export interface User {
   id: string;
   status: string;
@@ -5,5 +8,8 @@ export interface User {
   familyName: string;
   email: string;
   sub: string;
+  posts?: string[];
   likedPosts?: string[];
+  account: Account;
+  comments?: Comment[];
 }

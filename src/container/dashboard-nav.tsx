@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Bars3Icon,
-  HeartIcon,
   HomeIcon,
   MagnifyingGlassIcon,
   PlusCircleIcon
@@ -10,6 +9,7 @@ import { Button } from '../components/button';
 import { ModalType } from '../interfaces/modal-type';
 import { showModal } from '../slices/modals-slice';
 import { useAppDispatch } from '../hooks/hooks';
+import { LeafNoFillWhite } from '../icons/leaf-no-fill-white';
 
 export const DashboardNav: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -52,7 +52,10 @@ export const DashboardNav: React.FC = () => {
             </li>
             <li>
               <Button type="button" className="flex gap-4" inNav>
-                <HeartIcon className="h-6 w-6 mx-auto lg:!mx-0" />
+                <LeafNoFillWhite
+                  className="h-6 w-6 mx-auto lg:!mx-0"
+                  fill="white"
+                />
                 <p className="hidden lg:block">Likes</p>
               </Button>
             </li>

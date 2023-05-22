@@ -3,13 +3,11 @@ import { Post } from '../interfaces/post';
 
 interface PostsState {
   posts: Post[];
-  status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | undefined;
+  currentPost?: Post;
 }
 const initialState: PostsState = {
   posts: [],
-  status: 'idle',
-  error: undefined
+  currentPost: undefined
 };
 
 const postsSlice = createSlice({
@@ -27,9 +25,14 @@ const postsSlice = createSlice({
     },
     updatePosts(state, action) {
       state.posts = action.payload;
+    },
+    setCurrentPost(state, action) {
+      const post = state.posts.find((post) => post.id === action.payload);
+      state.currentPost = post;
     }
   }
 });
 
-export const { addPost, updatePost, updatePosts } = postsSlice.actions;
+export const { addPost, updatePost, updatePosts, setCurrentPost } =
+  postsSlice.actions;
 export default postsSlice.reducer;

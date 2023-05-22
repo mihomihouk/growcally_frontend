@@ -2,7 +2,7 @@ import axios from 'axios';
 import { UploadPost } from '../interfaces/post';
 import config from '../config';
 import { store } from '../store/store';
-import { updatePost } from '../slices/posts-slice';
+import { setCurrentPost, updatePost } from '../slices/posts-slice';
 import { updateUser } from '../slices/auth-slice';
 
 const baseURL = `${config.apiUrl}`;
@@ -127,6 +127,36 @@ export const unlikePost = async (
       likedPosts: data.likedPostsIds
     };
     store.dispatch(updateUser(updatedUserParams));
+    return handleSuccess(data);
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
+};
+
+interface CreateCommentParams {
+  userId: string;
+  text: string;
+  postId: string;
+}
+
+export const createComment = async (
+  createCommentParams: CreateCommentParams
+): Promise<QueryResult> => {
+  try {
+    const { userId, postId, text } = createCommentParams;
+    const { data } = await axios.post(
+      `${baseURL}/post/comment`,
+      { postId, text },
+      {
+        params: { userId },
+        withCredentials: true
+      }
+    );
+    const updatedPost = data.updatedPost;
+    store.dispatch(updatePost({ postId, data: updatedPost }));
+    store.dispatch(setCurrentPost(postId));
+    store.dispatch(updateUser({ comments: updatedPost.comments }));
     return handleSuccess(data);
   } catch (error) {
     console.log(error);

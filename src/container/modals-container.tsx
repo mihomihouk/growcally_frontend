@@ -4,11 +4,16 @@ import { ModalType } from '../interfaces/modal-type';
 import { CreatePostModal } from './create-post-modal';
 import { AccountActionModal } from './account-action-modal';
 import { LogoutModal } from './logout-modal';
+import { PostDetailModal } from './post-detail-modal';
 
 export const Modals = [
   {
     type: ModalType.CreatePost,
     component: <CreatePostModal />
+  },
+  {
+    type: ModalType.PostDetail,
+    component: <PostDetailModal />
   },
   {
     type: ModalType.AccountAction,

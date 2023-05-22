@@ -16,9 +16,11 @@ export interface Post {
   id: string;
   author: User;
   createdAt: string;
-  totalLikes?: number;
+  updatedAt: string;
+  files: MediaFile[];
   caption: string;
-  files?: MediaFile[];
+  totalLikes: number;
+  totalComments: number;
   comments?: Comment[];
 }
 
@@ -33,14 +35,18 @@ export interface MediaFile {
 }
 
 export interface Comment {
-  authorId: string;
+  id: string;
+  content: string;
   updatedAt: string;
-  likes?: number;
+  author: User;
   replies?: Reply[];
 }
 
 export interface Reply {
-  authorId: string;
+  id: string;
+  content: string;
+  createdAt: string;
   updatedAt: string;
-  likes?: number;
+  author: User;
+  commentId: string;
 }

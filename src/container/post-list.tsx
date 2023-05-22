@@ -1,21 +1,29 @@
 import {
   ChatBubbleOvalLeftIcon,
-  HeartIcon,
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline';
 import React, { CSSProperties } from 'react';
 import { Button } from '../components/button';
 import { TextArea } from '../components/textarea';
-import { Post } from '../interfaces/post';
+import { Comment, MediaFile } from '../interfaces/post';
 import { pluralize } from '../util/string';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import PropagateLoader from 'react-spinners/PropagateLoader';
 import { useNavigate } from 'react-router-dom';
 import { LOG_IN_PATH } from '../routes/routes';
-import { getAllPosts, likePost, unlikePost } from '../api/media.service';
-import { updatePosts } from '../slices/posts-slice';
-import classNames from 'classnames';
+import {
+  createComment,
+  getAllPosts,
+  likePost,
+  unlikePost
+} from '../api/media.service';
+import { setCurrentPost, updatePosts } from '../slices/posts-slice';
+import { ModalType } from '../interfaces/modal-type';
+import { showModal } from '../slices/modals-slice';
+import { User } from '../interfaces/user';
+import { LeafFill } from '../icons/leaf-fill';
+import { LeafNoFillBlack } from '../icons/leaf-no-fill-black';
 
 const override: CSSProperties = {
   display: 'block',
@@ -94,7 +102,16 @@ export const PostList: React.FC = () => {
   );
 };
 
-const PostItem: React.FC<Post> = ({
+interface PostItemProps {
+  id: string;
+  author: User;
+  caption: string;
+  createdAt: string;
+  files: MediaFile[];
+  totalLikes: number;
+  comments?: Comment[];
+}
+const PostItem: React.FC<PostItemProps> = ({
   id,
   author,
   caption,
@@ -103,8 +120,9 @@ const PostItem: React.FC<Post> = ({
   totalLikes,
   comments
 }) => {
-  const [textAreaInput, setTextAreaInput] = React.useState('');
+  const [comment, setComment] = React.useState('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user);
   const userId = currentUser?.id;
   const primaryFile = files ? files[0] : null;
@@ -143,7 +161,32 @@ const PostItem: React.FC<Post> = ({
     }
     setIsLoading(false);
   };
+
+  const handleOpenPostDetail = () => {
+    dispatch(showModal({ modalType: ModalType.PostDetail }));
+    dispatch(setCurrentPost(id));
+  };
   const hasLiked = currentUser?.likedPosts?.includes(id);
+
+  const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!currentUser) {
+      return;
+    }
+    setIsLoading(true);
+    const { isSuccess, alertMessage } = await createComment({
+      userId: currentUser.id,
+      postId: id,
+      text: comment
+    });
+    if (!isSuccess) {
+      alert(alertMessage);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(false);
+    setComment('');
+  };
 
   return (
     <article className="mb-3 pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
@@ -152,7 +195,7 @@ const PostItem: React.FC<Post> = ({
         {/* Avatar */}
         <p>{authorName}</p>
         {'・'}
-        <p>{formattedDate}</p>
+        <p>{formattedDate} ago</p>
       </div>
 
       {/* image */}
@@ -161,42 +204,40 @@ const PostItem: React.FC<Post> = ({
           className="rounded w-[430px] h-[768px]"
           alt={primaryFile.alt || ''}
           src={mediaUrl}
-        ></img>
+        />
       )}
       {/* content */}
       <div className="flex flex-col gap-2">
         {/* actions */}
         <div className="flex gap-2 items-center">
           <Button type="button" onClick={handleClickLike} isLoading={isLoading}>
-            <HeartIcon
-              className={classNames('h-6 w-6', {
-                'fill-pink-500 text-pink-500': hasLiked
-              })}
-            />
+            {hasLiked ? <LeafFill /> : <LeafNoFillBlack />}
           </Button>
-          <Button type="button">
+          <Button type="button" onClick={handleOpenPostDetail}>
             <ChatBubbleOvalLeftIcon className="h-6 w-6" />
-          </Button>
-          <Button type="button">
-            <PaperAirplaneIcon className="h-6 w-6" />
           </Button>
         </div>
 
-        {/* likes */}
         <p>{totalLikes} likes</p>
         <p>{caption}</p>
         {comments?.length && (
-          <Button type="button">
+          <Button type="button" onClick={handleOpenPostDetail}>
             View all {comments.length} {pluralize(comments.length, 'comment')}
           </Button>
         )}
-        <TextArea
-          name="comment"
-          placeholder="Add a comment"
-          className="max-h-10 p-1 text-sm"
-          value={textAreaInput}
-          onChange={(e) => setTextAreaInput(e.target.value)}
-        />
+
+        <form className="flex gap-4" onSubmit={handleSubmitComment}>
+          <TextArea
+            name="comment"
+            placeholder="Add a comment"
+            className="max-h-10 p-1 text-sm"
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
+          />
+          <Button type="submit" isLoading={isLoading} disabled={!comment}>
+            <PaperAirplaneIcon className="h-6 w-6 text-black -rotate-45 hover:opacity-70" />
+          </Button>
+        </form>
       </div>
     </article>
   );

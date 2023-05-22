@@ -1,0 +1,194 @@
+import { Modal } from '../components/modal';
+import React from 'react';
+import { MediaFile, Post, Comment } from '../interfaces/post';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { Button } from '../components/button';
+import {
+  ChevronDoubleLeftIcon,
+  ChevronDoubleRightIcon,
+  PaperAirplaneIcon
+} from '@heroicons/react/24/outline';
+import { hideModal } from '../slices/modals-slice';
+import { ModalType } from '../interfaces/modal-type';
+import { setCurrentPost } from '../slices/posts-slice';
+import { formatDistanceToNow } from 'date-fns';
+import { TextArea } from '../components/textarea';
+import { createComment } from '../api/media.service';
+
+export const PostDetailModal: React.FC = () => {
+  const currentPost = useAppSelector((state) => state.posts.currentPost);
+  const dispatch = useAppDispatch();
+  if (!currentPost) {
+    return <></>;
+  }
+  const handleDismissModal = () => {
+    dispatch(hideModal({ modalType: ModalType.AccountAction }));
+    dispatch(setCurrentPost(undefined));
+  };
+
+  return (
+    <Modal onDismiss={handleDismissModal} className="!w-[900px]">
+      <PostDetailModalContainer
+        post={currentPost}
+        onDismiss={handleDismissModal}
+      />
+    </Modal>
+  );
+};
+interface PostDetailModalContainerProps {
+  post: Post;
+  onDismiss: () => void;
+}
+
+export const PostDetailModalContainer: React.FC<
+  PostDetailModalContainerProps
+> = ({ post, onDismiss }) => {
+  const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
+  const filesLength = post.files.length;
+
+  const handleClickForward = () => {
+    setCurrentFileIndex((prevIndex) => (prevIndex + 1) % filesLength);
+  };
+
+  const handleClickBackward = () => {
+    setCurrentFileIndex(
+      (prevIndex) => (prevIndex - 1 + filesLength) % filesLength
+    );
+  };
+
+  const currentFile = post.files[currentFileIndex];
+
+  return (
+    <div className="flex h-full w-full">
+      <div className="w-3/5 overflow-hidden relative h-full">
+        <PostImageItem
+          imageItem={currentFile}
+          onClickForward={handleClickForward}
+          onClickBackward={handleClickBackward}
+        />
+      </div>
+      <div className="w-2/5 overflow-y-auto flex flex-col h-full">
+        <CommentForm post={post} />
+      </div>
+    </div>
+  );
+};
+
+interface PostImageItemProps {
+  imageItem: MediaFile;
+  onClickForward: () => void;
+  onClickBackward: () => void;
+}
+
+export const PostImageItem: React.FC<PostImageItemProps> = ({
+  imageItem,
+  onClickForward,
+  onClickBackward
+}) => {
+  return (
+    <>
+      <div className="absolute inset-0 flex items-center justify-between px-4">
+        <Button type="button" onClick={onClickBackward}>
+          <ChevronDoubleLeftIcon className="h-6 w-6 text-white hover:opacity-70" />
+        </Button>
+        <Button type="button" className="" onClick={onClickForward}>
+          <ChevronDoubleRightIcon className="h-6 w-6 text-white hover:opacity-70" />
+        </Button>
+      </div>
+
+      <img
+        alt={imageItem.alt}
+        src={imageItem.fileUrl}
+        className="h-full w-full object-contain"
+      />
+    </>
+  );
+};
+
+interface CommentFormProps {
+  post: Post;
+}
+
+export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
+  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const formattedDate = formatDistanceToNow(new Date(post.createdAt));
+  const { comments } = post;
+  const currentUser = useAppSelector((state) => state.auth.user);
+  const [comment, setComment] = React.useState<string>('');
+
+  const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!currentUser) {
+      return;
+    }
+    setIsLoading(true);
+    const { isSuccess, alertMessage } = await createComment({
+      userId: currentUser.id,
+      postId: post.id,
+      text: comment
+    });
+    if (!isSuccess) {
+      alert(alertMessage);
+      setIsLoading(false);
+      return;
+    }
+    setIsLoading(false);
+    setComment('');
+  };
+
+  const showComments = comments && comments.length > 0;
+
+  const postAuthorName = `${post.author.givenName} ${post.author.familyName}`;
+  return (
+    <>
+      {/* Post details */}
+      <div className="p-4">
+        <p className="text-white font-medium">
+          {/* TODO: thumbnail */}
+          {postAuthorName}
+        </p>
+        <p className="text-white">{post.caption}</p>
+        <p className="text-sm text-gray-500">{formattedDate} ago</p>
+      </div>
+      <hr className="border-t border-gray-300 mr-8" />
+      {showComments && (
+        <div className="overflow-y-auto">
+          {comments.map((comment) => {
+            return <CommentItem key={comment.id} comment={comment} />;
+          })}
+        </div>
+      )}
+
+      <form className="flex gap-3 p-4" onSubmit={handleSubmitComment}>
+        <TextArea
+          placeholder="Add a comment..."
+          className="w-full px-1 py-1 rounded-md"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+        />
+        <Button type="submit" isLoading={isLoading} disabled={!comment}>
+          <PaperAirplaneIcon className="h-6 w-6 text-white -rotate-45 hover:opacity-70" />
+        </Button>
+      </form>
+    </>
+  );
+};
+
+interface CommentItemProps {
+  comment: Comment;
+}
+
+export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
+  const formattedDate = formatDistanceToNow(new Date(comment.updatedAt));
+  const commentAuthorName = `${comment.author.givenName} ${comment.author.familyName}`;
+  return (
+    <div className="p-4">
+      <p className="text-white font-medium">
+        {/* TODO: thumbnail */}
+        {commentAuthorName}
+      </p>
+      <p className="text-white">{comment.content}</p>
+      <p className="text-sm text-gray-500">{formattedDate} ago</p>
+    </div>
+  );
+};
