@@ -1,14 +1,11 @@
 import React from 'react';
-import { DashboardNav } from '../container/dashboard-nav';
 import { Feed } from '../container/feed';
+import { Layout } from './layout';
 
-const DashboardPage: React.FC = () => {
+export const DashboardPage: React.FC = () => {
   return (
-    <div className="h-full mx-auto flex flex-row">
-      <DashboardNav />
+    <Layout>
       <Feed />
-    </div>
+    </Layout>
   );
 };
-
-export default DashboardPage;

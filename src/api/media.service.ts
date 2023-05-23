@@ -4,6 +4,7 @@ import config from '../config';
 import { store } from '../store/store';
 import { setCurrentPost, updatePost, updatePosts } from '../slices/posts-slice';
 import { updateUser } from '../slices/auth-slice';
+import { handleError, handleSuccess } from '../util/api-result-handler';
 
 const baseURL = `${config.apiUrl}`;
 interface QueryResult {
@@ -11,22 +12,6 @@ interface QueryResult {
   alertMessage?: string;
   data?: any;
 }
-
-const handleSuccess = (data: any) => {
-  return {
-    isSuccess: true,
-    data
-  };
-};
-
-const handleError = (error: any) => {
-  const message = error.response.data.message;
-
-  return {
-    isSuccess: false,
-    alertMessage: message
-  };
-};
 
 export const getAllPosts = async (userId: string): Promise<QueryResult> => {
   try {

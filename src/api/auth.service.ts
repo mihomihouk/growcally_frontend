@@ -3,6 +3,11 @@ import config from '../config';
 import { store } from '../store/store';
 import { resetAuth, setIsAuthenticated, setUser } from '../slices/auth-slice';
 import { resetModal } from '../slices/modals-slice';
+import { handleError, handleSuccess } from '../util/api-result-handler';
+import {
+  setUserProfile,
+  setUserProfilePosts
+} from '../slices/user-profile-slice';
 
 const baseURL = config.apiUrl;
 
@@ -11,22 +16,6 @@ interface QueryResult {
   alertMessage?: string;
   data?: any;
 }
-
-const handleSuccess = (data?: any) => {
-  return {
-    isSuccess: true,
-    data
-  };
-};
-
-const handleError = (error: any) => {
-  const message = error.response.data.message;
-
-  return {
-    isSuccess: false,
-    alertMessage: message
-  };
-};
 
 export interface SignUpParams {
   firstName: string;
@@ -120,6 +109,29 @@ export const logoutUser = async (userId: string): Promise<QueryResult> => {
     store.dispatch(resetAuth());
     store.dispatch(resetModal());
     return handleSuccess();
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
+};
+
+interface FetchUserParams {
+  targetUserId: string;
+  currentUserId: string;
+}
+
+export const fetchUserDetail = async (
+  fetchUserParams: FetchUserParams
+): Promise<QueryResult> => {
+  try {
+    const { targetUserId, currentUserId } = fetchUserParams;
+    const { data } = await axios.get(`${baseURL}/auth/${targetUserId}`, {
+      params: { userId: currentUserId },
+      withCredentials: true
+    });
+    store.dispatch(setUserProfile(data.user));
+    store.dispatch(setUserProfilePosts(data.posts));
+    return handleSuccess(data);
   } catch (error) {
     console.log(error);
     return handleError(error);

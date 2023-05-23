@@ -10,6 +10,7 @@ import { ModalType } from '../interfaces/modal-type';
 import { showModal } from '../slices/modals-slice';
 import { useAppDispatch } from '../hooks/hooks';
 import { LeafNoFillWhite } from '../icons/leaf-no-fill-white';
+import { DASHBOARD_PATH } from '../routes/routes';
 
 export const DashboardNav: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,12 @@ export const DashboardNav: React.FC = () => {
           </div>
           <ul className="flex flex-row md:flex-col gap-8 mx-auto grow">
             <li>
-              <Button type="button" className="flex gap-4" inNav>
+              <Button
+                type="button"
+                className="flex gap-4 pl-3"
+                inNav
+                to={DASHBOARD_PATH}
+              >
                 <HomeIcon className="h-6 w-6 mx-auto lg:!mx-0" />
                 <p className="hidden lg:block">Home</p>
               </Button>

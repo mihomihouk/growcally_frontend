@@ -4,8 +4,6 @@ import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { ModalType } from '../interfaces/modal-type';
 import { hideModal, resetModal } from '../slices/modals-slice';
 import { Button } from '../components/button';
-import { DASHBOARD_PATH } from '../routes/routes';
-import { useNavigate } from 'react-router-dom';
 import { DeletePost } from '../api/media.service';
 
 export const DeletePostModal: React.FC = () => {
