@@ -28,7 +28,7 @@ export const SignUpPage = () => {
       password,
       confirmPassword
     };
-    const { data, alertMessage, isSuccess } = await registerUser(signUpParams);
+    const { alertMessage, isSuccess } = await registerUser(signUpParams);
 
     if (!isSuccess) {
       setIsLoading(false);

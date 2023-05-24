@@ -41,7 +41,7 @@ const AccountActionModalContainer: React.FC = () => {
 
         <Button
           type="button"
-          className="flex text-white gap-4 cursor-pointer hover:bg-gray-500 py-2 px-2 rounded-md"
+          className="flex text-white gap-4 cursor-pointer hover:bg-gray-500 py-2 !pl-2 rounded-md"
           inNav
           to={personalPagePath}
         >

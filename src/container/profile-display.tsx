@@ -4,8 +4,11 @@ import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
 import { fetchUserDetail } from '../api/auth.service';
 import { PropagateLoader } from 'react-spinners';
-import { useAppSelector } from '../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { Post } from '../interfaces/post';
+import { showModal } from '../slices/modals-slice';
+import { ModalType } from '../interfaces/modal-type';
+import { setCurrentPost } from '../slices/posts-slice';
 
 const override: CSSProperties = {
   display: 'block',
@@ -67,11 +70,22 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
 
   const fullName = `${profileUser?.givenName} ${profileUser?.familyName}`;
   const postCount = profileUserPosts.length;
+  const profileImageUrl = profileUser?.profileImage
+    ? profileUser?.profileImage?.fileUrl?.split('?')[0]
+    : '/img/default-profile.png';
 
   return (
-    <div className="flex flex-col max-h-screen overflow-y-auto">
-      <div className="flex w-full mb-12">
-        <div className="w-1/3 mx-auto">thumbnail</div>
+    <div className="flex flex-col max-h-screen">
+      <div className="flex w-full mb-12 items-center">
+        <div className="w-1/3 mx-auto">
+          <div className="relative w-24 h-24 rounded-full border-2 border-gray-500">
+            <img
+              className="rounded-full object-cover w-24 h-24"
+              src={profileImageUrl}
+              alt="profile"
+            />
+          </div>
+        </div>
         <div className="w-2/3">
           <div className="flex gap-4">
             <p className="text-xl">{fullName}</p>
@@ -80,7 +94,7 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
             </Button>
           </div>
           <p>{postCount}</p>
-          <p>description</p>
+          {profileUser?.bio && <p>{profileUser?.bio}</p>}
         </div>
       </div>
       <PostList posts={profileUserPosts} />
@@ -97,7 +111,7 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   }
 
   return (
-    <div className="h-full flex columns-2">
+    <div className="h-full flex columns-2 overflow-y-auto">
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
@@ -114,8 +128,15 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
 
   const mediaUrl = primaryFile?.fileUrl?.split('?')[0];
 
+  const dispatch = useAppDispatch();
+
+  const handleOpenPostDetail = () => {
+    dispatch(showModal({ modalType: ModalType.PostDetail }));
+    dispatch(setCurrentPost(post.id));
+  };
+
   return (
-    <div className="">
+    <div className="cursor-pointer" onClick={handleOpenPostDetail}>
       {mediaUrl && (
         <img
           src={mediaUrl}

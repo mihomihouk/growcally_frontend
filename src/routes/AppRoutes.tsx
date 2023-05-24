@@ -15,7 +15,7 @@ import { LandingPage } from '../pages/landing-page';
 import { EmailVerificationPage } from '../pages/email-verification-page';
 import SecureRoute from './secure-route';
 import { NotFoundPage } from '../pages/404-page';
-import { PersonalPage } from '../pages/personal-page';
+import { UserProfilePage } from '../pages/user-profile-page';
 
 export const AppRoutes = () => {
   return (
@@ -33,7 +33,7 @@ export const AppRoutes = () => {
         path={PERSONAL_PATH}
         element={
           <SecureRoute>
-            <PersonalPage />
+            <UserProfilePage />
           </SecureRoute>
         }
       />

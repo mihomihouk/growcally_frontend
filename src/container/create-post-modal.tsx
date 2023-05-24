@@ -219,6 +219,8 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
   setCaption,
   setFiles
 }) => {
+  const [wordCounterError, setWordCounterError] =
+    React.useState<boolean>(false);
   if (!files) {
     return null;
   }
@@ -253,12 +255,18 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
       <TextArea
         placeholder="Write a caption..."
         name="caption"
-        cols={10}
+        hasError={wordCounterError}
+        errorMessage="It should be no more than 150 words."
         className="bg-transparent p-2 max-h-[200px] text-gray-400"
         value={caption}
         onChange={(e) => setCaption(e.target.value)}
       />
-      <WordCounter value={caption} className="flex justify-end" />
+      <WordCounter
+        value={caption}
+        className="flex justify-end"
+        max={2200}
+        setError={setWordCounterError}
+      />
       <Accordion title="Accessibility" headerColorTheme="white">
         <div>
           <p className="text-gray-400 text-sm">

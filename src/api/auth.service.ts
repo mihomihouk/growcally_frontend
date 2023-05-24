@@ -1,7 +1,12 @@
 import axios from 'axios';
 import config from '../config';
 import { store } from '../store/store';
-import { resetAuth, setIsAuthenticated, setUser } from '../slices/auth-slice';
+import {
+  resetAuth,
+  setIsAuthenticated,
+  setUser,
+  updateUser
+} from '../slices/auth-slice';
 import { resetModal } from '../slices/modals-slice';
 import { handleError, handleSuccess } from '../util/api-result-handler';
 import {
@@ -131,6 +136,36 @@ export const fetchUserDetail = async (
     });
     store.dispatch(setUserProfile(data.user));
     store.dispatch(setUserProfilePosts(data.posts));
+    return handleSuccess(data);
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
+};
+
+interface UpdateProfileParams {
+  thumbnail?: File;
+  bio: string;
+  userId: string;
+}
+export const updateProfile = async (
+  updateProfileParams: UpdateProfileParams
+): Promise<QueryResult> => {
+  try {
+    const { bio, userId, thumbnail } = updateProfileParams;
+    const formData = new FormData();
+    if (thumbnail) {
+      formData.append('image', thumbnail);
+    }
+    if (bio) {
+      formData.append('bio', bio);
+    }
+    const { data } = await axios.put(`${baseURL}/auth/profile`, formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      params: { userId },
+      withCredentials: true
+    });
+    store.dispatch(updateUser(data.user));
     return handleSuccess(data);
   } catch (error) {
     console.log(error);

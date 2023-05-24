@@ -52,7 +52,8 @@ export const Button: React.FC<ButtonProps> = ({
       <Link
         className={classNames(
           {
-            'py-2 rounded-3xl hover:bg-gray-300 ease-in duration-300': inNav
+            'pl-0 lg:pl-3 py-2 rounded-3xl hover:bg-gray-300 ease-in duration-300':
+              inNav
           },
           {
             'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':

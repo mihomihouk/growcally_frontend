@@ -29,7 +29,7 @@ export const DashboardNav: React.FC = () => {
             <li>
               <Button
                 type="button"
-                className="flex gap-4 pl-3"
+                className="flex gap-4"
                 inNav
                 to={DASHBOARD_PATH}
               >

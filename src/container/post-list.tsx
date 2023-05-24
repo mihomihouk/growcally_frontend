@@ -188,7 +188,7 @@ const PostItem: React.FC<PostItemProps> = ({
   };
 
   return (
-    <article className="mb-3 pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
+    <article className="mb-3 mx-auto pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
       {/* header */}
       <div className="flex">
         {/* Avatar */}
