@@ -208,8 +208,13 @@ const PostItem: React.FC<PostItemProps> = ({
             <ChatBubbleOvalLeftIcon className="h-6 w-6" />
           </Button>
         </div>
-
-        {totalLikes ? <p>{totalLikes} likes</p> : <></>}
+        {totalLikes ? (
+          <p>
+            {totalLikes} {pluralize(totalLikes, 'like', 'likes')}
+          </p>
+        ) : (
+          <></>
+        )}
         <p>{caption}</p>
         {comments?.length ? (
           <Button type="button" onClick={handleOpenPostDetail}>

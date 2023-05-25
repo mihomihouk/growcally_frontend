@@ -8,6 +8,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { showModal } from '../slices/modals-slice';
 import { setCurrentPost } from '../slices/posts-slice';
 import { ModalType } from '../interfaces/modal-type';
+import { pluralize } from '../util/string';
 
 export const LikesPage = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -56,7 +57,14 @@ export const LikesPage = () => {
           )}
           <div>
             <p className="text-2xl font-extrabold">Liked posts</p>
-            {likedPosts ? <p>{likedPosts.length} posts</p> : <></>}
+            {likedPosts ? (
+              <p>
+                {likedPosts.length}{' '}
+                {pluralize(likedPosts.length, 'post', 'posts')}
+              </p>
+            ) : (
+              <></>
+            )}
           </div>
         </div>
         <div className="w-2/3 flex flex-col gap-4 overflow-y-auto">
@@ -110,7 +118,9 @@ const LikedPostItem: React.FC<LikedPostItemProps> = ({ post }) => {
           <p className="text-lg font-semibold">{authorName}</p>
         </div>
         <div className="flex">
-          <p>{post.totalLikes} likes</p>
+          <p>
+            {post.totalLikes} {pluralize(post.totalLikes, 'like', 'likes')}
+          </p>
           {'・'}
           <p>{formattedDate} ago</p>
         </div>

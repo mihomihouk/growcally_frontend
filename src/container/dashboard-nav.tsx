@@ -2,7 +2,6 @@ import React from 'react';
 import {
   Bars3Icon,
   HomeIcon,
-  MagnifyingGlassIcon,
   PlusCircleIcon
 } from '@heroicons/react/24/outline';
 import { Button } from '../components/button';
@@ -35,12 +34,6 @@ export const DashboardNav: React.FC = () => {
               >
                 <HomeIcon className="h-6 w-6 mx-auto lg:!mx-0" />
                 <p className="hidden lg:block">Home</p>
-              </Button>
-            </li>
-            <li>
-              <Button type="button" className="flex gap-4" inNav>
-                <MagnifyingGlassIcon className="h-6 w-6 mx-auto lg:!mx-0" />
-                <p className="hidden lg:block">Search</p>
               </Button>
             </li>
             <li>

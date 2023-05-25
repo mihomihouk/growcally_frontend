@@ -9,6 +9,7 @@ import { showModal } from '../slices/modals-slice';
 import { ModalType } from '../interfaces/modal-type';
 import { setCurrentPost } from '../slices/posts-slice';
 import { MainLoader } from '../components/main-loader';
+import { pluralize } from '../util/string';
 
 interface MyProfileProps {
   setEditor: () => void;
@@ -79,7 +80,9 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
               <PencilSquareIcon className="h-5 w-5" />
             </Button>
           </div>
-          <p>{postCount}</p>
+          <p>
+            {postCount} {pluralize(postCount, 'post', 'posts')}
+          </p>
           {profileUser?.bio && <p>{profileUser?.bio}</p>}
         </div>
       </div>
@@ -97,7 +100,7 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   }
 
   return (
-    <div className="h-full flex columns-2 overflow-y-auto">
+    <div className="h-full flex flex-wrap overflow-y-auto mx-auto">
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
@@ -122,12 +125,12 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   };
 
   return (
-    <div className="cursor-pointer" onClick={handleOpenPostDetail}>
+    <div className="cursor-pointer w-1/3" onClick={handleOpenPostDetail}>
       {mediaUrl && (
         <img
           src={mediaUrl}
           alt={primaryFile.alt}
-          className="w-full aspect-square border-4 border-black"
+          className="w-60 border-4 border-black"
         />
       )}
     </div>
