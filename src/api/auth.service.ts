@@ -70,9 +70,16 @@ export const verifyEmail = async (
   }
 };
 
-export const resendVerificationCode = async (email: string): Promise<void> => {
-  return await axios.post(`${baseURL}/auth/resend-code`, { email });
-  //TODO: Add error and success handle
+export const resendVerificationCode = async (
+  email: string
+): Promise<QueryResult> => {
+  try {
+    const { data } = await axios.post(`${baseURL}/auth/resend-code`, { email });
+    return handleSuccess(data);
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
 };
 
 export interface LoginUserParams {

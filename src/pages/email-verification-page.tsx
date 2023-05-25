@@ -19,9 +19,7 @@ export const EmailVerificationPage: React.FC = () => {
       email,
       verificationCode
     };
-    const { data, isSuccess, alertMessage } = await verifyEmail(
-      verifyUserParams
-    );
+    const { isSuccess, alertMessage } = await verifyEmail(verifyUserParams);
     if (!isSuccess) {
       setIsLoading(false);
       alert(alertMessage);
@@ -33,12 +31,13 @@ export const EmailVerificationPage: React.FC = () => {
 
   const handleResendCode = async () => {
     setResendIsLoading(true);
-    try {
-      await resendVerificationCode(email);
+    const { alertMessage, isSuccess } = await resendVerificationCode(email);
+    if (!isSuccess) {
+      alert(alertMessage);
       setResendIsLoading(false);
-    } catch (error) {
-      setResendIsLoading(false);
+      return;
     }
+    setResendIsLoading(false);
   };
 
   const isDisabled = !verificationCode;
