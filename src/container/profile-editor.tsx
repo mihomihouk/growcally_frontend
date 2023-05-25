@@ -9,6 +9,7 @@ import { PlusIcon } from '@heroicons/react/24/outline';
 interface ProfileEditorProps {
   setEditor: React.Dispatch<React.SetStateAction<boolean>>;
 }
+
 export const ProfileEditor: React.FC<ProfileEditorProps> = ({ setEditor }) => {
   const [bio, setBio] = React.useState<string>('');
   const [thumbnail, setThumbnail] = React.useState<File>();

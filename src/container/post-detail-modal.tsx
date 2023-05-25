@@ -17,6 +17,7 @@ import { formatDistanceToNow } from 'date-fns';
 import { TextArea } from '../components/textarea';
 import { createComment } from '../api/media.service';
 import { useNavigate } from 'react-router-dom';
+import { Thumbnail } from '../components/thumbnail';
 
 export const PostDetailModal: React.FC = () => {
   const currentPost = useAppSelector((state) => state.posts.currentPost);
@@ -116,6 +117,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
   const currentUser = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const isCurrentUserPost = post.author.id === currentUser?.id;
 
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -156,27 +158,24 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
   return (
     <>
       <div className="p-4 gap-4 flex">
-        <div
-          className="relative flex-shrink-0 w-12 h-12 rounded-full border-2 border-gray-500 cursor-pointer"
+        <Thumbnail
+          src={postAuthorThumbnailUrl}
           onClick={handleClickAuthor}
-        >
-          <img
-            alt="profile"
-            src={postAuthorThumbnailUrl}
-            className="rounded-full object-cover w-12 h-12"
-          />
-        </div>
-        <div className="lex flex-col flex-grow">
+          className="flex-shrink-0 cursor-pointer"
+        />
+        <div className="flex flex-col flex-grow">
           <div className="flex items-center justify-between">
             <p className="text-white font-medium">{postAuthorName}</p>
-            <div className="text-white flex gap-4">
-              <Button type="button">
-                <PencilSquareIcon className="h-6 w-6 hover:opacity-70" />
-              </Button>
-              <Button type="button" onClick={handleClickDelete}>
-                <TrashIcon className="h-6 w-6 hover:opacity-70" />
-              </Button>
-            </div>
+            {isCurrentUserPost && (
+              <div className="text-white flex gap-4">
+                <Button type="button">
+                  <PencilSquareIcon className="h-6 w-6 hover:opacity-70" />
+                </Button>
+                <Button type="button" onClick={handleClickDelete}>
+                  <TrashIcon className="h-6 w-6 hover:opacity-70" />
+                </Button>
+              </div>
+            )}
           </div>
           <p className="text-white">{post.caption}</p>
           <p className="text-sm text-gray-500">{formattedDate} ago</p>
@@ -213,14 +212,16 @@ interface CommentItemProps {
 export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const formattedDate = formatDistanceToNow(new Date(comment.updatedAt));
   const commentAuthorName = `${comment.author.givenName} ${comment.author.familyName}`;
+  const authorThumbnailUrl =
+    comment.author.profileImage?.fileUrl ?? '/img/default-profile.png';
   return (
-    <div className="p-4">
-      <p className="text-white font-medium">
-        {/* TODO: thumbnail */}
-        {commentAuthorName}
-      </p>
-      <p className="text-white">{comment.content}</p>
-      <p className="text-sm text-gray-500">{formattedDate} ago</p>
+    <div className="p-4 flex gap-4">
+      <Thumbnail src={authorThumbnailUrl} className="shrink-0" />
+      <div className="flex-grow">
+        <p className="text-white font-medium">{commentAuthorName}</p>
+        <p className="text-white">{comment.content}</p>
+        <p className="text-sm text-gray-500">{formattedDate} ago</p>
+      </div>
     </div>
   );
 };

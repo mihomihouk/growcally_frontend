@@ -22,6 +22,7 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
   const userProfile = useAppSelector((state) => state.userProfile);
   const profileUser = userProfile.user;
   const profileUserPosts = userProfile.posts;
+  const isCurrentUserProfile = userId === currentUser?.id;
 
   const getUserDetail = async () => {
     setIsLoading(true);
@@ -76,14 +77,18 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
         <div className="w-2/3">
           <div className="flex gap-4">
             <p className="text-xl">{fullName}</p>
-            <Button type="button" onClick={setEditor}>
-              <PencilSquareIcon className="h-5 w-5" />
-            </Button>
+            {isCurrentUserProfile && (
+              <Button type="button" onClick={setEditor}>
+                <PencilSquareIcon className="h-5 w-5 hover:opacity-70" />
+              </Button>
+            )}
           </div>
           <p>
             {postCount} {pluralize(postCount, 'post', 'posts')}
           </p>
-          {profileUser?.bio && <p>{profileUser?.bio}</p>}
+          {profileUser?.bio && (
+            <p className="text-gray-500">{profileUser?.bio}</p>
+          )}
         </div>
       </div>
       <PostList posts={profileUserPosts} />

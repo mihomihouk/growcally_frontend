@@ -9,6 +9,7 @@ import { showModal } from '../slices/modals-slice';
 import { setCurrentPost } from '../slices/posts-slice';
 import { ModalType } from '../interfaces/modal-type';
 import { pluralize } from '../util/string';
+import { Thumbnail } from '../components/thumbnail';
 
 export const LikesPage = () => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
@@ -108,13 +109,7 @@ const LikedPostItem: React.FC<LikedPostItemProps> = ({ post }) => {
       <img alt={altText} src={mediaUrl} className="rounded-xl w-1/3" />
       <div className="flex flex-col gap-4 w-2/3">
         <div className="item-center flex gap-4 items-center">
-          <div className="relative w-12 h-12 rounded-full border-2 border-gray-500">
-            <img
-              alt="profile"
-              src={authorThumbnailUrl}
-              className="rounded-full object-cover w-12 h-12"
-            />
-          </div>
+          <Thumbnail src={authorThumbnailUrl} />
           <p className="text-lg font-semibold">{authorName}</p>
         </div>
         <div className="flex">

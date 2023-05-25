@@ -24,6 +24,7 @@ import { User } from '../interfaces/user';
 import { LeafFill } from '../icons/leaf-fill';
 import { LeafNoFillBlack } from '../icons/leaf-no-fill-black';
 import { MainLoader } from '../components/main-loader';
+import { Thumbnail } from '../components/thumbnail';
 
 export const PostList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -119,6 +120,9 @@ const PostItem: React.FC<PostItemProps> = ({
 
   const authorName = `${author.givenName} ${author.familyName}`;
 
+  const ThumbnailSrc =
+    author.profileImage?.fileUrl ?? '/img/default-profile.png';
+
   const handleClickLike = async () => {
     if (!userId) {
       return;
@@ -177,13 +181,7 @@ const PostItem: React.FC<PostItemProps> = ({
   return (
     <article className="mb-3 mx-auto pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
       <div className="flex gap-4 items-center">
-        <div className="relative w-12 h-12 rounded-full border-2 border-gray-500">
-          <img
-            className="rounded-full object-cover w-12 h-12"
-            src={author.profileImage?.fileUrl}
-            alt="profile"
-          />
-        </div>
+        <Thumbnail src={ThumbnailSrc} />
         <div className="flex">
           <p>{authorName}</p>
           {'・'}
