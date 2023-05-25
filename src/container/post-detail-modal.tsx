@@ -10,12 +10,13 @@ import {
   PencilSquareIcon,
   TrashIcon
 } from '@heroicons/react/24/outline';
-import { hideModal, showModal } from '../slices/modals-slice';
+import { hideModal, resetModal, showModal } from '../slices/modals-slice';
 import { ModalType } from '../interfaces/modal-type';
 import { setCurrentPost } from '../slices/posts-slice';
 import { formatDistanceToNow } from 'date-fns';
 import { TextArea } from '../components/textarea';
 import { createComment } from '../api/media.service';
+import { useNavigate } from 'react-router-dom';
 
 export const PostDetailModal: React.FC = () => {
   const currentPost = useAppSelector((state) => state.posts.currentPost);
@@ -109,11 +110,12 @@ interface CommentFormProps {
 
 export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [comment, setComment] = React.useState<string>('');
   const formattedDate = formatDistanceToNow(new Date(post.createdAt));
   const { comments } = post;
   const currentUser = useAppSelector((state) => state.auth.user);
-  const [comment, setComment] = React.useState<string>('');
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -142,27 +144,45 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
   const showComments = comments && comments.length > 0;
 
   const postAuthorName = `${post.author.givenName} ${post.author.familyName}`;
+  const postAuthorThumbnailUrl =
+    post.author.profileImage?.fileUrl ?? "'/img/default-profile.png';";
+  const profilePagePath = `/${post.author.id}`;
+
+  const handleClickAuthor = () => {
+    dispatch(resetModal());
+    navigate(profilePagePath);
+  };
+
   return (
     <>
-      <div className="p-4">
-        <div className="flex justify-between items-center">
-          <p className="text-white font-medium">
-            {/* TODO: thumbnail */}
-            {postAuthorName}
-          </p>
-          <div className="text-white flex gap-4">
-            <Button type="button">
-              <PencilSquareIcon className="h-6 w-6 hover:opacity-70" />
-            </Button>
-            <Button type="button" onClick={handleClickDelete}>
-              <TrashIcon className="h-6 w-6 hover:opacity-70" />
-            </Button>
-          </div>
+      <div className="p-4 gap-4 flex">
+        <div
+          className="relative flex-shrink-0 w-12 h-12 rounded-full border-2 border-gray-500 cursor-pointer"
+          onClick={handleClickAuthor}
+        >
+          <img
+            alt="profile"
+            src={postAuthorThumbnailUrl}
+            className="rounded-full object-cover w-12 h-12"
+          />
         </div>
-        <p className="text-white">{post.caption}</p>
-        <p className="text-sm text-gray-500">{formattedDate} ago</p>
+        <div className="lex flex-col flex-grow">
+          <div className="flex items-center justify-between">
+            <p className="text-white font-medium">{postAuthorName}</p>
+            <div className="text-white flex gap-4">
+              <Button type="button">
+                <PencilSquareIcon className="h-6 w-6 hover:opacity-70" />
+              </Button>
+              <Button type="button" onClick={handleClickDelete}>
+                <TrashIcon className="h-6 w-6 hover:opacity-70" />
+              </Button>
+            </div>
+          </div>
+          <p className="text-white">{post.caption}</p>
+          <p className="text-sm text-gray-500">{formattedDate} ago</p>
+        </div>
       </div>
-      <hr className="border-t border-gray-300 mr-8" />
+      <hr className="border-t border-gray-300 mr-4" />
       {showComments && (
         <div className="overflow-y-auto">
           {comments.map((comment) => {

@@ -119,6 +119,19 @@ export const unlikePost = async (
   }
 };
 
+export const fetchLikedPosts = async (userId: string): Promise<QueryResult> => {
+  try {
+    const { data } = await axios.get(`${baseURL}/post/like`, {
+      params: { userId },
+      withCredentials: true
+    });
+    return handleSuccess(data);
+  } catch (error) {
+    console.log(error);
+    return handleError(error);
+  }
+};
+
 interface CreateCommentParams {
   userId: string;
   text: string;

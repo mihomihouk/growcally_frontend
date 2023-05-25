@@ -10,7 +10,7 @@ import { ModalType } from '../interfaces/modal-type';
 import { showModal } from '../slices/modals-slice';
 import { useAppDispatch } from '../hooks/hooks';
 import { LeafNoFillWhite } from '../icons/leaf-no-fill-white';
-import { DASHBOARD_PATH } from '../routes/routes';
+import { DASHBOARD_PATH, LIKES_PATH } from '../routes/routes';
 
 export const DashboardNav: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -57,7 +57,12 @@ export const DashboardNav: React.FC = () => {
               </Button>
             </li>
             <li>
-              <Button type="button" className="flex gap-4" inNav>
+              <Button
+                type="button"
+                className="flex gap-4"
+                inNav
+                to={LIKES_PATH}
+              >
                 <LeafNoFillWhite
                   className="h-6 w-6 mx-auto lg:!mx-0"
                   fill="white"

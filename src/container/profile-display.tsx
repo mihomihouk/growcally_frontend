@@ -1,20 +1,14 @@
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { Button } from '../components/button';
 import { PencilSquareIcon } from '@heroicons/react/24/outline';
 import { useParams } from 'react-router-dom';
 import { fetchUserDetail } from '../api/auth.service';
-import { PropagateLoader } from 'react-spinners';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { Post } from '../interfaces/post';
 import { showModal } from '../slices/modals-slice';
 import { ModalType } from '../interfaces/modal-type';
 import { setCurrentPost } from '../slices/posts-slice';
-
-const override: CSSProperties = {
-  display: 'block',
-  margin: '0 auto',
-  borderColor: 'red'
-};
+import { MainLoader } from '../components/main-loader';
 
 interface MyProfileProps {
   setEditor: () => void;
@@ -54,18 +48,10 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
 
   React.useEffect(() => {
     getUserDetail();
-  }, [userId]);
+  }, []);
 
   if (isLoading) {
-    return (
-      <div className="w-full h-full flex items-center">
-        <PropagateLoader
-          size={30}
-          cssOverride={override}
-          aria-label="Loading Spinner"
-        />
-      </div>
-    );
+    return <MainLoader />;
   }
 
   const fullName = `${profileUser?.givenName} ${profileUser?.familyName}`;

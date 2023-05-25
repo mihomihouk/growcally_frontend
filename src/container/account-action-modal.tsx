@@ -27,7 +27,7 @@ export const AccountActionModal: React.FC = () => {
 const AccountActionModalContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user);
-  const personalPagePath = currentUser?.id;
+  const profilePagePath = currentUser?.id;
   return (
     <div className="flex px-4 py-11 h-full">
       <div className="flex flex-col justify-start gap-6 w-full">
@@ -43,7 +43,7 @@ const AccountActionModalContainer: React.FC = () => {
           type="button"
           className="flex text-white gap-4 cursor-pointer hover:bg-gray-500 py-2 !pl-2 rounded-md"
           inNav
-          to={personalPagePath}
+          to={profilePagePath}
         >
           <NewspaperIcon className="h-6 w-6" />
           <p className="text-white font-normal text-base">My posts</p>

@@ -2,14 +2,13 @@ import {
   ChatBubbleOvalLeftIcon,
   PaperAirplaneIcon
 } from '@heroicons/react/24/outline';
-import React, { CSSProperties } from 'react';
+import React from 'react';
 import { Button } from '../components/button';
 import { TextArea } from '../components/textarea';
 import { Comment, MediaFile } from '../interfaces/post';
 import { pluralize } from '../util/string';
 import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import PropagateLoader from 'react-spinners/PropagateLoader';
 import { useNavigate } from 'react-router-dom';
 import { LOG_IN_PATH } from '../routes/routes';
 import {
@@ -24,12 +23,7 @@ import { showModal } from '../slices/modals-slice';
 import { User } from '../interfaces/user';
 import { LeafFill } from '../icons/leaf-fill';
 import { LeafNoFillBlack } from '../icons/leaf-no-fill-black';
-
-const override: CSSProperties = {
-  display: 'block',
-  margin: '0 auto',
-  borderColor: 'red'
-};
+import { MainLoader } from '../components/main-loader';
 
 export const PostList: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -66,15 +60,7 @@ export const PostList: React.FC = () => {
   }, []);
 
   if (isLoading) {
-    return (
-      <div className="w-full h-full flex items-center">
-        <PropagateLoader
-          size={30}
-          cssOverride={override}
-          aria-label="Loading Spinner"
-        />
-      </div>
-    );
+    return <MainLoader />;
   }
   if (!posts.length) {
     return <div>Create a new post</div>;
@@ -109,6 +95,7 @@ interface PostItemProps {
   files: MediaFile[];
   totalLikes: number;
   comments?: Comment[];
+  profileImageUrl?: string;
 }
 const PostItem: React.FC<PostItemProps> = ({
   id,
@@ -189,15 +176,21 @@ const PostItem: React.FC<PostItemProps> = ({
 
   return (
     <article className="mb-3 mx-auto pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
-      {/* header */}
-      <div className="flex">
-        {/* Avatar */}
-        <p>{authorName}</p>
-        {'・'}
-        <p>{formattedDate} ago</p>
+      <div className="flex gap-4 items-center">
+        <div className="relative w-12 h-12 rounded-full border-2 border-gray-500">
+          <img
+            className="rounded-full object-cover w-12 h-12"
+            src={author.profileImage?.fileUrl}
+            alt="profile"
+          />
+        </div>
+        <div className="flex">
+          <p>{authorName}</p>
+          {'・'}
+          <p>{formattedDate} ago</p>
+        </div>
       </div>
 
-      {/* image */}
       {mediaUrl && (
         <img
           className="rounded w-[430px] h-[768px] cursor-pointer"
@@ -206,9 +199,7 @@ const PostItem: React.FC<PostItemProps> = ({
           onClick={handleOpenPostDetail}
         />
       )}
-      {/* content */}
       <div className="flex flex-col gap-2">
-        {/* actions */}
         <div className="flex gap-2 items-center">
           <Button type="button" onClick={handleClickLike} isLoading={isLoading}>
             {hasLiked ? <LeafFill /> : <LeafNoFillBlack />}
@@ -218,12 +209,14 @@ const PostItem: React.FC<PostItemProps> = ({
           </Button>
         </div>
 
-        <p>{totalLikes} likes</p>
+        {totalLikes ? <p>{totalLikes} likes</p> : <></>}
         <p>{caption}</p>
-        {comments?.length && (
+        {comments?.length ? (
           <Button type="button" onClick={handleOpenPostDetail}>
             View all {comments.length} {pluralize(comments.length, 'comment')}
           </Button>
+        ) : (
+          <></>
         )}
 
         <form className="flex gap-4" onSubmit={handleSubmitComment}>
