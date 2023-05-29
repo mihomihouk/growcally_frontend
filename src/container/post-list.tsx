@@ -19,7 +19,7 @@ import {
 } from '../api/media.service';
 import { setCurrentPost, updatePosts } from '../slices/posts-slice';
 import { ModalType } from '../interfaces/modal-type';
-import { showModal } from '../slices/modals-slice';
+import { resetModal, showModal } from '../slices/modals-slice';
 import { User } from '../interfaces/user';
 import { LeafFill } from '../icons/leaf-fill';
 import { LeafNoFillBlack } from '../icons/leaf-no-fill-black';
@@ -64,7 +64,7 @@ export const PostList: React.FC = () => {
     return <MainLoader />;
   }
   if (!posts.length) {
-    return <div>Create a new post</div>;
+    return <NoPostsMessage />;
   }
   const renderPostItems = posts?.map((i) => {
     return (
@@ -114,14 +114,15 @@ const PostItem: React.FC<PostItemProps> = ({
   const userId = currentUser?.id;
   const primaryFile = files ? files[0] : null;
 
+  const isAuthor = currentUser?.posts?.includes(id);
+  const hasLiked = currentUser?.likedPosts?.includes(id);
+
   const mediaUrl = primaryFile?.fileUrl?.split('?')[0];
-
   const formattedDate = formatDistanceToNow(new Date(createdAt));
-
   const authorName = `${author.givenName} ${author.familyName}`;
-
   const ThumbnailSrc =
     author.profileImage?.fileUrl ?? '/img/default-profile.png';
+  const navigate = useNavigate();
 
   const handleClickLike = async () => {
     if (!userId) {
@@ -156,7 +157,6 @@ const PostItem: React.FC<PostItemProps> = ({
     dispatch(showModal({ modalType: ModalType.PostDetail }));
     dispatch(setCurrentPost(id));
   };
-  const hasLiked = currentUser?.likedPosts?.includes(id);
 
   const handleSubmitComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -178,10 +178,21 @@ const PostItem: React.FC<PostItemProps> = ({
     setComment('');
   };
 
+  const profilePagePath = `/${author.id}`;
+
+  const handleClickAuthor = () => {
+    dispatch(resetModal());
+    navigate(profilePagePath);
+  };
+
   return (
     <article className="mb-3 mx-auto pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
       <div className="flex gap-4 items-center">
-        <Thumbnail src={ThumbnailSrc} />
+        <Thumbnail
+          src={ThumbnailSrc}
+          onClick={handleClickAuthor}
+          className="cursor-pointer hover:opacity-70"
+        />
         <div className="flex">
           <p>{authorName}</p>
           {'・'}
@@ -199,10 +210,23 @@ const PostItem: React.FC<PostItemProps> = ({
       )}
       <div className="flex flex-col gap-2">
         <div className="flex gap-2 items-center">
-          <Button type="button" onClick={handleClickLike} isLoading={isLoading}>
-            {hasLiked ? <LeafFill /> : <LeafNoFillBlack />}
-          </Button>
-          <Button type="button" onClick={handleOpenPostDetail}>
+          {isAuthor ? (
+            <></>
+          ) : (
+            <Button
+              type="button"
+              onClick={handleClickLike}
+              isLoading={isLoading}
+              className="cursor-pointer hover:opacity-70"
+            >
+              {hasLiked ? <LeafFill /> : <LeafNoFillBlack />}
+            </Button>
+          )}
+          <Button
+            type="button"
+            className="cursor-pointer hover:opacity-70"
+            onClick={handleOpenPostDetail}
+          >
             <ChatBubbleOvalLeftIcon className="h-6 w-6" />
           </Button>
         </div>
@@ -236,5 +260,26 @@ const PostItem: React.FC<PostItemProps> = ({
         </form>
       </div>
     </article>
+  );
+};
+
+const NoPostsMessage: React.FC = () => {
+  const dispatch = useAppDispatch();
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <div className="text-center">
+        <h3 className="text-3xl font-bold mb-4">No posts yet</h3>
+        <p className="text-lg mb-6">Create a new post to get started.</p>
+        <Button
+          type="button"
+          isPrimary
+          onClick={() =>
+            dispatch(showModal({ modalType: ModalType.CreatePost }))
+          }
+        >
+          Create Post
+        </Button>
+      </div>
+    </div>
   );
 };
