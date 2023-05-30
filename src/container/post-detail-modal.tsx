@@ -166,7 +166,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
 
   const postAuthorName = `${post.author.givenName} ${post.author.familyName}`;
   const postAuthorThumbnailUrl =
-    post.author.profileImage?.fileUrl ?? "'/img/default-profile.jpg';";
+    post.author.profileImage?.fileUrl ?? '/img/default-profile.jpg';
   const profilePagePath = `/${post.author.id}`;
 
   const handleClickAuthor = () => {

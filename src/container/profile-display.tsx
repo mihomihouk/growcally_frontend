@@ -10,6 +10,7 @@ import { ModalType } from '../interfaces/modal-type';
 import { setCurrentPost } from '../slices/posts-slice';
 import { MainLoader } from '../components/main-loader';
 import { pluralize } from '../util/string';
+import classNames from 'classnames';
 
 interface MyProfileProps {
   setEditor: () => void;
@@ -107,11 +108,21 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   if (!posts) {
     return <p>No post yet</p>;
   }
+  const getPostWidth = () => {
+    switch (posts.length) {
+      case 2:
+        return 'w-full md:w-1/2 ';
+      case 1:
+        return 'w-full md:w-full';
+      default:
+        return '';
+    }
+  };
 
   return (
     <main className="h-full flex flex-col md:flex-row md:flex-wrap overflow-y-auto mx-auto">
       {posts.map((post) => (
-        <PostItem key={post.id} post={post} />
+        <PostItem key={post.id} post={post} className={getPostWidth()} />
       ))}
     </main>
   );
@@ -119,9 +130,10 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
 
 interface PostItemProps {
   post: Post;
+  className: string;
 }
 
-const PostItem: React.FC<PostItemProps> = ({ post }) => {
+const PostItem: React.FC<PostItemProps> = ({ post, className }) => {
   const primaryFile = post.files[0];
 
   const mediaUrl = primaryFile?.squareFileUrl?.split('?')[0];
@@ -132,9 +144,11 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
     dispatch(showModal({ modalType: ModalType.PostDetail }));
     dispatch(setCurrentPost(post.id));
   };
-
   return (
-    <div className="cursor-pointer md:w-1/3" onClick={handleOpenPostDetail}>
+    <div
+      className={classNames('cursor-pointer md:w-1/3', className)}
+      onClick={handleOpenPostDetail}
+    >
       {mediaUrl && (
         <img
           src={mediaUrl}
