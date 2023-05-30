@@ -65,10 +65,10 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
 
   return (
     <div className="flex h-full w-full flex-col rounded-2xl divide-y divide-gray-500">
-      <div className="h-[50px] flex justify-center items-center">
+      <header className="h-[50px] flex justify-center items-center">
         <p className="text-base font-semibold text-white">Create new post</p>
-      </div>
-      <div className="flex justify-center items-center h-full w-full">
+      </header>
+      <main className="flex justify-center items-center h-full w-full">
         <div
           className={classNames(
             'flex flex-col p-5 ease-in-out duration-75 md:border-dashed md:border-primary-500 md:border-2 text-center cursor-default rounded-2xl',
@@ -79,6 +79,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
           )}
           {...getRootProps()}
           data-testid="drop-zone"
+          aria-label="Drag and drop area for photos and videos"
         >
           <input {...getInputProps()} />
           <PhotoIcon className="h-12 w-12 md:h-20 md:w-20 text-white mx-auto" />
@@ -89,7 +90,7 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
             Select From Computer
           </Button>
         </div>
-      </div>
+      </main>
     </div>
   );
 };
@@ -170,8 +171,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
       className="flex h-full w-full flex-col rounded-2xl divide-y divide-gray-500"
       onSubmit={handleSubmit}
     >
-      {/* header */}
-      <div className="flex h-[50px] items-center !justify-between px-4">
+      <header className="flex h-[50px] items-center !justify-between px-4">
         <Button
           className="cursor-pointer flex items-center"
           type="button"
@@ -187,9 +187,8 @@ const UploadForm: React.FC<UploadFormProps> = ({
         >
           Share
         </Button>
-      </div>
-      {/* content */}
-      <div className="flex flex-row h-full w-full">
+      </header>
+      <main className="flex flex-row h-full w-full">
         <div className="flex flex-wrap flex-row gap-5 w-2/5 justify-center p-4">
           {thumbs}
         </div>
@@ -199,7 +198,7 @@ const UploadForm: React.FC<UploadFormProps> = ({
           setCaption={setCaption}
           setFiles={setFiles}
         />
-      </div>
+      </main>
     </form>
   );
 };
@@ -244,7 +243,7 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
         <FileItem
           file={f}
           key={f.id}
-          altText={f.altText || ''}
+          altText={f.altText || f.file.name}
           onChangeAltText={updateFileAltText}
         />
       ))}
@@ -297,7 +296,11 @@ const FileItem: React.FC<fileItemProps> = ({
 }) => {
   return (
     <li className="flex gap-2 align-items max-h-[300px] py-2">
-      <img src={URL.createObjectURL(file.file)} alt="" className="w-[50px]" />
+      <img
+        src={URL.createObjectURL(file.file)}
+        alt={altText}
+        className="w-[50px]"
+      />
       <input
         placeholder="Write alt text..."
         className="bg-transparent max-w-[120px] p-1 text-gray-400"

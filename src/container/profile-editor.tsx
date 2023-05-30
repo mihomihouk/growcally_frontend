@@ -54,11 +54,27 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ setEditor }) => {
             <div className="relative w-24 h-24 bg-gray-300 rounded-full border-2 border-gray-500">
               {thumbnail ? (
                 <>
-                  <img
-                    className="rounded-full object-cover h-24 w-24"
-                    src={URL.createObjectURL(thumbnail)}
-                    alt="profile"
-                  />
+                  <label
+                    htmlFor="profilePhotoInput"
+                    className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
+                  >
+                    <img
+                      className="rounded-full object-cover h-24 w-24"
+                      src={URL.createObjectURL(thumbnail)}
+                      alt="profile"
+                    />
+                    <input
+                      type="file"
+                      id="profilePhotoInput"
+                      className="absolute w-full h-full opacity-0 cursor-pointer"
+                      accept="image/*"
+                      onChange={(e) => handleProfilePhotoUpload(e)}
+                    />
+                    <span className="sr-only">Change profile photo</span>
+                  </label>
+                </>
+              ) : (
+                <>
                   <label
                     htmlFor="profilePhotoInput"
                     className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
@@ -70,22 +86,10 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ setEditor }) => {
                       accept="image/*"
                       onChange={(e) => handleProfilePhotoUpload(e)}
                     />
-                  </label>
-                </>
-              ) : (
-                <>
-                  <input
-                    type="file"
-                    id="profilePhotoInput"
-                    className="absolute w-full h-full opacity-0 cursor-pointer"
-                    accept="image/*"
-                    onChange={(e) => handleProfilePhotoUpload(e)}
-                  />
-                  <label
-                    htmlFor="profilePhotoInput"
-                    className="absolute top-0 left-0 w-full h-full flex items-center justify-center"
-                  >
-                    <PlusIcon className="w-6 h-6 text-gray-500 cursor-pointer" />
+                    <span aria-hidden="true">
+                      <PlusIcon className="w-6 h-6 text-gray-500 cursor-pointer" />
+                    </span>
+                    <span className="sr-only">Upload profile photo</span>
                   </label>
                 </>
               )}
@@ -94,10 +98,13 @@ export const ProfileEditor: React.FC<ProfileEditorProps> = ({ setEditor }) => {
           <p className="w-2/3">{fullName}</p>
         </div>
         <div className="flex w-full">
-          <p className="w-1/3 text-lg">About me</p>
+          <label className="w-1/3" htmlFor="biography">
+            <p className="text-lg">About me</p>
+          </label>
           <div className="w-2/3">
             <TextArea
               placeholder="Tell us about yourself"
+              id="biography"
               name="biography"
               hasError={wordCountError}
               errorMessage="It should be no more than 150 words."

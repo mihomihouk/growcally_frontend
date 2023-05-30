@@ -107,12 +107,13 @@ export const PostImageItem: React.FC<PostImageItemProps> = ({
         </Button>
       </div>
 
-      <div
-        className="absolute top-[5px] right-[5px] flex md:hidden text-white"
+      <Button
+        type="button"
+        className="absolute top-[5px] right-[5px] flex md:hidden text-white hover:opacity-70"
         onClick={onDismiss}
       >
         <XMarkIcon className="h-6 w-6" />
-      </div>
+      </Button>
 
       <img
         alt={imageItem.alt}
@@ -180,16 +181,21 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
           src={postAuthorThumbnailUrl}
           onClick={handleClickAuthor}
           className="flex-shrink-0 cursor-pointer"
+          alt={`Profile of ${postAuthorName}`}
         />
         <div className="flex flex-col flex-grow">
           <div className="flex items-center justify-between">
             <p className="text-white font-medium">{postAuthorName}</p>
             {isCurrentUserPost && (
               <div className="text-white flex gap-4">
-                <Button type="button">
+                <Button type="button" aria-label="Edit post">
                   <PencilSquareIcon className="h-6 w-6 hover:opacity-70" />
                 </Button>
-                <Button type="button" onClick={handleClickDelete}>
+                <Button
+                  type="button"
+                  aria-label="Delete post"
+                  onClick={handleClickDelete}
+                >
                   <TrashIcon className="h-6 w-6 hover:opacity-70" />
                 </Button>
               </div>
@@ -201,11 +207,11 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
       </div>
       <hr className="border-t border-gray-300 mr-4" />
       {showComments && (
-        <div className="overflow-y-auto">
+        <section className="overflow-y-auto">
           {comments.map((comment) => {
             return <CommentItem key={comment.id} comment={comment} />;
           })}
-        </div>
+        </section>
       )}
 
       <form className="flex gap-3 p-4" onSubmit={handleSubmitComment}>
@@ -233,13 +239,17 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const authorThumbnailUrl =
     comment.author.profileImage?.fileUrl ?? '/img/default-profile.png';
   return (
-    <div className="p-4 flex gap-4">
-      <Thumbnail src={authorThumbnailUrl} className="shrink-0" />
+    <article className="p-4 flex gap-4">
+      <Thumbnail
+        src={authorThumbnailUrl}
+        className="shrink-0"
+        alt={`Profile of ${commentAuthorName}`}
+      />
       <div className="flex-grow">
         <p className="text-white font-medium">{commentAuthorName}</p>
         <p className="text-white">{comment.content}</p>
         <p className="text-sm text-gray-500">{formattedDate} ago</p>
       </div>
-    </div>
+    </article>
   );
 };

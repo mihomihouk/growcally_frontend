@@ -42,7 +42,7 @@ export const LogInPage = () => {
   return (
     <div className="min-h-screen py-40 bg-gray-300">
       <div className="container mx-auto">
-        <div className="flex flex-col w-10/12 lg:w-8/12 bg-white rounded-xl shadow-lg overflow-hidden mx-auto">
+        <div className="flex flex-col w-10/12 lg:w-8/12 rounded-xl bg-gray-100 shadow-lg overflow-hidden mx-auto">
           <div className="flex flex-col lg:flex-row ">
             <div className="w-full lg:w-1/2 ">
               <div className="flex items-center gap-4 pl-4 pt-4">
@@ -50,7 +50,7 @@ export const LogInPage = () => {
               </div>
               <div className="py-16 px-12">
                 <h2 className="text-3xl mb-4">Welcome back</h2>
-                <p className="mb-4 text-gray-400">
+                <p className="mb-4 text-gray-800">
                   Welcome back! Please enter your details.
                 </p>
                 <form>
@@ -89,10 +89,10 @@ export const LogInPage = () => {
                       Log In
                     </Button>
                   </div>
-                  <p className="text-sm text-gray-400 mt-5 text-center">
+                  <p className="text-sm text-gray-800 mt-5 text-center">
                     Don't have an account?
                     <Link
-                      className="ml-2 text-primary-500 font-semibold cursor-pointer"
+                      className="ml-2 text-primary-700 font-semibold cursor-pointer"
                       to={SIGN_UP_PATH}
                     >
                       Sign up

@@ -56,15 +56,15 @@ export const Button: React.FC<ButtonProps> = ({
               inNav
           },
           {
-            'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+            'w-full bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75 focus:outline-none focus:ring focus:border-primary-800':
               isPrimary
           },
           {
-            'w-full bg-secondary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+            'w-full bg-secondary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75 focus:outline-none focus:ring focus:border-secondary-800':
               isSecondary
           },
           {
-            'w-full bg-error-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75':
+            'w-full bg-error-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75 focus:outline-none focus:ring focus:border-error-800':
               isWarning
           },
           {
@@ -82,6 +82,7 @@ export const Button: React.FC<ButtonProps> = ({
               'cursor-not-allowed': disabled
             }
           )}
+          tabIndex={0}
           onClick={onClick}
           disabled={disabled}
           type={type}
@@ -116,6 +117,7 @@ export const Button: React.FC<ButtonProps> = ({
         },
         className
       )}
+      tabIndex={0}
       onClick={onClick}
       disabled={disabled}
       type={type}

@@ -5,11 +5,13 @@ interface ThumbnailProps {
   src: string;
   className?: string;
   onClick?: () => void;
+  alt: string;
 }
 export const Thumbnail: React.FC<ThumbnailProps> = ({
   src,
   className,
-  onClick
+  onClick,
+  alt
 }) => {
   return (
     <div
@@ -22,7 +24,7 @@ export const Thumbnail: React.FC<ThumbnailProps> = ({
       <img
         className="rounded-full object-cover w-12 h-12"
         src={src}
-        alt="profile"
+        alt={alt}
       />
     </div>
   );

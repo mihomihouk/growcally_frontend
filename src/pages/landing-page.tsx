@@ -24,7 +24,7 @@ export const LandingPage = () => {
             share the joy
           </h1>
           <Button
-            className="w-full md:!w-48 h-10 bg-primary-500 text-white inline-block p-2 rounded-lg hover:bg-opacity-75"
+            className="w-full md:!w-48 h-10 bg-primary-700 text-white inline-block p-2 rounded-lg hover:bg-opacity-75"
             to={SIGN_UP_PATH}
             type="button"
           >
@@ -33,7 +33,7 @@ export const LandingPage = () => {
           <p className="text-sm text-white font-semibold text-center">
             Already have an account?
             <Link
-              className="ml-2 text-primary-500 font-semibold cursor-pointer"
+              className="ml-2 text-primary-700 font-semibold cursor-pointer hover:opacity-70"
               to={LOG_IN_PATH}
             >
               Log in

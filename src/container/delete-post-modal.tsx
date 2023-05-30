@@ -14,7 +14,7 @@ export const DeletePostModal: React.FC = () => {
   return (
     <Modal
       onDismiss={handleDismissModal}
-      className="absolute !w-[500px] !h-[250px]"
+      className="absolute w-full md:!w-[500px] !h-[250px]"
     >
       <DeletePostModalContainer onDismiss={handleDismissModal} />
     </Modal>

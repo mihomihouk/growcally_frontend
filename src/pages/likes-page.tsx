@@ -56,7 +56,7 @@ export const LikesPage = () => {
           ) : (
             <></>
           )}
-          <div>
+          <div className="pt-2">
             <p className="text-2xl font-extrabold">Liked posts</p>
             {likedPosts ? (
               <p>
@@ -102,8 +102,10 @@ const LikedPostItem: React.FC<LikedPostItemProps> = ({ post }) => {
   };
 
   return (
-    <div
+    <article
       className="w-full h-52 flex md:flex-row flex-col item-center gap-4 md:p-4 hover:bg-gray-300 rounded-xl cursor-pointer"
+      role="button"
+      aria-label={`Post by ${authorName}`}
       onClick={handleClickLikedPost}
     >
       <img
@@ -113,7 +115,10 @@ const LikedPostItem: React.FC<LikedPostItemProps> = ({ post }) => {
       />
       <div className="flex flex-col gap-4 w-full md:w-2/3">
         <div className="item-center flex gap-4 items-center">
-          <Thumbnail src={authorThumbnailUrl} />
+          <Thumbnail
+            src={authorThumbnailUrl}
+            alt={`Profile of ${authorName}`}
+          />
           <p className="text-lg font-semibold">{authorName}</p>
         </div>
         <div className="flex">
@@ -125,6 +130,6 @@ const LikedPostItem: React.FC<LikedPostItemProps> = ({ post }) => {
         </div>
         {post.caption ? <p>{post.caption}</p> : <></>}
       </div>
-    </div>
+    </article>
   );
 };

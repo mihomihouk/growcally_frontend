@@ -103,7 +103,7 @@ export const SignUpPage = () => {
   return (
     <div className="min-h-screen py-40 bg-gray-300">
       <div className="container mx-auto">
-        <div className="flex flex-col w-10/12 lg:w-8/12 bg-white rounded-xl shadow-lg overflow-hidden mx-auto">
+        <div className="flex flex-col w-10/12 lg:w-8/12 bg-gray-100 rounded-xl shadow-lg overflow-hidden mx-auto">
           <div className="flex flex-col lg:flex-row ">
             <div className="w-full lg:w-1/2">
               <div className="flex items-center gap-4 pl-4 pt-4">
@@ -111,7 +111,7 @@ export const SignUpPage = () => {
               </div>
               <div className="py-16 px-12">
                 <h2 className="text-3xl mb-4">Welcome</h2>
-                <p className="mb-4 text-gray-400">
+                <p className="mb-4 text-gray-800">
                   Create your account. It’s free and only take a minute.
                 </p>
                 <form onSubmit={handleSubmit}>
@@ -186,10 +186,10 @@ export const SignUpPage = () => {
                       Register Now
                     </Button>
                   </div>
-                  <p className="text-sm text-gray-400 mt-5 text-center">
+                  <p className="text-sm text-gray-800 mt-5 text-center">
                     Already have an account?
                     <Link
-                      className="ml-2 text-primary-500 font-semibold cursor-pointer"
+                      className="ml-2 text-primary-700 font-semibold cursor-pointer"
                       to={LOG_IN_PATH}
                     >
                       Log in

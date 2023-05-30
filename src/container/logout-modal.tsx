@@ -16,7 +16,7 @@ export const LogoutModal: React.FC = () => {
   return (
     <Modal
       onDismiss={handleDismissModal}
-      className="absolute !w-[500px] !h-[250px]"
+      className="absolute w-full md:!w-[500px] !h-[250px]"
     >
       <LogoutModalContainer onDismiss={handleDismissModal} />
     </Modal>

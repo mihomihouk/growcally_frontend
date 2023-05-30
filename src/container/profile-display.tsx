@@ -64,13 +64,13 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
 
   return (
     <div className="flex flex-col max-h-screen">
-      <div className="flex w-full mb-12 items-center">
+      <header className="flex w-full mb-12 items-center">
         <div className="w-1/3 mx-auto">
           <div className="relative w-24 h-24 rounded-full border-2 border-gray-500">
             <img
               className="rounded-full object-cover w-24 h-24"
               src={profileImageUrl}
-              alt="profile"
+              alt={`Profile of ${fullName}`}
             />
           </div>
         </div>
@@ -78,7 +78,11 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
           <div className="flex gap-4">
             <p className="text-xl">{fullName}</p>
             {isCurrentUserProfile && (
-              <Button type="button" onClick={setEditor}>
+              <Button
+                type="button"
+                onClick={setEditor}
+                aria-label="Edit profile"
+              >
                 <PencilSquareIcon className="h-5 w-5 hover:opacity-70" />
               </Button>
             )}
@@ -90,7 +94,7 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
             <p className="text-gray-500">{profileUser?.bio}</p>
           )}
         </div>
-      </div>
+      </header>
       <PostList posts={profileUserPosts} />
     </div>
   );
@@ -105,11 +109,11 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   }
 
   return (
-    <div className="h-full flex flex-col md:flex-wrap overflow-y-auto mx-auto">
+    <main className="h-full flex flex-col md:flex-wrap overflow-y-auto mx-auto">
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
-    </div>
+    </main>
   );
 };
 

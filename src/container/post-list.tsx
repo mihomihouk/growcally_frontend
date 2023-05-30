@@ -192,6 +192,7 @@ const PostItem: React.FC<PostItemProps> = ({
           src={ThumbnailSrc}
           onClick={handleClickAuthor}
           className="cursor-pointer hover:opacity-70"
+          alt={`Profile of ${authorName}`}
         />
         <div className="flex">
           <p>{authorName}</p>
@@ -203,7 +204,7 @@ const PostItem: React.FC<PostItemProps> = ({
       {mediaUrl && (
         <img
           className="rounded w-[400px] md:w-[430px] h-[768px] cursor-pointer mx-auto"
-          alt={primaryFile.alt || ''}
+          alt={primaryFile.alt || primaryFile.fileName}
           src={mediaUrl}
           onClick={handleOpenPostDetail}
         />
@@ -218,6 +219,7 @@ const PostItem: React.FC<PostItemProps> = ({
               onClick={handleClickLike}
               isLoading={isLoading}
               className="cursor-pointer hover:opacity-70"
+              aria-label={hasLiked ? 'liked' : 'like'}
             >
               {hasLiked ? <LeafFill /> : <LeafNoFillBlack />}
             </Button>
@@ -250,6 +252,7 @@ const PostItem: React.FC<PostItemProps> = ({
           <TextArea
             name="comment"
             placeholder="Add a comment"
+            aria-label="Add a comment"
             className="max-h-10 p-1 text-sm"
             value={comment}
             onChange={(e) => setComment(e.target.value)}
