@@ -105,7 +105,7 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   }
 
   return (
-    <div className="h-full flex flex-wrap overflow-y-auto mx-auto">
+    <div className="h-full flex flex-col md:flex-wrap overflow-y-auto mx-auto">
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
@@ -130,7 +130,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   };
 
   return (
-    <div className="cursor-pointer w-1/3" onClick={handleOpenPostDetail}>
+    <div className="cursor-pointer md:w-1/3" onClick={handleOpenPostDetail}>
       {mediaUrl && (
         <img
           src={mediaUrl}

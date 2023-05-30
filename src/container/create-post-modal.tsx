@@ -65,15 +65,13 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
 
   return (
     <div className="flex h-full w-full flex-col rounded-2xl divide-y divide-gray-500">
-      {/* header */}
       <div className="h-[50px] flex justify-center items-center">
         <p className="text-base font-semibold text-white">Create new post</p>
       </div>
-      {/* content */}
       <div className="flex justify-center items-center h-full w-full">
         <div
           className={classNames(
-            'flex flex-col p-5 ease-in-out duration-75 border-dashed border-primary-500 border-2 text-center cursor-default rounded-2xl',
+            'flex flex-col p-5 ease-in-out duration-75 md:border-dashed md:border-primary-500 md:border-2 text-center cursor-default rounded-2xl',
             {
               '!border-success-500': isDragAccept,
               '!border-error-500': isDragReject
@@ -83,11 +81,11 @@ const DragAndDrop: React.FC<DragAndDropProps> = ({ setFiles }) => {
           data-testid="drop-zone"
         >
           <input {...getInputProps()} />
-          <PhotoIcon className="h-20 w-20 text-white mx-auto" />
-          <p className="text-white text-xl font-normal my-4">
+          <PhotoIcon className="h-12 w-12 md:h-20 md:w-20 text-white mx-auto" />
+          <p className="text-white text-md md:text-xl font-normal my-4">
             Drag photos and videos here
           </p>
-          <Button type="button" isPrimary>
+          <Button type="button" isPrimary className="text-sm">
             Select From Computer
           </Button>
         </div>
@@ -221,9 +219,15 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
 }) => {
   const [wordCounterError, setWordCounterError] =
     React.useState<boolean>(false);
-  if (!files) {
+
+  const currentUser = useAppSelector((state) => state.auth.user);
+
+  if (!files || !currentUser) {
     return null;
   }
+
+  const authorName = `${currentUser.givenName} ${currentUser.familyName}`;
+
   const updateFileAltText = (id: string, text: string) => {
     const newListFiles = files.map((f) => {
       if (f.id === id) {
@@ -250,7 +254,7 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
   return (
     <div className="w-3/5 overflow-y-auto p-4">
       <div className="flex gap-1 items-center pb-[14px]">
-        <p className="text-white text-sm">mihomihouk</p>
+        <p className="text-white text-sm">{authorName}</p>
       </div>
       <TextArea
         placeholder="Write a caption..."

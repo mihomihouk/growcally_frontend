@@ -14,7 +14,7 @@ import { DASHBOARD_PATH, LIKES_PATH } from '../routes/routes';
 export const DashboardNav: React.FC = () => {
   const dispatch = useAppDispatch();
   return (
-    <aside className="fixed bottom-0 left-0 right-0 md:top-0 md:w-16 lg:w-64 bg-gray-800 text-white z-10">
+    <aside className="fixed w-full bottom-0 left-0 right-0 md:top-0 md:w-16 lg:w-64 bg-gray-800 text-white z-10">
       <nav className="flex py-3 lg:py-10 px-3 flex-row md:flex-col justify-between w-full h-full">
         <div>
           <div className="h-[92px] text-center hidden md:block">

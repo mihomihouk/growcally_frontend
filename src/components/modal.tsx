@@ -43,7 +43,7 @@ export const Modal: React.FC<ModalProps> = ({
       <div
         className={classNames(
           className,
-          'absolute h-[616px] w-[537px] left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-auto rounded-2xl bg-gray-800'
+          'sm:w-[600px] sm:h-[500px] md:w-[700px] md:h-[600px] absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 overflow-auto rounded-2xl bg-gray-800'
         )}
         onClick={(e) => e.stopPropagation()}
       >

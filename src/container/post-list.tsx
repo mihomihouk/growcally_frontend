@@ -186,7 +186,7 @@ const PostItem: React.FC<PostItemProps> = ({
   };
 
   return (
-    <article className="mb-3 mx-auto pb-5 border-b border-solid border-[#262626] flex flex-col gap-[6px] w-[430px]">
+    <article className="mb-3 mx-auto pb-5 border-b border-solid border-[#262626] flex flex-col w-full gap-[6px] md:w-[430px]">
       <div className="flex gap-4 items-center">
         <Thumbnail
           src={ThumbnailSrc}
@@ -202,7 +202,7 @@ const PostItem: React.FC<PostItemProps> = ({
 
       {mediaUrl && (
         <img
-          className="rounded w-[430px] h-[768px] cursor-pointer"
+          className="rounded w-[400px] md:w-[430px] h-[768px] cursor-pointer mx-auto"
           alt={primaryFile.alt || ''}
           src={mediaUrl}
           onClick={handleOpenPostDetail}

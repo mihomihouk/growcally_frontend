@@ -47,7 +47,7 @@ export const LikesPage = () => {
 
   return (
     <Layout>
-      <div className="flex gap-4">
+      <div className="flex gap-4 h-full">
         <div className="w-1/3 rounded-md static">
           {likedPosts ? (
             <div>
@@ -68,7 +68,7 @@ export const LikesPage = () => {
             )}
           </div>
         </div>
-        <div className="w-2/3 flex flex-col gap-4 overflow-y-auto">
+        <div className="w-2/3 flex flex-col gap-4 overflow-y-auto mb-[70px]">
           {likedPosts ? (
             likedPosts?.map((likedPost) => (
               <LikedPostItem key={likedPost.id} post={likedPost} />
@@ -103,11 +103,15 @@ const LikedPostItem: React.FC<LikedPostItemProps> = ({ post }) => {
 
   return (
     <div
-      className="w-full h-52 flex item-center gap-4 p-4 hover:bg-gray-300 rounded-xl cursor-pointer"
+      className="w-full h-52 flex md:flex-row flex-col item-center gap-4 md:p-4 hover:bg-gray-300 rounded-xl cursor-pointer"
       onClick={handleClickLikedPost}
     >
-      <img alt={altText} src={mediaUrl} className="rounded-xl w-1/3" />
-      <div className="flex flex-col gap-4 w-2/3">
+      <img
+        alt={altText}
+        src={mediaUrl}
+        className="w-full rounded-xl md:w-1/3"
+      />
+      <div className="flex flex-col gap-4 w-full md:w-2/3">
         <div className="item-center flex gap-4 items-center">
           <Thumbnail src={authorThumbnailUrl} />
           <p className="text-lg font-semibold">{authorName}</p>

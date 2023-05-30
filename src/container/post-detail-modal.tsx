@@ -8,7 +8,8 @@ import {
   ChevronDoubleRightIcon,
   PaperAirplaneIcon,
   PencilSquareIcon,
-  TrashIcon
+  TrashIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline';
 import { hideModal, resetModal, showModal } from '../slices/modals-slice';
 import { ModalType } from '../interfaces/modal-type';
@@ -31,18 +32,25 @@ export const PostDetailModal: React.FC = () => {
   };
 
   return (
-    <Modal onDismiss={handleDismissModal} className="!w-[900px]">
-      <PostDetailModalContainer post={currentPost} />
+    <Modal
+      onDismiss={handleDismissModal}
+      className="w-full h-full lg:!w-[900px]"
+    >
+      <PostDetailModalContainer
+        post={currentPost}
+        onDismiss={handleDismissModal}
+      />
     </Modal>
   );
 };
 interface PostDetailModalContainerProps {
   post: Post;
+  onDismiss: () => void;
 }
 
 export const PostDetailModalContainer: React.FC<
   PostDetailModalContainerProps
-> = ({ post }) => {
+> = ({ post, onDismiss }) => {
   const [currentFileIndex, setCurrentFileIndex] = React.useState<number>(0);
   const filesLength = post.files.length;
 
@@ -59,15 +67,16 @@ export const PostDetailModalContainer: React.FC<
   const currentFile = post.files[currentFileIndex];
 
   return (
-    <div className="flex h-full w-full">
-      <div className="w-3/5 overflow-hidden relative h-full">
+    <div className="flex flex-col md:flex-row h-full w-full">
+      <div className="md:w-3/5 overflow-hidden relative h-full w-full">
         <PostImageItem
           imageItem={currentFile}
           onClickForward={handleClickForward}
           onClickBackward={handleClickBackward}
+          onDismiss={onDismiss}
         />
       </div>
-      <div className="w-2/5 overflow-y-auto flex flex-col h-full">
+      <div className="w-full md:w-2/5 overflow-y-auto flex flex-col h-full">
         <CommentForm post={post} />
       </div>
     </div>
@@ -78,12 +87,14 @@ interface PostImageItemProps {
   imageItem: MediaFile;
   onClickForward: () => void;
   onClickBackward: () => void;
+  onDismiss: () => void;
 }
 
 export const PostImageItem: React.FC<PostImageItemProps> = ({
   imageItem,
   onClickForward,
-  onClickBackward
+  onClickBackward,
+  onDismiss
 }) => {
   return (
     <>
@@ -94,6 +105,13 @@ export const PostImageItem: React.FC<PostImageItemProps> = ({
         <Button type="button" className="" onClick={onClickForward}>
           <ChevronDoubleRightIcon className="h-6 w-6 text-white hover:opacity-70" />
         </Button>
+      </div>
+
+      <div
+        className="absolute top-[5px] right-[5px] flex md:hidden text-white"
+        onClick={onDismiss}
+      >
+        <XMarkIcon className="h-6 w-6" />
       </div>
 
       <img
