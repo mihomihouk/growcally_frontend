@@ -27,7 +27,7 @@ export const PostDetailModal: React.FC = () => {
     return <></>;
   }
   const handleDismissModal = () => {
-    dispatch(hideModal({ modalType: ModalType.AccountAction }));
+    dispatch(hideModal({ modalType: ModalType.PostDetail }));
     dispatch(setCurrentPost(undefined));
   };
 
