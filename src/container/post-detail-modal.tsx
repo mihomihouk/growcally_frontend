@@ -188,9 +188,10 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
             <p className="text-white font-medium">{postAuthorName}</p>
             {isCurrentUserPost && (
               <div className="text-white flex gap-4">
-                <Button type="button" aria-label="Edit post">
+                {/* TODO: Add update post feature */}
+                {/* <Button type="button" aria-label="Edit post">
                   <PencilSquareIcon className="h-6 w-6 hover:opacity-70" />
-                </Button>
+                </Button> */}
                 <Button
                   type="button"
                   aria-label="Delete post"
