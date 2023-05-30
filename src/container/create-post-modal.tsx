@@ -243,7 +243,7 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
         <FileItem
           file={f}
           key={f.id}
-          altText={f.altText || f.file.name}
+          altText={f.altText}
           onChangeAltText={updateFileAltText}
         />
       ))}
@@ -286,7 +286,7 @@ const CaptionEditor: React.FC<CaptionEditorProps> = ({
 
 interface fileItemProps {
   file: UploadFile;
-  altText: string;
+  altText?: string;
   onChangeAltText: (id: string, language: string) => void;
 }
 const FileItem: React.FC<fileItemProps> = ({
@@ -298,7 +298,7 @@ const FileItem: React.FC<fileItemProps> = ({
     <li className="flex gap-2 align-items max-h-[300px] py-2">
       <img
         src={URL.createObjectURL(file.file)}
-        alt={altText}
+        alt={altText || ''}
         className="w-[50px]"
       />
       <input
