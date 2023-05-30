@@ -30,8 +30,10 @@ export interface MediaFile {
   size: string;
   mimetype: string;
   alt: string;
-  fileKey: string;
-  fileUrl?: string;
+  portraitFileKey: string;
+  squareFileKey: string;
+  portraitFileUrl?: string;
+  squareFileUrl?: string;
 }
 
 export interface Comment {

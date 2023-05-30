@@ -21,7 +21,7 @@ export const handlers = [
           files: [
             {
               id: '02ef20fc-3df4-4c32-bfaa-996be4de9468',
-              fileName: 'summer_seedlings.png',
+              fileName: 'summer_seedlings.jpg',
               size: 126545,
               mimetype: 'image/png',
               alt: null,

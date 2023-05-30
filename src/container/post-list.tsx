@@ -117,11 +117,11 @@ const PostItem: React.FC<PostItemProps> = ({
   const isAuthor = currentUser?.posts?.includes(id);
   const hasLiked = currentUser?.likedPosts?.includes(id);
 
-  const mediaUrl = primaryFile?.fileUrl?.split('?')[0];
+  const mediaUrl = primaryFile?.portraitFileUrl?.split('?')[0];
   const formattedDate = formatDistanceToNow(new Date(createdAt));
   const authorName = `${author.givenName} ${author.familyName}`;
   const ThumbnailSrc =
-    author.profileImage?.fileUrl ?? '/img/default-profile.png';
+    author.profileImage?.fileUrl ?? '/img/default-profile.jpg';
   const navigate = useNavigate();
 
   const handleClickLike = async () => {

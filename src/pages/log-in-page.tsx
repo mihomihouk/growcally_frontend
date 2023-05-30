@@ -46,7 +46,7 @@ export const LogInPage = () => {
           <div className="flex flex-col lg:flex-row ">
             <div className="w-full lg:w-1/2 ">
               <div className="flex items-center gap-4 pl-4 pt-4">
-                <img alt="growcally logo" src="img/text-logo-black.png" />
+                <img alt="growcally logo" src="img/text-logo-black.jpg" />
               </div>
               <div className="py-16 px-12">
                 <h2 className="text-3xl mb-4">Welcome back</h2>
@@ -103,7 +103,7 @@ export const LogInPage = () => {
             </div>
             <img
               alt="watering plants"
-              src="img/sign-up-background.png"
+              src="img/sign-up-background.jpg"
               className="w-full hidden lg:flex lg:w-1/2  flex-col items-center justify-center bg-no-repeat bg-cover bg-center"
             />
           </div>

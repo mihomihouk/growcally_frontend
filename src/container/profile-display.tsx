@@ -60,7 +60,7 @@ export const ProfileDisplay: React.FC<MyProfileProps> = ({ setEditor }) => {
   const postCount = profileUserPosts.length;
   const profileImageUrl = profileUser?.profileImage
     ? profileUser?.profileImage?.fileUrl?.split('?')[0]
-    : '/img/default-profile.png';
+    : '/img/default-profile.jpg';
 
   return (
     <div className="flex flex-col max-h-screen">
@@ -109,7 +109,7 @@ const PostList: React.FC<PostListProps> = ({ posts }) => {
   }
 
   return (
-    <main className="h-full flex flex-col md:flex-wrap overflow-y-auto mx-auto">
+    <main className="h-full flex flex-col md:flex-row md:flex-wrap overflow-y-auto mx-auto">
       {posts.map((post) => (
         <PostItem key={post.id} post={post} />
       ))}
@@ -124,7 +124,7 @@ interface PostItemProps {
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const primaryFile = post.files[0];
 
-  const mediaUrl = primaryFile?.fileUrl?.split('?')[0];
+  const mediaUrl = primaryFile?.squareFileUrl?.split('?')[0];
 
   const dispatch = useAppDispatch();
 

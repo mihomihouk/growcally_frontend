@@ -7,7 +7,7 @@ export const LandingPage = () => {
   return (
     <div
       className="min-h-screen bg-no-repeat bg-cover flex max-w-full"
-      style={{ backgroundImage: 'url("img/landing-page-bg.png")' }}
+      style={{ backgroundImage: 'url("img/landing-page-bg.jpg")' }}
     >
       <div className="lg:w-1/2 flex flex-col max-auto px-5 lg:pl-12">
         <img

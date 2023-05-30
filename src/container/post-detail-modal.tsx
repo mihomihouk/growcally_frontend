@@ -117,7 +117,7 @@ export const PostImageItem: React.FC<PostImageItemProps> = ({
 
       <img
         alt={imageItem.alt}
-        src={imageItem.fileUrl}
+        src={imageItem.portraitFileUrl}
         className="h-full w-full object-contain"
       />
     </>
@@ -166,7 +166,7 @@ export const CommentForm: React.FC<CommentFormProps> = ({ post }) => {
 
   const postAuthorName = `${post.author.givenName} ${post.author.familyName}`;
   const postAuthorThumbnailUrl =
-    post.author.profileImage?.fileUrl ?? "'/img/default-profile.png';";
+    post.author.profileImage?.fileUrl ?? "'/img/default-profile.jpg';";
   const profilePagePath = `/${post.author.id}`;
 
   const handleClickAuthor = () => {
@@ -237,7 +237,7 @@ export const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const formattedDate = formatDistanceToNow(new Date(comment.updatedAt));
   const commentAuthorName = `${comment.author.givenName} ${comment.author.familyName}`;
   const authorThumbnailUrl =
-    comment.author.profileImage?.fileUrl ?? '/img/default-profile.png';
+    comment.author.profileImage?.fileUrl ?? '/img/default-profile.jpg';
   return (
     <article className="p-4 flex gap-4">
       <Thumbnail

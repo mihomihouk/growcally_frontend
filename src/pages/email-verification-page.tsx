@@ -47,7 +47,7 @@ export const EmailVerificationPage: React.FC = () => {
         <div className="mx-auto flex flex-col gap-7 mb-7 w-full">
           <img
             alt="Verify email"
-            src="/img/verify-email.png"
+            src="/img/verify-email.jpg"
             className="h-[150px] w-[150px] block mx-auto"
           />
           <h1 className="text-4xl lg:text-6xl text-center font-[600] text-ct-yellow-600">
