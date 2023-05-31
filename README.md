@@ -1,46 +1,61 @@
-# Getting Started with Create React App
+# Website
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Release URL
 
-## Available Scripts
+https://growcallyuk.com/
 
-In the project directory, you can run:
+## Backend Repository
 
-### `npm start`
+https://github.com/mihomihouk/growcally_backend
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Overview
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Growcally is a scallable, accessibile and secure full stack application developed with AWS, React, Typescript, Node, Express and PostgreSQL. It connects home-growers and helps them share their skills and love of food with other users. Users can post photos and comments about their growing tips and progress. It's continuously evolving. More features will be added in the future!
 
-### `npm test`
+## Languages, Libraries, Frameworks, Tools
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React.js
+- Typescript
+- Redux
+- Node.js
+- Express.js
+- AWS
+- PostgreSQL
+- Prisma
+- Tailwind
+- Doppler
+- Render
 
-### `npm run build`
+## Main Functions and Features
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Authentication and authorisation (Signup, Code verification, Code resend, Login and Logout) with AWS Cognito and access token
+- Create, read and delete posts and comments
+- Like posts
+- Over 90% accessibility rate
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## What I've achieved
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Improved security of sensitive user information and reduced chances of hacking by authenticating and authorising users based on access tokens and user information managed with AWS Cognito as well as limiting allowed access to the server via CORS.
+- Achieved secure and efficient image storage, scalable request handling and data management using with AWS S3 bucket, Node.js, Express.js, Prisma and PostgreSQL.
+- Designed and created user-friendly and responsive UI for all screen sizes with over 90% accessibility rate by using React, Redux, Typescript, Tailwind and Lighthouse evaluation.
+- Achieved stable and smooth app operations by conducting automated testing using React-testing-library and Jest.
+- Significantly improved scalability and reduced data inconsistency risk in the backend system by creating a production-only database, and managing secrets and configs with Doppler.
 
-### `npm run eject`
+## Pages
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+Growcally (Landing)
+|- Login 
+|- Signup
+|- Emai Verification
+|- Dashboard
+|- User Profile
+|- Likes
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Development
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+- Developer: Miho Inagaki
+- Project Period: April 2023 - Present
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
