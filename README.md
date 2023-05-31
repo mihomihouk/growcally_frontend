@@ -41,6 +41,17 @@ Growcally is a scallable, accessibile and secure full stack application develope
 - Achieved stable and smooth app operations by conducting automated testing using React-testing-library and Jest.
 - Significantly improved scalability and reduced data inconsistency risk in the backend system by creating a production-only database, and managing secrets and configs with Doppler.
 
+## Background
+
+### Problems
+
+- Almost all the existing garden apps are 'individuals': apps for improving garderning skills and managing watering routine...etc. But growing vegetables are also a social activity. Urban growers all over the world have proven that 'growing with others' can make gardening more enjoyable and productive.
+- Sticky cost of living crisis: Increasing number of people are now squeezing their budget on food. Retailers are raising prices of vegetables. While growing food at home could mitigate the pressure, many people haven't even thought of giving it a go.
+
+### Solutions (Main Features of this App)
+
+- Create a social app where home growers can share the progress of their garden projects and their skills with others, which encourage more gardening and skill and resource sharing among the users.
+
 ## Pages
 
 ```
