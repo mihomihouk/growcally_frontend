@@ -1,4 +1,4 @@
-# Website
+# Growcally
 
 ## Release URL
 
