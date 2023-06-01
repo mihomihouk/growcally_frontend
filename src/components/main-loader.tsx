@@ -9,7 +9,7 @@ const override: CSSProperties = {
 
 export const MainLoader = () => {
   return (
-    <div className="w-full h-full flex items-center">
+    <div className="w-full h-full flex items-center" data-testid="main loader">
       <PropagateLoader
         size={30}
         cssOverride={override}

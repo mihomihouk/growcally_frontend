@@ -16,5 +16,3 @@ export const SecureRoute: React.FC<SecureRouteProps> = ({ children }) => {
 
   return <>{children}</>;
 };
-
-export default SecureRoute;

@@ -1,5 +1,5 @@
 import { Link, LinkProps } from 'react-router-dom';
-import React, { CSSProperties } from 'react';
+import React, { AriaRole, CSSProperties } from 'react';
 import classNames from 'classnames';
 import { FadeLoader } from 'react-spinners';
 
@@ -20,6 +20,7 @@ interface ButtonProps {
   disabled?: boolean;
   isLoading?: boolean;
   type: 'button' | 'reset' | 'submit' | undefined;
+  role?: AriaRole;
 }
 export const Button: React.FC<ButtonProps> = ({
   className,
@@ -30,6 +31,7 @@ export const Button: React.FC<ButtonProps> = ({
   isSecondary,
   isWarning,
   type,
+  role,
   disabled,
   isLoading,
   children
@@ -38,6 +40,7 @@ export const Button: React.FC<ButtonProps> = ({
   if (isLoading) {
     return (
       <FadeLoader
+        data-testid="loading"
         loading={isLoading}
         height={10}
         width={10}
@@ -82,6 +85,7 @@ export const Button: React.FC<ButtonProps> = ({
               'cursor-not-allowed': disabled
             }
           )}
+          role={role}
           tabIndex={0}
           onClick={onClick}
           disabled={disabled}
@@ -117,6 +121,7 @@ export const Button: React.FC<ButtonProps> = ({
         },
         className
       )}
+      role={role}
       tabIndex={0}
       onClick={onClick}
       disabled={disabled}

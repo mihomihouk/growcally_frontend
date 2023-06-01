@@ -257,7 +257,12 @@ const PostItem: React.FC<PostItemProps> = ({
             value={comment}
             onChange={(e) => setComment(e.target.value)}
           />
-          <Button type="submit" isLoading={isLoading} disabled={!comment}>
+          <Button
+            type="submit"
+            role="submit button"
+            isLoading={isLoading}
+            disabled={!comment}
+          >
             <PaperAirplaneIcon className="h-6 w-6 text-black -rotate-45 hover:opacity-70" />
           </Button>
         </form>

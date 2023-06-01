@@ -14,7 +14,7 @@ import { SignUpPage } from '../pages/sign-up-page';
 import { DashboardPage } from '../pages/dashboard-page';
 import { LandingPage } from '../pages/landing-page';
 import { EmailVerificationPage } from '../pages/email-verification-page';
-import SecureRoute from './secure-route';
+import { SecureRoute } from './secure-route';
 import { NotFoundPage } from '../pages/404-page';
 import { UserProfilePage } from '../pages/user-profile-page';
 import { LikesPage } from '../pages/likes-page';

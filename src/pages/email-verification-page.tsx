@@ -10,6 +10,7 @@ export const EmailVerificationPage: React.FC = () => {
   const [email, setEmail] = React.useState<string>('');
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const [resendIsLoading, setResendIsLoading] = React.useState<boolean>(false);
+  const [resendSuccess, setResendSuccess] = React.useState<boolean>(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -38,6 +39,7 @@ export const EmailVerificationPage: React.FC = () => {
       return;
     }
     setResendIsLoading(false);
+    setResendSuccess(true);
   };
 
   const isDisabled = !verificationCode;
@@ -91,19 +93,21 @@ export const EmailVerificationPage: React.FC = () => {
           >
             Verify email
           </Button>
-          {!resendIsLoading ? (
+          {!resendSuccess ? (
             <p className="text-center">
               Didn't receive a code?{' '}
-              <span
+              <Button
+                type="button"
                 className="text-primary-500 cursor-pointer"
+                isLoading={resendIsLoading}
                 onClick={handleResendCode}
               >
                 Resend
-              </span>
+              </Button>
             </p>
           ) : (
             <p className="text-center">
-              We're sending verification code to your email address again...
+              We've sent a verification code to your email address.
             </p>
           )}
         </form>

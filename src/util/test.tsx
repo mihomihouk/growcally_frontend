@@ -1,7 +1,5 @@
 // export default renderWithRedux;
-import { PreloadedState, configureStore } from '@reduxjs/toolkit';
-import modalsReducer from '../slices/modals-slice';
-import postsReducer from '../slices/posts-slice';
+import { PreloadedState } from '@reduxjs/toolkit';
 
 import { AppStore, RootState, setupStore } from '../store/store';
 // As a basic setup, import your same slice reducers
