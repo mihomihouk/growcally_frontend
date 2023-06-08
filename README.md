@@ -1,5 +1,20 @@
 # Growcally
 
+Authentication:
+
+https://github.com/mihomihouk/growcally_frontend/assets/93969412/f1b70722-0858-4700-9e45-c101ce2fee75
+
+Create new posts:
+
+https://github.com/mihomihouk/growcally_frontend/assets/93969412/5f354d55-6951-492e-9d3f-ef555f758ad4
+
+Edit profile:
+
+https://github.com/mihomihouk/growcally_frontend/assets/93969412/9a0bd039-7113-4dfe-9fb7-fa41d1a9bd24
+
+And...many more!
+
+
 ## Release URL
 
 https://growcallyuk.com/
@@ -65,6 +80,8 @@ Growcally (Landing)
 ```
 
 ## Development
+
+Your thoughts, suggestions, and constructive criticism would be incredibly valuable! Whether for technical feedback or UX/UI suggestions, please don't hesitate to reach out to me via email at mihomihouk@gmail.com or linkedIn at https://www.linkedin.com/in/miho-inagaki/.
 
 - Developer: Miho Inagaki
 - Project Period: April 2023 - Present
