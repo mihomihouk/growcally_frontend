@@ -115,7 +115,7 @@ export const SignUpPage = () => {
                   Create your account. It’s free and only take a minute.
                 </p>
                 <form onSubmit={handleSubmit}>
-                  <div className="grid grid-cols-2 gap-5">
+                  <div className="flex flex-col md:grid md:grid-cols-2 gap-5">
                     <input
                       type="text"
                       placeholder="First name"
