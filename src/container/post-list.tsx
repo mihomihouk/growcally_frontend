@@ -98,7 +98,7 @@ interface PostItemProps {
   comments?: Comment[];
   profileImageUrl?: string;
 }
-const PostItem: React.FC<PostItemProps> = ({
+export const PostItem: React.FC<PostItemProps> = ({
   id,
   author,
   caption,
@@ -241,8 +241,12 @@ const PostItem: React.FC<PostItemProps> = ({
         )}
         <p>{caption}</p>
         {comments?.length ? (
-          <Button type="button" onClick={handleOpenPostDetail}>
-            View all {comments.length} {pluralize(comments.length, 'comment')}
+          <Button
+            type="button"
+            testId="view comments"
+            onClick={handleOpenPostDetail}
+          >
+            View {comments.length} {pluralize(comments.length, 'comment')}
           </Button>
         ) : (
           <></>
@@ -259,7 +263,7 @@ const PostItem: React.FC<PostItemProps> = ({
           />
           <Button
             type="submit"
-            role="submit button"
+            testId="submit button"
             isLoading={isLoading}
             disabled={!comment}
           >
