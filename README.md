@@ -14,7 +14,6 @@ https://github.com/mihomihouk/growcally_frontend/assets/93969412/9a0bd039-7113-4
 
 And...many more!
 
-
 ## Release URL
 
 https://growcallyuk.com/
@@ -29,17 +28,34 @@ Growcally is a scallable, accessibile and secure full stack application develope
 
 ## Languages, Libraries, Frameworks, Tools
 
+### Frontend
+
 - React.js
 - Typescript
 - Redux
+- Tailwind
+
+### Backend
+
 - Node.js
 - Express.js
 - AWS
 - PostgreSQL
 - Prisma
-- Tailwind
-- Doppler
+
+### Test
+
+- React-testing-library
+- Jest
+
+### Deploy & CI/CD
+
 - Render
+- GitHub Action
+
+### Other tools
+
+- Doppler
 
 ## Main Functions and Features
 
@@ -71,7 +87,7 @@ Growcally is a scallable, accessibile and secure full stack application develope
 
 ```
 Growcally (Landing)
-|- Login 
+|- Login
 |- Signup
 |- Emai Verification
 |- Dashboard
@@ -85,5 +101,3 @@ Your thoughts, suggestions, and constructive criticism would be incredibly valua
 
 - Developer: Miho Inagaki
 - Project Period: April 2023 - Present
-
-
