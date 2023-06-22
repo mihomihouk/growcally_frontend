@@ -14,7 +14,6 @@ https://github.com/mihomihouk/growcally_frontend/assets/93969412/9a0bd039-7113-4
 
 And...many more!
 
-
 ## Release URL
 
 https://growcallyuk.com/
@@ -25,21 +24,39 @@ https://github.com/mihomihouk/growcally_backend
 
 ## Overview
 
-Growcally is a scallable, accessibile and secure full stack application developed with AWS, React, Typescript, Node, Express and PostgreSQL. It connects home-growers and helps them share their skills and love of food with other users. Users can post photos and comments about their growing tips and progress. It's continuously evolving. More features will be added in the future!
+Growcally is a scallable, accessibile and secure full stack application developed with AWS, React, Typescript, Tailwind, Node, Express and PostgreSQL. It connects home-growers and helps them share their skills and love of food with other users. Users can post photos and comments about their growing tips and progress. It's continuously evolving. More features will be added in the future!
 
 ## Languages, Libraries, Frameworks, Tools
+
+### Frontend
 
 - React.js
 - Typescript
 - Redux
+- Tailwind
+
+### Backend
+
 - Node.js
 - Express.js
 - AWS
 - PostgreSQL
 - Prisma
-- Tailwind
-- Doppler
+
+### Test
+
+- React-testing-library
+- Jest
+- Mock Service Worker
+
+### Deploy & CI/CD
+
 - Render
+- GitHub Action
+
+### Other tools
+
+- Doppler
 
 ## Main Functions and Features
 
@@ -53,7 +70,7 @@ Growcally is a scallable, accessibile and secure full stack application develope
 - Improved security of sensitive user information and reduced chances of hacking by authenticating and authorising users based on access tokens and user information managed with AWS Cognito as well as limiting allowed access to the server via CORS.
 - Achieved secure and efficient image storage, scalable request handling and data management using with AWS S3 bucket, Node.js, Express.js, Prisma and PostgreSQL.
 - Designed and created user-friendly and responsive UI for all screen sizes with over 90% accessibility rate by using React, Redux, Typescript, Tailwind and Lighthouse evaluation.
-- Achieved stable and smooth app operations by conducting automated testing using React-testing-library and Jest.
+- Achieved stable and smooth app operations by conducting automated unit and integration tests using React-testing-library, Jest and Mock service worker and built CI/CD piplines using GitHub Actions and Render.
 - Significantly improved scalability and reduced data inconsistency risk in the backend system by creating a production-only database, and managing secrets and configs with Doppler.
 
 ## Background
@@ -71,7 +88,7 @@ Growcally is a scallable, accessibile and secure full stack application develope
 
 ```
 Growcally (Landing)
-|- Login 
+|- Login
 |- Signup
 |- Emai Verification
 |- Dashboard
@@ -85,5 +102,3 @@ Your thoughts, suggestions, and constructive criticism would be incredibly valua
 
 - Developer: Miho Inagaki
 - Project Period: April 2023 - Present
-
-
