@@ -24,7 +24,7 @@ https://github.com/mihomihouk/growcally_backend
 
 ## Overview
 
-Growcally is a scallable, accessibile and secure full stack application developed with AWS, React, Typescript, Node, Express and PostgreSQL. It connects home-growers and helps them share their skills and love of food with other users. Users can post photos and comments about their growing tips and progress. It's continuously evolving. More features will be added in the future!
+Growcally is a scallable, accessibile and secure full stack application developed with AWS, React, Typescript, Tailwind, Node, Express and PostgreSQL. It connects home-growers and helps them share their skills and love of food with other users. Users can post photos and comments about their growing tips and progress. It's continuously evolving. More features will be added in the future!
 
 ## Languages, Libraries, Frameworks, Tools
 
@@ -47,6 +47,7 @@ Growcally is a scallable, accessibile and secure full stack application develope
 
 - React-testing-library
 - Jest
+- Mock Service Worker
 
 ### Deploy & CI/CD
 
@@ -69,7 +70,7 @@ Growcally is a scallable, accessibile and secure full stack application develope
 - Improved security of sensitive user information and reduced chances of hacking by authenticating and authorising users based on access tokens and user information managed with AWS Cognito as well as limiting allowed access to the server via CORS.
 - Achieved secure and efficient image storage, scalable request handling and data management using with AWS S3 bucket, Node.js, Express.js, Prisma and PostgreSQL.
 - Designed and created user-friendly and responsive UI for all screen sizes with over 90% accessibility rate by using React, Redux, Typescript, Tailwind and Lighthouse evaluation.
-- Achieved stable and smooth app operations by conducting automated testing using React-testing-library and Jest.
+- Achieved stable and smooth app operations by conducting automated unit and integration tests using React-testing-library, Jest and Mock service worker and built CI/CD piplines using GitHub Actions and Render.
 - Significantly improved scalability and reduced data inconsistency risk in the backend system by creating a production-only database, and managing secrets and configs with Doppler.
 
 ## Background
