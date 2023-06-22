@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from '../util/test';
-import { Accordion } from './accordion';
+import { renderWithProviders } from '../../util/test';
+import { Accordion } from '../accordion';
 import '@testing-library/jest-dom';
 
 const mockData = {

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from '../util/test';
-import { TextArea } from './textarea';
+import { renderWithProviders } from '../../util/test';
+import { TextArea } from '../textarea';
 import '@testing-library/jest-dom';
 
 const mockData = {

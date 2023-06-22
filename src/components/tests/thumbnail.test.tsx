@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from '../util/test';
-import { Thumbnail } from './thumbnail';
+import { renderWithProviders } from '../../util/test';
+import { Thumbnail } from '../thumbnail';
 import '@testing-library/jest-dom';
 
 const mockData = {
