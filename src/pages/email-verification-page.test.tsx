@@ -4,7 +4,7 @@ import { EmailVerificationPage } from './email-verification-page';
 import '@testing-library/jest-dom/extend-expect';
 import userEvent from '@testing-library/user-event';
 import { setupServer } from 'msw/lib/node';
-import { handlers } from '../mock/handlers';
+import { handlers } from '../mocks/handlers';
 
 const input = {
   email: 'test.user@gmail.com',

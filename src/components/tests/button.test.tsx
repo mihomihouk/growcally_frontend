@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from '../util/test';
-import { Button } from './button';
-import { DASHBOARD_PATH } from '../routes/routes';
+import { renderWithProviders } from '../../util/test';
+import { Button } from '../button';
+import { DASHBOARD_PATH } from '../../routes/routes';
 import '@testing-library/jest-dom';
 
 describe('Button component', () => {
