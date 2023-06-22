@@ -3,7 +3,7 @@ import { SignUpPage } from './sign-up-page';
 import userEvent from '@testing-library/user-event';
 import { renderWithProviders } from '../util/test';
 import '@testing-library/jest-dom/extend-expect';
-import { handlers } from '../mock/handlers';
+import { handlers } from '../mocks/handlers';
 import { setupServer } from 'msw/lib/node';
 
 const input = {

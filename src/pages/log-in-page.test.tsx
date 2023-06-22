@@ -4,7 +4,7 @@ import { LogInPage } from './log-in-page';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom/extend-expect';
 import { setupServer } from 'msw/lib/node';
-import { handlers } from '../mock/handlers';
+import { handlers } from '../mocks/handlers';
 
 const input = {
   email: 'test.user@gmail.com',
