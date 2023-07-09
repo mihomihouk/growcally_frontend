@@ -1,17 +1,40 @@
-import { PreloadedState, configureStore } from '@reduxjs/toolkit';
+import {
+  PreloadedState,
+  combineReducers,
+  configureStore
+} from '@reduxjs/toolkit';
 import modalReducer from '../slices/modals-slice';
 import postReducer from '../slices/posts-slice';
 import authReducer from '../slices/auth-slice';
 import userProfileReducer from '../slices/user-profile-slice';
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/es/stateReconciler/autoMergeLevel2';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  stateReconciler: autoMergeLevel2
+};
+
+const rootReducer = combineReducers({
+  modals: modalReducer,
+  posts: postReducer,
+  auth: authReducer,
+  userProfile: userProfileReducer
+});
+
+const persistedReducer = persistReducer<ReturnType<typeof rootReducer>>(
+  persistConfig,
+  rootReducer
+);
 
 export const store = configureStore({
-  reducer: {
-    modals: modalReducer,
-    posts: postReducer,
-    auth: authReducer,
-    userProfile: userProfileReducer
-  }
+  reducer: persistedReducer
 });
+
+export const persistor = persistStore(store);
+
 export const setupStore = (preloadedState?: PreloadedState<RootState>) => {
   return store;
 };
