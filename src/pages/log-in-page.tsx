@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '../components/button';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { DASHBOARD_PATH, SIGN_UP_PATH } from '../routes/routes';
 import { loginUser } from '../api/auth.service';
 
@@ -10,6 +10,8 @@ export const LogInPage = () => {
   const [emailError, setEmailError] = React.useState<boolean>(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const navigate = useNavigate();
+  const location = useLocation();
+  const navigatePath = location.state?.from || DASHBOARD_PATH;
 
   const handleEmailInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const emailInput = e.target.value.trim();
@@ -36,7 +38,7 @@ export const LogInPage = () => {
       return;
     }
 
-    navigate(DASHBOARD_PATH);
+    navigate(navigatePath);
     setIsLoading(false);
   };
   return (
