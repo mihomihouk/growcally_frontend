@@ -50,7 +50,7 @@ export const AppRoutes = () => {
       <Route path={LOG_IN_PATH} element={<LogInPage />} />
       <Route path={SIGN_UP_PATH} element={<SignUpPage />} />
       <Route path={VERIFICATION_PATH} element={<EmailVerificationPage />} />
-      <Route path="*" element={<NotFoundPage />} />
+      <Route path="/*" element={<NotFoundPage />} />
     </Routes>
   );
 };

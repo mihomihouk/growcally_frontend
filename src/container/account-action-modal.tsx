@@ -26,7 +26,7 @@ export const AccountActionModal: React.FC = () => {
 const AccountActionModalContainer: React.FC = () => {
   const dispatch = useAppDispatch();
   const currentUser = useAppSelector((state) => state.auth.user);
-  const profilePagePath = currentUser?.id;
+  const profilePagePath = `profile/${currentUser?.id}`;
   return (
     <div className="flex px-4 py-11 h-full">
       <div className="flex flex-col justify-start gap-6 w-full">
